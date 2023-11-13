@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { EMAIL_REGEX } from '../../../constants/regex'
-import LoginField from './LoginField/LoginField'
 import './LoginForm.scss'
+import RegistrationField from '../../Register/RegistrationForm/RegistrationField/RegistrationField'
 
 const LoginForm = ({ button, onSubmit }) => {
 	const [values, setValues] = useState({})
@@ -40,17 +40,6 @@ const LoginForm = ({ button, onSubmit }) => {
 			})
 		}
 	}
-	// TODO: раскомментировать, когда будет Api:
-	// const getErrorMessage = (status, defaultText) => {
-	// 	switch (status) {
-	// 		case 409:
-	// 			return 'Пользователь с таким email уже существует.'
-	// 		case 500:
-	// 			return 'На сервере произошла ошибка.'
-	// 		default:
-	// 			return defaultText
-	// 	}
-	// }
 
 	const handleSubmit = e => {
 		e.preventDefault()
@@ -64,7 +53,7 @@ const LoginForm = ({ button, onSubmit }) => {
 				onSubmit={handleSubmit}
 				noValidate
 			>
-				<LoginField
+				<RegistrationField
 					label="E-mail"
 					name="email"
 					placeholder="Введите e-mail"
@@ -73,7 +62,7 @@ const LoginForm = ({ button, onSubmit }) => {
 					values={values}
 					errors={errors}
 				/>
-				<LoginField
+				<RegistrationField
 					label="Пароль"
 					name="password"
 					placeholder="Введите пароль"
