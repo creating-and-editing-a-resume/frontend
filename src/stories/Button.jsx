@@ -17,6 +17,7 @@ export default function Button({
 		: 'storybook-button--secondary'
 	return (
 		<button
+			// eslint-disable-next-line no-console
 			onClick={console.log('привет!!!')}
 			type="button"
 			className={[
