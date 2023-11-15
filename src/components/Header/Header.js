@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
 import './Header.scss'
 
-function Header({ isLoggedIn, nextPage }) {
+function Header({ isLoggedIn, nextPage, onOpenPopup }) {
 	const navigate = useNavigate()
 
 	return (
@@ -22,7 +22,8 @@ function Header({ isLoggedIn, nextPage }) {
 					className="header__button"
 					type="button"
 					label="button"
-					onClick={() => navigate('/')}
+					onClick={onOpenPopup}
+					// onClick={() => navigate('/')}
 				>
 					Главная страница
 				</button>
@@ -52,6 +53,7 @@ function Header({ isLoggedIn, nextPage }) {
 Header.propTypes = {
 	isLoggedIn: PropTypes.bool.isRequired,
 	nextPage: PropTypes.string.isRequired,
+	onOpenPopup: PropTypes.func.isRequired,
 }
 
 export default Header

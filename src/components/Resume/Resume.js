@@ -4,11 +4,15 @@ import './Resume.scss'
 import Header from '../Header/Header'
 import Footer from '../Footer/Footer'
 
-function Resume({ isLoggedIn }) {
+function Resume({ isLoggedIn, onOpenPopup }) {
 	const nextPage = '/profession'
 	return (
 		<>
-			<Header isLoggedIn={isLoggedIn} nextPage={nextPage} />
+			<Header
+				isLoggedIn={isLoggedIn}
+				nextPage={nextPage}
+				onOpenPopup={onOpenPopup}
+			/>
 			<main className="resume">Resume</main>
 			<Footer />
 		</>
@@ -16,6 +20,7 @@ function Resume({ isLoggedIn }) {
 }
 Resume.propTypes = {
 	isLoggedIn: PropTypes.bool.isRequired,
+	onOpenPopup: PropTypes.func.isRequired,
 }
 
 export default Resume
