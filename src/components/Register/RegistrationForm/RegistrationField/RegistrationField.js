@@ -11,6 +11,7 @@ const RegistrationField = ({
 	handleChange,
 	values,
 	eye,
+	isOpen,
 }) => {
 	const inputReference = React.createRef()
 
@@ -27,7 +28,9 @@ const RegistrationField = ({
 	return (
 		<div className="registration-field">
 			<input
-				className="registration-field__input"
+				className={`registration-field__input ${
+					isOpen && 'registration-field__input_popup'
+				}`}
 				name={name}
 				type={type}
 				placeholder={placeholder}
@@ -60,6 +63,7 @@ RegistrationField.propTypes = {
 	handleChange: PropTypes.func.isRequired,
 	values: PropTypes.objectOf(PropTypes.string).isRequired,
 	eye: PropTypes.bool,
+	isOpen: PropTypes.bool.isRequired,
 }
 
 RegistrationField.defaultProps = {

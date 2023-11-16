@@ -46,6 +46,14 @@ function App() {
 	const handleConfirmPopupOpen = () => {
 		setIsConfirmPopupOpen(true)
 	}
+
+	/* убрать эти консоли */
+	// eslint-disable-next-line no-console
+	console.log(handleLoginPopupOpen)
+	// eslint-disable-next-line no-console
+	console.log(handleRegisterPopupOpen)
+	// eslint-disable-next-line no-console
+	console.log(handleConfirmPopupOpen)
 	/* --------- для Popup ---------*/
 
 	// eslint-disable-next-line no-unused-vars
@@ -87,7 +95,10 @@ function App() {
 							isLoggedIn ? (
 								<Navigate to="/" replace />
 							) : (
-								<Login onLogin={handleLogin} />
+								<Login
+									onLogin={handleLogin}
+									isOpen={isLoginPopupOpen}
+								/>
 							)
 						}
 					/>
@@ -97,10 +108,7 @@ function App() {
 							<ProtectedRoute
 								element={Profile}
 								isLoggedIn={isLoggedIn}
-								// здесь
-								// функция
-								// handleConfirmPopupOpen только для примера
-								onOpenPopup={handleConfirmPopupOpen}
+								// onOpenPopup={handleConfirmPopupOpen}
 							/>
 						}
 					/>
@@ -109,7 +117,7 @@ function App() {
 						element={
 							<Main
 								isLoggedIn={isLoggedIn}
-								onOpenPopup={handleRegisterPopupOpen}
+								// onOpenPopup={handleRegisterPopupOpen}
 							/>
 						}
 					/>
@@ -118,7 +126,8 @@ function App() {
 						element={
 							<Profession
 								isLoggedIn={isLoggedIn}
-								onOpenPopup={handleLoginPopupOpen}
+								onOpenPopup={handleResumeNamePopupOpen}
+								// onOpenPopup={handleLoginPopupOpen}
 							/>
 						}
 					/>
@@ -127,7 +136,7 @@ function App() {
 						element={
 							<Resume
 								isLoggedIn={isLoggedIn}
-								onOpenPopup={handleResumeNamePopupOpen}
+								onOpenPopup={handleLoginPopupOpen}
 							/>
 						}
 					/>
@@ -137,9 +146,14 @@ function App() {
 				<PopupRegister
 					isOpen={isRegisterPopupOpen}
 					onClose={closeAllPopup}
+					onRegister={handleRegister}
 				/>
 				{/* Попап авторизации */}
-				<PopupLogin isOpen={isLoginPopupOpen} onClose={closeAllPopup} />
+				<PopupLogin
+					isOpen={isLoginPopupOpen}
+					onClose={closeAllPopup}
+					onLogin={handleLogin}
+				/>
 				{/* Попап подтверждения */}
 				<PopupConfirmation
 					isOpen={isConfirmPopupOpen}

@@ -6,7 +6,7 @@ import './LoginForm.scss'
 import '../../Register/RegistrationForm/RegistrationForm.scss'
 import PlusIcon from '../../../img/plus-icon.svg'
 
-const LoginForm = ({ buttonText, onSubmit }) => {
+const LoginForm = ({ buttonText, onSubmit, isOpen }) => {
 	const [values, setValues] = useState({})
 	const [errors, setErrors] = useState({})
 	const [isValid, setIsValid] = useState(false)
@@ -60,7 +60,11 @@ const LoginForm = ({ buttonText, onSubmit }) => {
 		onSubmit()
 	}
 	return (
-		<section className="login-form registration-form">
+		<section
+			className={`login-form registration-form ${
+				isOpen && 'registration-form_popup'
+			}`}
+		>
 			<form
 				className="login-form__form registration-form__form"
 				name="login"
@@ -76,6 +80,7 @@ const LoginForm = ({ buttonText, onSubmit }) => {
 						handleChange={handleEmailChange}
 						values={values}
 						errors={errors}
+						isOpen={isOpen}
 					/>
 					<RegistrationField
 						label="Пароль"
@@ -86,6 +91,7 @@ const LoginForm = ({ buttonText, onSubmit }) => {
 						values={values}
 						errors={errors}
 						eye
+						isOpen={isOpen}
 					/>
 				</div>
 				{responseMessage && (
@@ -118,6 +124,7 @@ const LoginForm = ({ buttonText, onSubmit }) => {
 LoginForm.propTypes = {
 	buttonText: PropTypes.string.isRequired,
 	onSubmit: PropTypes.func.isRequired,
+	isOpen: PropTypes.bool.isRequired,
 }
 
 export default LoginForm

@@ -4,7 +4,7 @@
 	align-items: center;
 	position: fixed;
 	inset: 0;
-	background-color: rgba(0, 0, 0, 0.5);
+	background-color: rgba(0, 0, 0, 0.35);
 	z-index: 2;
 	visibility: hidden;
 	opacity: 0;
@@ -24,33 +24,30 @@
 	align-items: center;
 	justify-content: center;
 	position: relative;
-	width: calc((100vw - 320px) / (1280 - 320) * (430 - 282) + 282px);
-	padding: calc((100vw - 320px) / (1280 - 320) * (34 - 25) + 25px)
-		calc((100vw - 320px) / (1280 - 320) * (36 - 22) + 22px)
-		calc((100vw - 320px) / (1280 - 320) * (37 - 25) + 25px);
-	border-radius: 10px;
-	background-color: transparent;
-	// background-color: #fff;
+	// width: calc((100vw - 320px) / (1280 - 320) * (430 - 282) + 282px);
+	// padding: calc((100vw - 320px) / (1280 - 320) * (34 - 25) + 25px)
+	// 	calc((100vw - 320px) / (1280 - 320) * (36 - 22) + 22px)
+	// 	calc((100vw - 320px) / (1280 - 320) * (37 - 25) + 25px);
+	border-radius: 8px;
+	// background-color: transparent;
+	background-color: #fff;
 	// box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.15);
 }
 
 .popup__description {
-	margin: 0 0 calc((100vw - 320px) / (1280 - 320) * (46 - 70) + 70px);
-	color: #000;
-	font-size: calc((100vw - 320px) / (1280 - 320) * (24 - 18) + 18px);
-	font-weight: 900;
-	line-height: calc((100vw - 320px) / (1280 - 320) * (29 - 22) + 22px);
 }
 
 .popup__btn-close {
+	padding: 0;
 	position: absolute;
-	top: -40px;
-	right: -40px;
-	width: calc((100vw - 320px) / (1280 - 320) * (32 - 20) + 20px);
-	height: calc((100vw - 320px) / (1280 - 320) * (32 - 20) + 20px);
+	top: 28px;
+	right: 28px;
+	width: 28px;
+	height: 28px;
 	outline: none;
 	border: none;
-	background: transparent url(../../logo.svg) center center / cover no-repeat;
+	background: transparent url(../../img/close-icon.svg) center center / cover
+		no-repeat;
 	transition: opacity 0.2s linear;
 }
 

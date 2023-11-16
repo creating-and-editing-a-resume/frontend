@@ -28,7 +28,7 @@
 	height: 44px;
 	padding: 10px 14px;
 	display: flex;
-  justify-content: center;
+	justify-content: center;
 	gap: 4px;
 }
 
@@ -37,14 +37,13 @@
 }
 
 .registration-form__button_inactive {
-	opacity: .5;
+	opacity: 0.5;
 	cursor: not-allowed;
 }
 
 .registration-form__button-icon {
 	width: 20px;
 	height: 20px;
-
 }
 
 .registration-form__button-text {
@@ -54,4 +53,9 @@
 	font-size: 20px;
 	font-weight: 400;
 	line-height: 1;
+}
+
+/*Popup*/
+.registration-form_popup {
+	margin: 0;
 }
