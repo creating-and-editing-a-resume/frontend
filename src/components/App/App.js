@@ -119,7 +119,7 @@ function App() {
 						element={
 							<Main
 								isLoggedIn={isLoggedIn}
-								onOpenPopup={handleResumeNamePopupOpen}
+								// onOpenPopup={handleResumeNamePopupOpen}
 							/>
 						}
 					/>
@@ -128,7 +128,6 @@ function App() {
 						element={
 							<Profession
 								isLoggedIn={isLoggedIn}
-								onOpenPopup={handleConfirmPopupOpen}
 								// onOpenPopup={handleLoginPopupOpen}
 							/>
 						}
