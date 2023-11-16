@@ -1,9 +1,14 @@
 import './Confirmation.scss'
+import confirmLogo from '../../../img/eye-icon.svg'
 
 function Confirmation() {
 	return (
 		<div className="confirmation">
-			<img src="" alt="" className="confirmation__image" />
+			<img
+				src={confirmLogo}
+				alt="confirm popup icon"
+				className="confirmation__image"
+			/>
 			<div className="confirmation__buttons">
 				<button
 					className="confirmation__button"

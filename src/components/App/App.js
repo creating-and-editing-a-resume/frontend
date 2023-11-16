@@ -53,6 +53,8 @@ function App() {
 	// eslint-disable-next-line no-console
 	console.log(handleRegisterPopupOpen)
 	// eslint-disable-next-line no-console
+	console.log(handleResumeNamePopupOpen)
+	// eslint-disable-next-line no-console
 	console.log(handleConfirmPopupOpen)
 	/* --------- для Popup ---------*/
 
@@ -117,7 +119,7 @@ function App() {
 						element={
 							<Main
 								isLoggedIn={isLoggedIn}
-								// onOpenPopup={handleRegisterPopupOpen}
+								onOpenPopup={handleResumeNamePopupOpen}
 							/>
 						}
 					/>
@@ -126,7 +128,7 @@ function App() {
 						element={
 							<Profession
 								isLoggedIn={isLoggedIn}
-								onOpenPopup={handleResumeNamePopupOpen}
+								onOpenPopup={handleConfirmPopupOpen}
 								// onOpenPopup={handleLoginPopupOpen}
 							/>
 						}
