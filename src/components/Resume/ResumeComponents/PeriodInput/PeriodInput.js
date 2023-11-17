@@ -1,10 +1,19 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+// import { createPopper } from '@popperjs/core'
 import './PeriodInput.scss'
 import Tip from '../Tip/Tip'
 import Checkbox from '../Checkbox/Checkbox'
 
-const PeriodInput = ({ labelOne, labelTwo, month, tip, tipText, disabled }) => {
+const PeriodInput = ({
+	labelOne,
+	labelTwo,
+	month,
+	tip,
+	tipText,
+	disabled,
+	i,
+}) => {
 	// eslint-disable-next-line no-unused-vars
 	const [isTillPresent, setIsTillPresent] = useState(false)
 
@@ -70,7 +79,7 @@ const PeriodInput = ({ labelOne, labelTwo, month, tip, tipText, disabled }) => {
 				<div className="period-input__checkbox-container">
 					<Checkbox
 						checkboxText="Настоящее время"
-						checkboxId="period-checkbox"
+						checkboxId={`period-checkbox${i}`}
 						onClick={handleCheckboxToggle}
 					/>
 				</div>
@@ -86,6 +95,7 @@ PeriodInput.propTypes = {
 	tip: PropTypes.bool,
 	tipText: PropTypes.node,
 	disabled: PropTypes.bool,
+	i: PropTypes.number.isRequired,
 }
 
 PeriodInput.defaultProps = {

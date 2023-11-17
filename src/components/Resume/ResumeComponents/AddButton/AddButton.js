@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import './AddButton.scss'
 
-const AddButton = ({ disabled }) => (
+const AddButton = ({ disabled, handleClick }) => (
 	<button
 		className={classNames(
 			'add-button',
@@ -11,7 +11,7 @@ const AddButton = ({ disabled }) => (
 		)}
 		type="button"
 		disabled={disabled}
-		onClick={() => console.log('I am alive!')}
+		onClick={handleClick}
 	>
 		+ Добавить
 	</button>
@@ -19,6 +19,7 @@ const AddButton = ({ disabled }) => (
 
 AddButton.propTypes = {
 	disabled: PropTypes.bool,
+	handleClick: PropTypes.func.isRequired,
 }
 
 AddButton.defaultProps = {

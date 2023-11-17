@@ -6,18 +6,44 @@ import ResumeTitle from '../ResumeComponents/ResumeTitle/ResumeTitle'
 import AddButton from '../ResumeComponents/AddButton/AddButton'
 import FormInput from '../ResumeComponents/FormInput/FormInput'
 import PeriodInput from '../ResumeComponents/PeriodInput/PeriodInput'
+import Job from './Job/Job'
 import { JOB_TIP } from '../../../constants/tips'
 
-function Experience({ setCompletedSteps }) {
+const Experience = ({ setCompletedSteps }) => {
+	// Если опыт есть, поля активны. Если нет, поля деактивируются:
 	const [hasExperience, setHasExperience] = useState(true)
+	// Если появился добавленный опыт, основная кнопка "Добавить" удаляется
+	const [noAddedExperience, setNoAddedExperience] = useState(true)
+	const [addedExperience, setAddedExperience] = useState([])
 
 	const handleTitleCheckboxClick = () => {
 		setHasExperience(!hasExperience)
+		setAddedExperience([])
+		setNoAddedExperience(true)
 	}
+	const deleteExperience = () => {
+		console.log('delete experience')
+	}
+
+	const addExperience = () => {
+		console.log('add experience')
+		setNoAddedExperience(false)
+		setAddedExperience(
+			...addedExperience,
+			<Job
+				hasExperience={hasExperience}
+				deleteExperience={deleteExperience}
+				addExperience={addExperience}
+				i={addedExperience.length + 1}
+			/>
+		)
+	}
+
 	React.useEffect(() => {
 		setCompletedSteps(true)
 	})
 
+	console.log(addedExperience)
 	return (
 		<section className="personal-data">
 			<ResumeTitle
@@ -44,13 +70,20 @@ function Experience({ setCompletedSteps }) {
 					labelTwo="Дата окончания работы"
 					month
 					disabled={!hasExperience}
+					i={0}
 				/>
 				<FormInput
 					label="Обязанности"
 					extraInputClass="responsibilities"
 					disabled={!hasExperience}
 				/>
-				<AddButton disabled={!hasExperience} />
+				{addedExperience}
+				{noAddedExperience && (
+					<AddButton
+						disabled={!hasExperience}
+						handleClick={addExperience}
+					/>
+				)}
 			</div>
 		</section>
 	)
