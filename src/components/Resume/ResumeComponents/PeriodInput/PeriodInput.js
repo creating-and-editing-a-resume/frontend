@@ -1,16 +1,29 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import './PeriodInput.scss'
 import Tip from '../Tip/Tip'
 import Checkbox from '../Checkbox/Checkbox'
+import MonthPicker from './MonthPicker/MonthPicker'
 
-const PeriodInput = ({ labelOne, labelTwo, month, tip, tipText, disabled }) => {
-  // eslint-disable-next-line no-unused-vars
+const PeriodInput = ({
+  labelOne,
+  labelTwo,
+  month,
+  tip,
+  tipText,
+  disabled,
+  i,
+}) => {
   const [isTillPresent, setIsTillPresent] = useState(false)
+  const [disabledMonthChoice, setDisabledMonthChoice] = useState(false)
 
   const handleCheckboxToggle = () => {
     setIsTillPresent(!isTillPresent)
   }
+
+  useEffect(() => {
+    setDisabledMonthChoice(disabled)
+  }, [disabled])
 
   return (
     <div className="period-input__container">
@@ -22,15 +35,7 @@ const PeriodInput = ({ labelOne, labelTwo, month, tip, tipText, disabled }) => {
           {tip && <Tip text={tipText} />}
         </div>
         <div className="period-input__inputs-container">
-          {month && (
-            <input
-              type="text"
-              placeholder="Месяц"
-              id="month"
-              className="period-input__field form-input__field"
-              disabled={disabled}
-            />
-          )}
+          {month && <MonthPicker disabled={disabled} />}
           <input
             type="text"
             placeholder="Год"
@@ -50,13 +55,7 @@ const PeriodInput = ({ labelOne, labelTwo, month, tip, tipText, disabled }) => {
         </div>
         <div className="period-input__inputs-container">
           {month && (
-            <input
-              type="text"
-              placeholder="Месяц"
-              id="month"
-              className="period-input__field form-input__field"
-              disabled={disabled || isTillPresent}
-            />
+            <MonthPicker disabled={disabledMonthChoice || isTillPresent} />
           )}
           <input
             type="text"
@@ -70,7 +69,7 @@ const PeriodInput = ({ labelOne, labelTwo, month, tip, tipText, disabled }) => {
         <div className="period-input__checkbox-container">
           <Checkbox
             checkboxText="Настоящее время"
-            checkboxId="period-checkbox"
+            checkboxId={`period-checkbox${i}`}
             onClick={handleCheckboxToggle}
           />
         </div>
@@ -86,6 +85,7 @@ PeriodInput.propTypes = {
   tip: PropTypes.bool,
   tipText: PropTypes.node,
   disabled: PropTypes.bool,
+  i: PropTypes.string.isRequired,
 }
 
 PeriodInput.defaultProps = {
