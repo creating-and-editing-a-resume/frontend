@@ -25,6 +25,7 @@ const Job = ({ hasExperience, addExperience, deleteExperience, i }) => {
           month
           disabled={!hasExperience}
           i={i}
+          tillPresent
         />
         <FormInput
           label="Обязанности"

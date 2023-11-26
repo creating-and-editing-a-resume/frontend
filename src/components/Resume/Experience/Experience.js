@@ -65,6 +65,7 @@ const Experience = () => {
           month
           disabled={!hasExperience}
           i="0"
+          tillPresent
         />
         <FormInput
           label="Обязанности"
