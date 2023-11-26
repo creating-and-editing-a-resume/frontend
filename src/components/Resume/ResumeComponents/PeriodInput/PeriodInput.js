@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-// import { createPopper } from '@popperjs/core'
 import './PeriodInput.scss'
 import Tip from '../Tip/Tip'
 import Checkbox from '../Checkbox/Checkbox'
+import MonthPicker from './MonthPicker/MonthPicker'
 
 const PeriodInput = ({
 	labelOne,
@@ -14,7 +14,6 @@ const PeriodInput = ({
 	disabled,
 	i,
 }) => {
-	// eslint-disable-next-line no-unused-vars
 	const [isTillPresent, setIsTillPresent] = useState(false)
 
 	const handleCheckboxToggle = () => {
@@ -31,15 +30,7 @@ const PeriodInput = ({
 					{tip && <Tip text={tipText} />}
 				</div>
 				<div className="period-input__inputs-container">
-					{month && (
-						<input
-							type="text"
-							placeholder="Месяц"
-							id="month"
-							className="period-input__field form-input__field"
-							disabled={disabled}
-						/>
-					)}
+					{month && <MonthPicker />}
 					<input
 						type="text"
 						placeholder="Год"
@@ -58,15 +49,7 @@ const PeriodInput = ({
 					{tip && <Tip text={tipText} />}
 				</div>
 				<div className="period-input__inputs-container">
-					{month && (
-						<input
-							type="text"
-							placeholder="Месяц"
-							id="month"
-							className="period-input__field form-input__field"
-							disabled={disabled || isTillPresent}
-						/>
-					)}
+					{month && <MonthPicker />}
 					<input
 						type="text"
 						placeholder="Год"

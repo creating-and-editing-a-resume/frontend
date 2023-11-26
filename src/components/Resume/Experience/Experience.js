@@ -1,5 +1,6 @@
 import '../PersonalData/PersonalData.scss'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 import PropTypes from 'prop-types'
 import './Experience.scss'
 import ResumeTitle from '../ResumeComponents/ResumeTitle/ResumeTitle'
@@ -21,21 +22,16 @@ const Experience = ({ setCompletedSteps }) => {
 		setAddedExperience([])
 		setNoAddedExperience(true)
 	}
-	const deleteExperience = () => {
-		console.log('delete experience')
-	}
 
 	const addExperience = () => {
-		console.log('add experience')
 		setNoAddedExperience(false)
+		setAddedExperience([...addedExperience, { id: uuidv4() }])
+	}
+
+	const deleteExperience = jobId => {
+		const experienceToBeRemoved = addedExperience.find(m => jobId === m.id)
 		setAddedExperience(
-			...addedExperience,
-			<Job
-				hasExperience={hasExperience}
-				deleteExperience={deleteExperience}
-				addExperience={addExperience}
-				i={addedExperience.length + 1}
-			/>
+			addedExperience.filter(item => item.id !== experienceToBeRemoved.id)
 		)
 	}
 
@@ -43,7 +39,13 @@ const Experience = ({ setCompletedSteps }) => {
 		setCompletedSteps(true)
 	})
 
-	console.log(addedExperience)
+	// Если addedExperience пустой, то возвращается основная кнопка "Добавить"
+	useEffect(() => {
+		if (addedExperience.length === 0) {
+			setNoAddedExperience(true)
+		}
+	}, [addedExperience.length])
+
 	return (
 		<section className="personal-data">
 			<ResumeTitle
@@ -77,7 +79,15 @@ const Experience = ({ setCompletedSteps }) => {
 					extraInputClass="responsibilities"
 					disabled={!hasExperience}
 				/>
-				{addedExperience}
+				{addedExperience.map(experience => (
+					<Job
+						hasExperience={hasExperience}
+						deleteExperience={deleteExperience}
+						addExperience={addExperience}
+						i={experience.id}
+						key={experience.id}
+					/>
+				))}
 				{noAddedExperience && (
 					<AddButton
 						disabled={!hasExperience}
