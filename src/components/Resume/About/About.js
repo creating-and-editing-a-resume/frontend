@@ -1,12 +1,16 @@
-import './About.scss'
+import '../PersonalData/PersonalData.scss'
 import React from 'react'
+import './About.scss'
+import ResumeTitle from '../ResumeComponents/ResumeTitle/ResumeTitle'
+import FormInput from '../ResumeComponents/FormInput/FormInput'
 
-function About() {
-  return (
-    <section className="about">
-      <div className="about__container">Обо мне</div>
-    </section>
-  )
-}
+const About = () => (
+  <section className="personal-data about">
+    <ResumeTitle title="Обо мне" />
+    <div className="experience__form-container">
+      <FormInput extraInputClass="about" />
+    </div>
+  </section>
+)
 
 export default About
