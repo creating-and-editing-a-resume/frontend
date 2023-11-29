@@ -257,6 +257,7 @@ function Header({ isLoggedIn, nextPage, onOpenPopup, setCompletedSteps }) {
           </div>
         </div>
       </header>
+      // Код Айшата:
       // <header className="header ">
       // <button
       //   className="header__button"
