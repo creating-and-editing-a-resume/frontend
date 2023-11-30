@@ -6,7 +6,6 @@ import { months } from '../../../../../constants/months'
 
 const MonthPicker = ({ disabled, setValues, values, name }) => {
   const chooseMonth = month => {
-    console.log(`${name}:${month.id}`)
     setValues(prevValues => ({ ...prevValues, [name]: month.id }))
   }
 

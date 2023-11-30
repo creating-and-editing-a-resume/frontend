@@ -1,6 +1,6 @@
 .experience__job-container {
   margin: 44px 0 0;
-  border-top: 1px #D0D0D0 dashed;
+  border-top: 1px #d0d0d0 dashed;
   padding-top: 44px;
   display: flex;
   flex-direction: column;
@@ -12,20 +12,19 @@
   display: flex;
   justify-content: space-between;
   gap: 20px;
-
 }
 
 .job__delete-button {
-  background-color: #F9B3B3;
+  background-color: #ff4b4b;
   padding: 17px 0;
-	color: #000;
-	text-align: center;
-	font-family: Inter;
-	font-size: 20px;
-	font-weight: 400;
-	line-height: 1.21;
-	border-radius: 4px;
-	border: 1px solid #000;
+  color: #fff;
+  text-align: center;
+  font-family: Open Sans, sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.21;
+  border-radius: 16px;
+  border: 2px solid #ff4b4b;
   width: 50%;
   display: flex;
   justify-content: center;
@@ -34,16 +33,16 @@
 }
 
 .job__add-button {
-  background-color: #B8B8B8;
+  background-color: transparent;
   padding: 17px 0;
-	color: #000;
-	text-align: center;
-	font-family: Inter;
-	font-size: 20px;
-	font-weight: 400;
-	line-height: 1.21;
-	border-radius: 4px;
-	border: 1px solid #000;
+  color: #1a1b22;
+  text-align: center;
+  font-family: Open Sans, sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.21;
+  border-radius: 16px;
+  border: 2px solid #1a1b22;
   width: 50%;
   display: flex;
   justify-content: center;

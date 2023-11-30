@@ -1,74 +1,75 @@
 .resume-title__container {
-	display: flex;
-	justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .resume-title__text {
-	margin: 0;
-	color: #000;
-	font-family: Inter;
-	font-size: 30px;
-	font-weight: 600;
-	line-height: 1.21;
-	text-align: left;
+  margin: 0;
+  color: #000;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.21;
+  text-align: left;
 }
 
 .resume-title__checkbox-container {
-	display: flex;
-	gap: 8px;
-	align-items: center;
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
 
 .resume-title__checkbox-label {
   display: block;
-	margin: 0;
-	cursor: pointer;
-	user-select: none;
-	position: relative;
+  margin: 0;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
 }
 
 .resume-title__checkbox-label .resume-title__checkbox {
   position: absolute;
-	z-index: -1;
-	opacity: 0;
-	display: block;
-	width: 0;
-	height: 0;
+  z-index: -1;
+  opacity: 0;
+  display: block;
+  width: 0;
+  height: 0;
 }
 
 .resume-title__checkbox-label .resume-title__checkbox-text {
-	display: inline-block;
-	position: relative;
-	padding: 0 0 0 35px;
-	line-height: 22px;
+  display: inline-block;
+  position: relative;
+  padding: 0 0 0 35px;
+  line-height: 22px;
 }
 
 .resume-title__checkbox-label .resume-title__checkbox-text:before {
-	content: "";
-	display: inline-block;
-	width: 22px;
-	height: 22px;
-	position: absolute;
-	left: 0;
-	top: 0;
-	transition: background 0.3s ease;
-	background: url(../../../../img/toggle-icon.svg) 0 0 no-repeat;
+  content: '';
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: background 0.3s ease;
+  background: url(../../../../img/toggle-icon.svg) 0 0 no-repeat;
 }
 
 /* Checked */
-.resume-title__checkbox-label .resume-title__checkbox:checked + .resume-title__checkbox-text:before {
-	background: url(../../../../img/toggle-checked.svg) 0 0 no-repeat;
+.resume-title__checkbox-label
+  .resume-title__checkbox:checked
+  + .resume-title__checkbox-text:before {
+  background: url(../../../../img/toggle-checked.svg) 0 0 no-repeat;
 }
 .resume-title__checkbox {
   width: 24px;
   height: 24px;
 }
 
-
 .resume-title__checkbox-text {
-	color: #000;
-	font-family: Inter;
-	font-size: 20px;
-	font-weight: 400;
-	line-height: 1.21;
+  color: #000;
+  font-family: Open Sans, sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.21;
 }

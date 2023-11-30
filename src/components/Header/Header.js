@@ -16,7 +16,7 @@ function Header({
   nextPage,
   onOpenPopup,
   setCompletedSteps,
-  // onClick,
+  onClick,
 }) {
   const navigate = useNavigate()
   const location = useLocation()
@@ -71,7 +71,7 @@ function Header({
                 className="header__button header__button_black header__button_prev"
                 type="button"
                 label="button"
-                onClick={() => navigate(-1)}
+                onClick={() => navigate('/resume/personal-data')}
               >
                 <img
                   className="header__button-icon"
@@ -81,6 +81,7 @@ function Header({
                 Редактировать
               </button>
             </NavLink>
+
             <NavLink className="header__nav-link" to="/">
               <button
                 className="header__button header__button_orange"
@@ -254,6 +255,7 @@ function Header({
               label="button"
               onClick={() => {
                 setCompletedSteps()
+                onClick()
                 navigate(`${nextPage}`)
               }}
             >
@@ -309,14 +311,14 @@ Header.propTypes = {
   nextPage: PropTypes.string,
   onOpenPopup: PropTypes.func,
   setCompletedSteps: PropTypes.func,
-  // onClick: PropTypes.func,
+  onClick: PropTypes.func,
 }
 Header.defaultProps = {
   isLoggedIn: false,
   nextPage: '',
   onOpenPopup: () => {},
   setCompletedSteps: () => {},
-  // onClick: () => {},
+  onClick: () => {},
 }
 
 export default Header

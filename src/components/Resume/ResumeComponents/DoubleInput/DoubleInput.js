@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react'
 import PropTypes from 'prop-types'
 import './DoubleInput.scss'
@@ -5,8 +6,10 @@ import Tip from '../Tip/Tip'
 
 const DoubleInput = ({
   firstLabel,
-  tip,
-  tipText,
+  tipFirst,
+  tipTextFirst,
+  tipSecond,
+  tipTextSecond,
   disabled,
   doubleInput,
   secondLabel,
@@ -17,6 +20,9 @@ const DoubleInput = ({
   ordinaryInputSecond,
   optionsInputFirst,
   optionsInputSecond,
+  values,
+  handleChange,
+  name,
 }) => (
   <div className="double-input">
     <div className="double-input__left-box">
@@ -24,12 +30,15 @@ const DoubleInput = ({
         <label className="double-input__label" htmlFor="selected-input-first">
           {firstLabel}
         </label>
-        {tip && <Tip text={tipText} />}
+        {tipFirst && <Tip text={tipTextFirst} />}
       </div>
       {selectedInputFirst && (
         <div className="double-input__select-wrapper">
           <select
-            id="selected-input-first"
+            id={values[name[1]]}
+            name={name[1]}
+            onChange={handleChange}
+            value={values[name[1]]}
             className="double-input__field double-input__field_selected"
           >
             {optionsInputFirst.map(value => (
@@ -42,6 +51,9 @@ const DoubleInput = ({
       )}
       {ordinaryInputFirst && (
         <textarea
+          name={name[0]}
+          onChange={handleChange}
+          value={values[name[0]]}
           className="double-input__field"
           disabled={disabled}
           //   id="ordinary-input-first"
@@ -59,12 +71,15 @@ const DoubleInput = ({
             >
               {secondLabel}
             </label>
-            {tip && <Tip text={tipText} />}
+            {tipSecond && <Tip text={tipTextSecond} />}
           </div>
           {selectedInputSecond && (
             <div className="double-input__select-wrapper">
               <select
-                id="selected-input-second"
+                name={name[1]}
+                onChange={handleChange}
+                value={values[name[1]]}
+                id={values[name[1]]}
                 className="double-input__field double-input__field_selected"
               >
                 {optionsInputSecond.map(value => (
@@ -81,6 +96,9 @@ const DoubleInput = ({
           )}
           {ordinaryInputSecond && (
             <textarea
+              name={name[1]}
+              onChange={handleChange}
+              value={values[name[1]]}
               className="double-input__field double-input__field_short"
               disabled={disabled}
               //   id="ordinary-input-second"
@@ -94,8 +112,10 @@ const DoubleInput = ({
 DoubleInput.propTypes = {
   firstLabel: PropTypes.string.isRequired,
   secondLabel: PropTypes.string,
-  tip: PropTypes.bool,
-  tipText: PropTypes.node,
+  tipFirst: PropTypes.bool,
+  tipTextFirst: PropTypes.node,
+  tipSecond: PropTypes.bool,
+  tipTextSecond: PropTypes.node,
   disabled: PropTypes.bool,
   doubleInput: PropTypes.bool,
   placeholder: PropTypes.node,
@@ -108,8 +128,10 @@ DoubleInput.propTypes = {
 }
 
 DoubleInput.defaultProps = {
-  tip: false,
-  tipText: '',
+  tipFirst: false,
+  tipTextFirst: '',
+  tipSecond: false,
+  tipTextSecond: '',
   disabled: false,
   doubleInput: false,
   placeholder: '',

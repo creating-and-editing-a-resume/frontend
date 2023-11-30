@@ -15,8 +15,6 @@ const PeriodInput = ({
   disabled,
   i,
   tillPresent,
-  isTillPresent,
-  setIsTillPresent,
   namePeriod,
   setValues,
   monthPeriod,
@@ -25,12 +23,44 @@ const PeriodInput = ({
   handleCheckboxChange,
   checkboxValues,
   handleChange,
+  setAllTillPresent,
+  allTillPresent,
+  setCheckboxValues,
 }) => {
   const [disabledMonthChoice, setDisabledMonthChoice] = useState(false)
-  console.log(values)
+  const [isTillPresent, setIsTillPresent] = React.useState(
+    allTillPresent[i] || false
+  )
+
+  // console.log(monthPeriod[1])
+  // console.log(values[monthPeriod[1]])
+
+  useEffect(() => {
+    if (isTillPresent) {
+      setValues(prevValue => ({
+        ...prevValue,
+        [monthPeriod[1]]: '',
+        [year[1]]: '',
+      }))
+    }
+  }, [isTillPresent])
+
+  useEffect(() => {
+    if (disabled) {
+      setValues({
+        ...values,
+        [monthPeriod[1]]: '',
+        [monthPeriod[0]]: '',
+        [year[0]]: '',
+        [year[1]]: '',
+      })
+      setIsTillPresent(false)
+    }
+  }, [disabled])
 
   const handleCheckboxToggle = () => {
     setIsTillPresent(!isTillPresent)
+    setAllTillPresent(prevValue => ({ ...prevValue, [i]: !isTillPresent }))
   }
 
   useEffect(() => {
@@ -127,6 +157,8 @@ const PeriodInput = ({
               checkboxText="Настоящее время"
               checkboxId={`period-checkbox${i}`}
               onClick={handleCheckboxToggle}
+              setValues={setValues}
+              setCheckboxValues={setCheckboxValues}
             />
           </div>
         )}
@@ -142,14 +174,12 @@ PeriodInput.propTypes = {
   tip: PropTypes.bool,
   tipText: PropTypes.node,
   disabled: PropTypes.bool,
-  i: PropTypes.string.isRequired,
+  i: PropTypes.number.isRequired,
   tillPresent: PropTypes.bool,
   handleCheckboxChange: PropTypes.func,
   checkboxValues: PropTypes.shape({
     checkbox: PropTypes.bool,
   }),
-  isTillPresent: PropTypes.bool,
-  setIsTillPresent: PropTypes.func,
   namePeriod: PropTypes.string,
   setValues: PropTypes.func,
   monthPeriod: PropTypes.arrayOf(PropTypes.string),
@@ -158,6 +188,11 @@ PeriodInput.propTypes = {
     PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   ),
   handleChange: PropTypes.func,
+  setAllTillPresent: PropTypes.func,
+  allTillPresent: PropTypes.shape({
+    value: PropTypes.bool,
+  }),
+  setCheckboxValues: PropTypes.func,
 }
 
 PeriodInput.defaultProps = {
@@ -168,14 +203,15 @@ PeriodInput.defaultProps = {
   tillPresent: false,
   handleCheckboxChange: () => {},
   checkboxValues: {},
-  setIsTillPresent: () => {},
-  isTillPresent: undefined,
   namePeriod: undefined,
   setValues: () => {},
   monthPeriod: [],
   year: [],
   values: {},
   handleChange: () => {},
+  setAllTillPresent: () => {},
+  allTillPresent: {},
+  setCheckboxValues: () => {},
 }
 
 export default PeriodInput

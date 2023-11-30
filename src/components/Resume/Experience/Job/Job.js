@@ -14,12 +14,12 @@ const Job = ({
   i,
   values,
   handleChange,
-  isTillPresent,
-  setIsTillPresent,
   number,
   handleCheckboxChange,
   checkboxValues,
   setValues,
+  setAllTillPresent,
+  allTillPresent,
 }) => {
   const handleDelete = () => deleteExperience(i)
   return (
@@ -31,6 +31,7 @@ const Job = ({
           handleChange={handleChange}
           label="Название компании"
           disabled={!hasExperience}
+          setValues={setValues}
         />
         <FormInput
           name={`company_website_${number}`}
@@ -38,6 +39,7 @@ const Job = ({
           handleChange={handleChange}
           label="Сайт компании"
           disabled={!hasExperience}
+          setValues={setValues}
         />
         <FormInput
           name={`current_position_${number}`}
@@ -46,6 +48,7 @@ const Job = ({
           label="Должность"
           tipText={JOB_TIP}
           disabled={!hasExperience}
+          setValues={setValues}
         />
         <PeriodInput
           labelOne="Дата начала работы"
@@ -57,8 +60,6 @@ const Job = ({
           values={values}
           checkboxValues={checkboxValues}
           handleChange={handleChange}
-          isTillPresent={isTillPresent}
-          setIsTillPresent={setIsTillPresent}
           namePeriod={`work_period_checkbox_${number}`}
           monthPeriod={[
             `month_work_start_${number}`,
@@ -67,14 +68,17 @@ const Job = ({
           year={[`year_work_start_${number}`, `year_work_end_${number}`]}
           handleCheckboxChange={handleCheckboxChange}
           setValues={setValues}
+          setAllTillPresent={setAllTillPresent}
+          allTillPresent={allTillPresent}
         />
         <FormInput
-          name={`duties${number}`}
+          name={`duties_${number}`}
           values={values}
           handleChange={handleChange}
           label="Обязанности"
           extraInputClass="responsibilities"
           disabled={!hasExperience}
+          setValues={setValues}
         />
       </div>
       <div className="job__buttons-container">
@@ -103,7 +107,7 @@ Job.propTypes = {
   hasExperience: PropTypes.bool.isRequired,
   addExperience: PropTypes.func.isRequired,
   deleteExperience: PropTypes.func.isRequired,
-  i: PropTypes.string.isRequired,
+  i: PropTypes.number.isRequired,
   values: PropTypes.shape({
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   }),
@@ -111,21 +115,24 @@ Job.propTypes = {
   checkboxValues: PropTypes.shape({
     checkbox: PropTypes.bool,
   }),
-  isTillPresent: PropTypes.bool.isRequired,
-  setIsTillPresent: PropTypes.func,
   number: PropTypes.number,
   handleCheckboxChange: PropTypes.func,
   setValues: PropTypes.func,
+  setAllTillPresent: PropTypes.func,
+  allTillPresent: PropTypes.shape({
+    value: PropTypes.bool,
+  }),
 }
 
 Job.defaultProps = {
   values: {},
   handleChange: () => {},
   checkboxValues: {},
-  setIsTillPresent: () => {},
   number: undefined,
   handleCheckboxChange: () => {},
   setValues: () => {},
+  setAllTillPresent: () => {},
+  allTillPresent: {},
 }
 
 export default Job

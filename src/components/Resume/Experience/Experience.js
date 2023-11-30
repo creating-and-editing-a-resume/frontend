@@ -1,6 +1,6 @@
 import '../PersonalData/PersonalData.scss'
 import React, { useState, useEffect } from 'react'
-import { v4 as uuidv4 } from 'uuid'
+// import { v4 as uuidv4 } from 'uuid'
 import './Experience.scss'
 import PropTypes from 'prop-types'
 import ResumeTitle from '../ResumeComponents/ResumeTitle/ResumeTitle'
@@ -18,8 +18,9 @@ const Experience = ({
   checkboxValues,
   hasExperience,
   setHasExperience,
-  isTillPresent,
-  setIsTillPresent,
+  setAllTillPresent,
+  allTillPresent,
+  setCheckboxValues,
 }) => {
   // Если появился добавленный опыт, основная кнопка "Добавить" удаляется
   const [noAddedExperience, setNoAddedExperience] = useState(true)
@@ -34,7 +35,7 @@ const Experience = ({
 
   const addExperience = () => {
     setNoAddedExperience(false)
-    setAddedExperience([...addedExperience, { id: uuidv4() }])
+    setAddedExperience([...addedExperience, { id: number + 1 }])
     setNumber(prevValue => prevValue + 1)
   }
 
@@ -72,6 +73,7 @@ const Experience = ({
           handleChange={handleChange}
           label="Название компании"
           disabled={!hasExperience}
+          setValues={setValues}
         />
         <FormInput
           name="company_website"
@@ -79,6 +81,7 @@ const Experience = ({
           handleChange={handleChange}
           label="Сайт компании"
           disabled={!hasExperience}
+          setValues={setValues}
         />
         <FormInput
           name="current_position"
@@ -88,23 +91,26 @@ const Experience = ({
           tip
           tipText={JOB_TIP}
           disabled={!hasExperience}
+          setValues={setValues}
         />
         <PeriodInput
           labelOne="Дата начала работы"
           labelTwo="Дата окончания работы"
           month
           disabled={!hasExperience}
-          i="0"
+          i={Number('0')}
           tillPresent
           checkboxValues={checkboxValues}
           handleCheckboxChange={handleCheckboxChange}
-          isTillPresent={isTillPresent}
-          setIsTillPresent={setIsTillPresent}
           namePeriod="work_period_checkbox"
           monthPeriod={['month_work_start', 'month_work_end']}
           year={['year_work_start', 'year_work_end']}
           values={values}
           setValues={setValues}
+          setAllTillPresent={setAllTillPresent}
+          allTillPresent={allTillPresent}
+          handleChange={handleChange}
+          setCheckboxValues={setCheckboxValues}
         />
         <FormInput
           name="duties"
@@ -113,6 +119,7 @@ const Experience = ({
           label="Обязанности"
           extraInputClass="responsibilities"
           disabled={!hasExperience}
+          setValues={setValues}
         />
         {addedExperience.map(experience => (
           <Job
@@ -121,14 +128,15 @@ const Experience = ({
             hasExperience={hasExperience}
             deleteExperience={deleteExperience}
             addExperience={addExperience}
-            i={experience.id}
+            i={Number(experience.id)}
             key={experience.id}
             checkboxValues={checkboxValues}
-            isTillPresent={isTillPresent}
-            setIsTillPresent={setIsTillPresent}
             number={number}
             handleCheckboxChange={handleCheckboxChange}
             setValues={setValues}
+            setAllTillPresent={setAllTillPresent}
+            allTillPresent={allTillPresent}
+            setCheckboxValues={setCheckboxValues}
           />
         ))}
         {noAddedExperience && (
@@ -151,8 +159,11 @@ Experience.propTypes = {
   }),
   hasExperience: PropTypes.bool.isRequired,
   setHasExperience: PropTypes.func,
-  isTillPresent: PropTypes.bool.isRequired,
-  setIsTillPresent: PropTypes.func,
+  setAllTillPresent: PropTypes.func,
+  allTillPresent: PropTypes.shape({
+    value: PropTypes.bool,
+  }),
+  setCheckboxValues: PropTypes.func,
 }
 
 Experience.defaultProps = {
@@ -162,7 +173,9 @@ Experience.defaultProps = {
   handleCheckboxChange: () => {},
   checkboxValues: {},
   setHasExperience: () => {},
-  setIsTillPresent: () => {},
+  setAllTillPresent: () => {},
+  allTillPresent: {},
+  setCheckboxValues: () => {},
 }
 
 export default Experience

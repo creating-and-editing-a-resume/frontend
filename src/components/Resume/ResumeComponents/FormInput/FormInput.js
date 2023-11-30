@@ -13,27 +13,45 @@ const FormInput = ({
   name,
   values,
   handleChange,
-}) => (
-  <div className="form-input">
-    <div className="form-input__label-container">
-      <label className="form-input__label" htmlFor="form-input">
-        {label}
-      </label>
-      {tip && <Tip text={tipText} />}
+  setValues,
+}) => {
+  // console.log(`${name}: ${values[name]}`)
+  // console.log(name)
+  // console.log(values)
+  React.useEffect(() => {
+    if (disabled) {
+      setValues(prevValues => ({
+        ...prevValues,
+        company: '',
+        company_website: '',
+        current_position: '',
+        [name]: '',
+      }))
+    }
+  }, [disabled])
+
+  return (
+    <div className="form-input">
+      <div className="form-input__label-container">
+        <label className="form-input__label" htmlFor="form-input">
+          {label}
+        </label>
+        {tip && <Tip text={tipText} />}
+      </div>
+      <textarea
+        name={name}
+        value={values[name] || ''}
+        onChange={handleChange}
+        disabled={disabled}
+        id="form-input"
+        className={classNames(
+          'form-input__field',
+          extraInputClass && `form-input__field_${extraInputClass}`
+        )}
+      />
     </div>
-    <textarea
-      name={name}
-      value={values[name] || ''}
-      onChange={handleChange}
-      disabled={disabled || false}
-      id="form-input"
-      className={classNames(
-        'form-input__field',
-        extraInputClass && `form-input__field_${extraInputClass}`
-      )}
-    />
-  </div>
-)
+  )
+}
 FormInput.propTypes = {
   label: PropTypes.string.isRequired,
   tip: PropTypes.bool,
@@ -44,7 +62,10 @@ FormInput.propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   }),
   handleChange: PropTypes.func,
-  name: PropTypes.string,
+  name: PropTypes.arrayOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  ),
+  setValues: PropTypes.func,
 }
 
 FormInput.defaultProps = {
@@ -54,7 +75,8 @@ FormInput.defaultProps = {
   disabled: false,
   values: {},
   handleChange: () => {},
-  name: '',
+  name: [],
+  setValues: () => {},
 }
 
 export default FormInput
