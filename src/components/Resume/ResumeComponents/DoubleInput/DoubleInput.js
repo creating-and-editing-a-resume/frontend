@@ -19,7 +19,7 @@ const DoubleInput = ({
   optionsInputSecond,
 }) => (
   <div className="double-input">
-    <div className="double-input__box">
+    <div className="double-input__left-box">
       <div className="double-input__label-container">
         <label className="double-input__label" htmlFor="selected-input-first">
           {firstLabel}
@@ -49,7 +49,7 @@ const DoubleInput = ({
         />
       )}
     </div>
-    <div className="double-input__box">
+    <div className="double-input__right-box">
       {doubleInput && (
         <>
           <div className="double-input__label-container">

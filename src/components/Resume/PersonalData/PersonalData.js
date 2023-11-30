@@ -1,5 +1,6 @@
 import './PersonalData.scss'
-import React from 'react'
+import React, { useState } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 import ResumeTitle from '../ResumeComponents/ResumeTitle/ResumeTitle'
 import DoubleInput from '../ResumeComponents/DoubleInput/DoubleInput'
 import {
@@ -15,9 +16,24 @@ import {
   LANGUAGE_LEVEL_OPTIONS,
 } from '../../../constants/input-options'
 import FormInput from '../ResumeComponents/FormInput/FormInput'
-import AddButton from '../ResumeComponents/AddButton/AddButton'
+import LanguageInput from '../ResumeComponents/LanguageInput/LanguageInput'
 
-function PersonalData() {
+const PersonalData = () => {
+  const [languages, setLanguages] = useState([{ id: uuidv4() }])
+
+  const addLanguage = () => {
+    setLanguages([...languages, { id: uuidv4() }])
+  }
+
+  const deleteLanguage = langId => {
+    if (languages.length === 1) {
+      setLanguages([{ id: uuidv4() }])
+    } else {
+      const languageToBeRemoved = languages.find(m => langId === m.id)
+      setLanguages(languages.filter(item => item.id !== languageToBeRemoved.id))
+    }
+  }
+
   return (
     <section className="personal-data">
       <div className="personal-data__container">
@@ -79,18 +95,20 @@ function PersonalData() {
           />
         </div>
         <ResumeTitle title="Владение языками" />
-        <div className="personal-data__form">
-          <DoubleInput
-            firstLabel="Язык"
-            secondLabel="Уровень"
-            doubleInput
-            selectedInputFirst
-            selectedInputSecond
-            optionsInputFirst={LANGUAGE_OPTIONS}
-            optionsInputSecond={LANGUAGE_LEVEL_OPTIONS}
-          />
-          <AddButton />
-        </div>
+        {languages.map(lang => (
+          <div className="personal-data__language-form" key={lang.id}>
+            <LanguageInput
+              firstLabel="Язык"
+              secondLabel="Уровень"
+              optionsInputFirst={LANGUAGE_OPTIONS}
+              optionsInputSecond={LANGUAGE_LEVEL_OPTIONS}
+              key={lang.id}
+              i={lang.id}
+              addLanguage={addLanguage}
+              deleteLanguage={deleteLanguage}
+            />
+          </div>
+        ))}
       </div>
     </section>
   )

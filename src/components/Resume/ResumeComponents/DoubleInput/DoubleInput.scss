@@ -1,12 +1,25 @@
 .double-input {
-    display: grid;
-    grid-template-columns: 408px minmax(270px, 301px);
-    column-gap: 20px;
-}
-.double-input__box {
     display: flex;
+    gap: 20px;
+    flex-direction: row;
+    align-items: flex-start;
+    max-width: 729px;
+    width: 100%;
+}
+.double-input__left-box {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
     flex-direction: column;
-    // width: 100%;
+}
+
+.double-input__right-box {
+    max-width: 301px;
+    width: 100%;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
 }
 .double-input__label-container {
     display: flex;
@@ -24,31 +37,36 @@
 
 .double-input__field {
   appearance: none;
-  border-radius: 4px;
-  border: 1px solid #000;
-  max-width: 386px;
-  width: 100%;
-  padding: 10px;     
-  height: 26px;
+  border-radius: 16px;
+  border: 1px solid #9F9F9F;
+  width: 95%;    
+  height: 22px;
+  padding: 12px;
+  margin: 0;
   resize: none;
 }
+
+.double-input__field_short {
+min-height: 22px;
+width: 91.3%;
+}
+
+
 .double-input__field_selected{
-height: 48px;
+    min-height: 48px;
+    width: 100%;
 }
 .double-input__select-wrapper {
-position: relative; 
-   
+position: relative;  
+max-width: 301px;
+width: 100%;
 }
 .double-input__select-wrapper::after {
     content: url(../../../../img/select-arrow.svg);
-    max-width: 386px;
     position: absolute;
     bottom: 16px;
     right: 16px;
     pointer-events: none;
-}
-.double-input__field_short {
-max-width: 279px;
 }
 
 .double-input__option {
@@ -60,17 +78,14 @@ font-weight: 400;
 line-height: normal;
 }
 
-@media screen and (max-width: 1340px) {
-    .double-input {
-        grid-template-columns: 380px minmax(242px, 273px);
-    }
-    .double-input__field {
-        max-width: 358px;
-    }
-    .double-input__select-wrapper::after {
-        max-width: 358px;
-    }
-    .double-input__field_short {
-        max-width: 242px;
-        }
+@media screen and (max-width: 1040px) {
+.double-input {
+   flex-wrap: wrap;
+}
+.double-input__right-box {
+   max-width: 484px;
+}
+.double-input__field_short {
+    width: 100%;
+}
 }
