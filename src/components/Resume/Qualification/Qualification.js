@@ -59,6 +59,7 @@ const Qualification = () => {
         <FormInput label="Название курса" disabled={!hasQualification} />
         <FormInput label="Специальность" disabled={!hasQualification} />
         <PeriodInput
+          monthPeriod={['qual_start', 'qual_end']}
           labelOne="Дата начала"
           labelTwo="Дата окончания"
           month

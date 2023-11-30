@@ -13,12 +13,13 @@ function Resume({
   onOpenPopup,
   setCompletedStepsPersonalData,
   setCompletedStepsExperience,
-  setCompletedStepsQualification,
-  setCompletedStepsEducation,
-  setCompletedStepsPortfolio,
-  setCompletedStepsSkills,
-  setCompletedStepsAbout,
-  setCompletedLayouts,
+  // setCompletedStepsQualification,
+  // setCompletedStepsEducation,
+  // setCompletedStepsPortfolio,
+  // setCompletedStepsSkills,
+  // setCompletedStepsAbout,
+  // setCompletedLayouts,
+  onClick,
 }) {
   const location = useLocation()
   // Находим индекс элемента в массиве с локациями
@@ -34,12 +35,12 @@ function Resume({
     const locationToFanctionMap = {
       '/resume/personal-data': setCompletedStepsPersonalData,
       '/resume/experience': setCompletedStepsExperience,
-      '/resume/qualification': setCompletedStepsQualification,
-      '/resume/education': setCompletedStepsEducation,
-      '/resume/portfolio': setCompletedStepsPortfolio,
-      '/resume/skills': setCompletedStepsSkills,
-      '/resume/about': setCompletedStepsAbout,
-      '/resume/layouts': setCompletedLayouts,
+      // '/resume/qualification': setCompletedStepsQualification,
+      // '/resume/education': setCompletedStepsEducation,
+      // '/resume/portfolio': setCompletedStepsPortfolio,
+      // '/resume/skills': setCompletedStepsSkills,
+      // '/resume/about': setCompletedStepsAbout,
+      // '/resume/layouts': setCompletedLayouts,
     }
 
     const setCompletedFunction = locationToFanctionMap[location.pathname]
@@ -56,6 +57,7 @@ function Resume({
         nextPage={nextPage}
         onOpenPopup={onOpenPopup}
         setCompletedSteps={setCompletedSteps}
+        onClick={onClick}
       />
       <main className="resume">
         {location.pathname === '/resume/result' ? (
@@ -73,12 +75,17 @@ Resume.propTypes = {
   onOpenPopup: PropTypes.func.isRequired,
   setCompletedStepsPersonalData: PropTypes.func.isRequired,
   setCompletedStepsExperience: PropTypes.func.isRequired,
-  setCompletedStepsQualification: PropTypes.func.isRequired,
-  setCompletedStepsEducation: PropTypes.func.isRequired,
-  setCompletedStepsPortfolio: PropTypes.func.isRequired,
-  setCompletedStepsSkills: PropTypes.func.isRequired,
-  setCompletedStepsAbout: PropTypes.func.isRequired,
-  setCompletedLayouts: PropTypes.func.isRequired,
+  // setCompletedStepsQualification: PropTypes.func.isRequired,
+  // setCompletedStepsEducation: PropTypes.func.isRequired,
+  // setCompletedStepsPortfolio: PropTypes.func.isRequired,
+  // setCompletedStepsSkills: PropTypes.func.isRequired,
+  // setCompletedStepsAbout: PropTypes.func.isRequired,
+  // setCompletedLayouts: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
+}
+
+Resume.defaultProps = {
+  onClick: () => {},
 }
 
 export default Resume

@@ -1,27 +1,28 @@
 .form-input {
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .form-input__label-container {
-	display: flex;
+  display: flex;
 }
 
 .form-input__label {
-	margin-bottom: 12px;
-	text-align: left;
-	color: #000;
-	font-family: Inter;
-	font-size: 20px;
-	font-weight: 400;
-	line-height: 1.21;
+  margin-bottom: 12px;
+  text-align: left;
+  color: #000;
+  font-family: Inter;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.21;
 }
 
 .form-input__field {
-	border-radius: 4px;
-	border: 1px solid #000;
-  min-height: 48px;
-  padding: 10px;
+  border-radius: 16px;
+  border: 1px solid #9f9f9f;
+  background: #fff;
+  min-height: 22px;
+  padding: 12px;
   resize: none;
 }
 

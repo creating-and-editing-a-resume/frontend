@@ -3,8 +3,21 @@ import PropTypes from 'prop-types'
 import { useNavigate, useLocation, NavLink } from 'react-router-dom'
 import './Header.scss'
 import headerIcon from '../../logo.svg'
+import ResumeLogo from '../../img/resume.svg'
+import PlusLogo from '../../img/plus-logo.svg'
+import ExitIcon from '../../img/exit-icon.svg'
+import BackToProfileIcon from '../../img/back-to-profile.svg'
+import LeftArrowIcon from '../../img/left-arrow.svg'
+import RightArrowIcon from '../../img/right-arrow.svg'
+import EditIcon from '../../img/edit-icon.svg'
 
-function Header({ isLoggedIn, nextPage, onOpenPopup, setCompletedSteps }) {
+function Header({
+  isLoggedIn,
+  nextPage,
+  onOpenPopup,
+  setCompletedSteps,
+  // onClick,
+}) {
   const navigate = useNavigate()
   const location = useLocation()
   const path = location.pathname
@@ -37,48 +50,51 @@ function Header({ isLoggedIn, nextPage, onOpenPopup, setCompletedSteps }) {
   // на странице готового  резюме
   if (isResultPage()) {
     return (
-      <header className="header ">
-        <button
-          className="header__button"
-          type="button"
-          label="button"
-          onClick={onOpenPopup}
-        >
-          Личный кабинет
-        </button>
-        <div className="header__buttons-container">
+      <header className="header">
+        <div className="header__flex-container">
           <button
-            className="header__button header__button_prev"
+            className="header__button"
             type="button"
             label="button"
-            onClick={() => {}}
+            onClick={onOpenPopup}
           >
-            Редактировать
+            <img
+              className="header__button-icon"
+              alt="стрелка назад"
+              src={BackToProfileIcon}
+            />
+            Личный кабинет
           </button>
-          <button
-            className="header__button header__button_prev"
-            type="button"
-            label="button"
-            onClick={() => {}}
-          >
-            Word
-          </button>
-          <button
-            className="header__button header__button_prev"
-            type="button"
-            label="button"
-            onClick={() => {}}
-          >
-            PDF
-          </button>
-          <button
-            className="header__button header__button_next"
-            type="button"
-            label="button"
-            onClick={() => {}}
-          >
-            Сохранить
-          </button>
+          <div className="header__steps-buttons">
+            <NavLink className="header__nav-link" to="/resume/personal-data">
+              <button
+                className="header__button header__button_black header__button_prev"
+                type="button"
+                label="button"
+                onClick={() => navigate(-1)}
+              >
+                <img
+                  className="header__button-icon"
+                  alt="стрелка влево"
+                  src={EditIcon}
+                />
+                Редактировать
+              </button>
+            </NavLink>
+            <NavLink className="header__nav-link" to="/">
+              <button
+                className="header__button header__button_orange"
+                type="button"
+                label="button"
+                onClick={() => {
+                  setCompletedSteps()
+                  navigate(`${nextPage}`)
+                }}
+              >
+                Сохранить
+              </button>
+            </NavLink>
+          </div>
         </div>
       </header>
     )
@@ -138,67 +154,152 @@ function Header({ isLoggedIn, nextPage, onOpenPopup, setCompletedSteps }) {
   // страница авт или рег + НЕ залогинены
   if ((isMainPage() || isLogRegPage()) && !isLoggedIn) {
     return (
-      <header className="header">
-        <NavLink className="header__link" to="/">
-          <img src={headerIcon} alt="header logo" className="header__logo" />
-        </NavLink>
-        <div className="header__buttons-container">
-          <button
-            className="header__button header__button_login"
-            type="button"
-            label="button"
-            onClick={() => navigate('/resume')}
-          >
-            Создать резюме
-          </button>
-          <button
-            className="header__button header__button_register"
-            type="button"
-            label="button"
-            onClick={() => navigate('/signin')}
-          >
-            Войти
-          </button>
+      <header className="header header_main">
+        <div className="header__flex-container header__flex-container_main">
+          <NavLink className="header__nav-link" to="/">
+            <div className="header__logo">
+              <img
+                alt="резюме"
+                src={ResumeLogo}
+                className="header__logo-resume"
+              />
+              <img alt="плюс" src={PlusLogo} className="header__logo-plus" />
+            </div>
+          </NavLink>
+          <div className="header__main-buttons">
+            <NavLink className="header__nav-link" to="/resume">
+              <span className="header__main-button">Создать резюме</span>
+            </NavLink>
+            <NavLink className="header__nav-link" to="/signin">
+              <div className="header__exit-button">
+                <span className="header__main-button">Выйти</span>
+                <img
+                  className="header__exit-icon"
+                  alt="Кнопка выхода"
+                  src={ExitIcon}
+                />
+              </div>
+            </NavLink>
+          </div>
         </div>
       </header>
     )
   }
+  // Код Айшата:
+  // if ((isMainPage() || isLogRegPage()) && !isLoggedIn) {
+  //   return (
+  //     <header className="header">
+  //       <NavLink className="header__link" to="/">
+  //         <img src={headerIcon} alt="header logo" className="header__logo" />
+  //       </NavLink>
+  //       <div className="header__buttons-container">
+  //         <button
+  //           className="header__button header__button_login"
+  //           type="button"
+  //           label="button"
+  //           onClick={() => navigate('/resume')}
+  //         >
+  //           Создать резюме
+  //         </button>
+  //         <button
+  //           className="header__button header__button_register"
+  //           type="button"
+  //           label="button"
+  //           onClick={() => navigate('/signin')}
+  //         >
+  //           Войти
+  //         </button>
+  //       </div>
+  //     </header>
+  //   )
+  // }
+
   // НЕ старт страница
   if (!(isMainPage() && isLogRegPage())) {
     return (
-      <header className="header ">
-        <button
-          className="header__button"
-          type="button"
-          label="button"
-          onClick={onOpenPopup}
-        >
-          Личный кабинет
-        </button>
-        <div className="header__buttons-container">
-          {!isPersonDataPage() && (
-            <button
-              className="header__button header__button_prev"
-              type="button"
-              label="button"
-              onClick={() => navigate(-1)}
-            >
-              Предыдущий шаг
-            </button>
-          )}
+      <header className="header">
+        <div className="header__flex-container">
           <button
-            className="header__button header__button_next"
+            className="header__button"
             type="button"
             label="button"
-            onClick={() => {
-              setCompletedSteps()
-              navigate(`${nextPage}`)
-            }}
+            onClick={onOpenPopup}
           >
-            Следующий шаг
+            <img
+              className="header__button-icon"
+              alt="стрелка назад"
+              src={BackToProfileIcon}
+            />
+            Личный кабинет
           </button>
+          <div className="header__steps-buttons">
+            {!isPersonDataPage() && (
+              <button
+                className="header__button header__button_prev"
+                type="button"
+                label="button"
+                onClick={() => navigate(-1)}
+              >
+                <img
+                  className="header__button-icon"
+                  alt="стрелка влево"
+                  src={LeftArrowIcon}
+                />
+                Предыдущий шаг
+              </button>
+            )}
+            <button
+              className="header__button header__button_black header__button_next"
+              type="button"
+              label="button"
+              onClick={() => {
+                setCompletedSteps()
+                navigate(`${nextPage}`)
+              }}
+            >
+              Следующий шаг
+              <img
+                className="header__button-icon"
+                alt="стрелка вправо"
+                src={RightArrowIcon}
+              />
+            </button>
+          </div>
         </div>
       </header>
+      // <header className="header ">
+      // <button
+      //   className="header__button"
+      //   type="button"
+      //   label="button"
+      //   onClick={onOpenPopup}
+      // >
+      //   Личный кабинет
+      // </button>
+      //   <div className="header__buttons-container">
+      //     {!isPersonDataPage() && (
+      //       <button
+      //         className="header__button header__button_prev"
+      //         type="button"
+      //         label="button"
+      //         onClick={() => navigate(-1)}
+      //       >
+      //         Предыдущий шаг
+      //       </button>
+      //     )}
+      //     <button
+      //       className="header__button header__button_next"
+      //       type="button"
+      //       label="button"
+      //       onClick={() => {
+      //         setCompletedSteps()
+      //         navigate(`${nextPage}`)
+      //       }}
+      //     >
+      //       Следующий шаг
+      //     </button>
+      //   </div>
+      // </header>
     )
   }
 }
@@ -208,12 +309,14 @@ Header.propTypes = {
   nextPage: PropTypes.string,
   onOpenPopup: PropTypes.func,
   setCompletedSteps: PropTypes.func,
+  // onClick: PropTypes.func,
 }
 Header.defaultProps = {
   isLoggedIn: false,
   nextPage: '',
   onOpenPopup: () => {},
   setCompletedSteps: () => {},
+  // onClick: () => {},
 }
 
 export default Header

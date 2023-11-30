@@ -1,36 +1,35 @@
 .tip__container {
-	margin-left: 8px;
+  margin-left: 8px;
   position: relative;
   width: 20px;
   height: 20px;
 }
 
 .tip__icon {
-	width: 20px;
-	height: 20px;
-	color: black;
-	display: block;
-	background-color: transparent;
-	opacity: 1;
+  width: 20px;
+  height: 20px;
+  display: block;
+  background-color: transparent;
+  opacity: 1;
 }
 
 .tip__container-triangle {
   border: 20px solid transparent;
-  border-right: 20px solid #d6f3ff;
+  border-right: 20px solid #fac7b5;
   position: absolute;
   top: 28px;
   left: -40px;
 }
 .tip__text-container {
-	width: 432px;
+  width: 432px;
   display: none;
   position: absolute;
   top: -38px;
   left: 48px;
-	z-index: 1;
-  background-color: #d6f3ff;
-  padding: 28px;
-	border-radius: 20px;
+  z-index: 1;
+  background-color: #fac7b5;
+  padding: 24px;
+  border-radius: 20px;
 }
 
 .tip__text {
@@ -42,21 +41,22 @@
   margin: 0;
   width: 376px;
   color: #000;
-	font-family: Inter;
-	font-size: 20px;
-	font-weight: 400;
-	line-height: 1.21;
+  // font-family: Open Sans;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.21;
+  text-align: left;
 }
 
 .tip__icon:hover {
-	opacity: 0.75;
-	transition: opacity 0.1s ease;
+  opacity: 0.75;
+  transition: opacity 0.1s ease;
 }
 
 .tip__container:hover .tip__text-container {
-	display: block;
+  display: block;
 }
 
 .tip__container:focus .tip__text-container {
-	display: block;
+  display: block;
 }

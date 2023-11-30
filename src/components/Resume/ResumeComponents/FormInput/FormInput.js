@@ -4,7 +4,16 @@ import classNames from 'classnames'
 import './FormInput.scss'
 import Tip from '../Tip/Tip'
 
-const FormInput = ({ label, tip, tipText, extraInputClass, disabled }) => (
+const FormInput = ({
+  label,
+  tip,
+  tipText,
+  extraInputClass,
+  disabled,
+  name,
+  values,
+  handleChange,
+}) => (
   <div className="form-input">
     <div className="form-input__label-container">
       <label className="form-input__label" htmlFor="form-input">
@@ -13,7 +22,10 @@ const FormInput = ({ label, tip, tipText, extraInputClass, disabled }) => (
       {tip && <Tip text={tipText} />}
     </div>
     <textarea
-      disabled={disabled}
+      name={name}
+      value={values[name] || ''}
+      onChange={handleChange}
+      disabled={disabled || false}
       id="form-input"
       className={classNames(
         'form-input__field',
@@ -28,6 +40,11 @@ FormInput.propTypes = {
   tipText: PropTypes.node,
   extraInputClass: PropTypes.string,
   disabled: PropTypes.bool,
+  values: PropTypes.shape({
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  }),
+  handleChange: PropTypes.func,
+  name: PropTypes.string,
 }
 
 FormInput.defaultProps = {
@@ -35,6 +52,9 @@ FormInput.defaultProps = {
   tipText: '',
   extraInputClass: '',
   disabled: false,
+  values: {},
+  handleChange: () => {},
+  name: '',
 }
 
 export default FormInput

@@ -52,12 +52,12 @@
 	left: 0;
 	top: 0;
 	transition: background 0.3s ease;
-	background: url(../../../../img/checkbox-icon.svg) 0 0 no-repeat;
+	background: url(../../../../img/toggle-icon.svg) 0 0 no-repeat;
 }
 
 /* Checked */
 .resume-title__checkbox-label .resume-title__checkbox:checked + .resume-title__checkbox-text:before {
-	background: url(../../../../img/checkbox-checked.svg) 0 0 no-repeat;
+	background: url(../../../../img/toggle-checked.svg) 0 0 no-repeat;
 }
 .resume-title__checkbox {
   width: 24px;

@@ -1,27 +1,27 @@
+import React from 'react'
 import './MonthPicker.scss'
-import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { months } from '../../../../../constants/months'
 
-const MonthPicker = ({ disabled }) => {
-  const [chosenMonth, setChosenMonth] = useState('')
-
+const MonthPicker = ({ disabled, setValues, values, name }) => {
   const chooseMonth = month => {
-    setChosenMonth(month.id)
+    console.log(`${name}:${month.id}`)
+    setValues(prevValues => ({ ...prevValues, [name]: month.id }))
   }
 
   return (
     <div className="month__container">
       <input
+        name={name}
         type="text"
         placeholder="Месяц"
-        id="month"
+        id={name}
         className={classNames(
           'month__input',
           disabled && 'month__input_disabled'
         )}
-        value={chosenMonth && months.find(m => chosenMonth === m.id).long}
+        value={values[name] ? months.find(m => values[name] === m.id).long : ''}
         readOnly
         disabled={disabled}
       />
@@ -38,7 +38,7 @@ const MonthPicker = ({ disabled }) => {
                   key={month.id}
                   className={classNames(
                     'month__button link',
-                    chosenMonth === month.id && 'month__button_active'
+                    values[name] === month.id && 'month__button_active'
                   )}
                   onClick={chooseThisMonth}
                 >
@@ -55,10 +55,18 @@ const MonthPicker = ({ disabled }) => {
 
 MonthPicker.propTypes = {
   disabled: PropTypes.bool,
+  setValues: PropTypes.func,
+  values: PropTypes.shape({
+    value: PropTypes.number,
+  }),
+  name: PropTypes.string,
 }
 
 MonthPicker.defaultProps = {
   disabled: false,
+  setValues: () => {},
+  values: {},
+  name: '',
 }
 
 export default MonthPicker
