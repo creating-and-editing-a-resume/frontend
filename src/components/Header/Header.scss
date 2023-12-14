@@ -24,6 +24,18 @@
   border-bottom: 1px solid #A6A6A6;
 }
 
+.header_white {
+  padding-top: 32px;
+  padding-left: 88px;
+  background-color: #F7F7F7;
+  width: 100%;
+  display: flex;
+}
+
+.header__logo-resume-plus {
+  width: 100px;
+  height: 16px;
+}
 .header_main {
   background-color: #1a1b22;
   min-height: 80px;
@@ -71,6 +83,7 @@
   font-size: 20px;
   font-weight: 400;
   line-height: 1.2;
+  margin: 0;
 }
 
 .header__exit-button {

@@ -4,9 +4,8 @@ import { EMAIL_REGEX } from '../../../constants/regex'
 import RegistrationField from '../../Register/RegistrationForm/RegistrationField/RegistrationField'
 import './LoginForm.scss'
 import '../../Register/RegistrationForm/RegistrationForm.scss'
-import PlusIcon from '../../../img/plus-icon.svg'
 
-const LoginForm = ({ buttonText, onSubmit, isOpen }) => {
+const LoginForm = ({ buttonText, onSubmit, isOpen, popup }) => {
   const [values, setValues] = useState({})
   const [errors, setErrors] = useState({})
   const [isValid, setIsValid] = useState(false)
@@ -105,17 +104,10 @@ const LoginForm = ({ buttonText, onSubmit, isOpen }) => {
           type="submit"
           className={`login-form__button registration-form__button ${
             !isValid ? 'registration-form__button_inactive' : 'link'
-          }`}
+          } ${popup && 'registration-form__button_popup'}`}
           disabled={!isValid}
         >
-          <img
-            className="login-form__button-icon registration-form__button-icon"
-            src={PlusIcon}
-            alt="plus icon"
-          />
-          <span className="login-form__button-text registration-form__button-text">
-            {buttonText}
-          </span>
+          {buttonText}
         </button>
       </form>
     </section>
@@ -126,6 +118,11 @@ LoginForm.propTypes = {
   buttonText: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
+  popup: PropTypes.bool,
+}
+
+LoginForm.defaultProps = {
+  popup: false,
 }
 
 export default LoginForm

@@ -1,14 +1,14 @@
-/* eslint-disable react/prop-types */
 import './PersonalData.scss'
-import React, { useState } from 'react'
-// import { v4 as uuidv4 } from 'uuid'
+import React from 'react'
+import PropTypes from 'prop-types'
 import ResumeTitle from '../ResumeComponents/ResumeTitle/ResumeTitle'
 import DoubleInput from '../ResumeComponents/DoubleInput/DoubleInput'
 import {
   CAREER_OBJECTIVE_TIP,
   ACTUAL_STATUS_TIP,
   EMAIL_TIP,
-  OTHER__SITE_LINK_TIP,
+  PHOTO_TIP,
+  SITE_LINK_TIP,
 } from '../../../constants/tips'
 import {
   ACTUAL_STATUS_OPTIONS,
@@ -18,25 +18,52 @@ import {
 } from '../../../constants/input-options'
 import FormInput from '../ResumeComponents/FormInput/FormInput'
 import LanguageInput from '../ResumeComponents/LanguageInput/LanguageInput'
+import ImageUploadForm from './ImageUploadForm/ImageUploadForm'
+import LinkInput from '../ResumeComponents/LinkInput/LinkInput'
 
-const PersonalData = ({ values, handleChange, setValues }) => {
-  const [number, setNumber] = useState(1)
-  const [languages, setLanguages] = useState([{ id: number }])
-  console.log(number)
-
-  const addLanguage = () => {
-    setNumber(number + 1)
-    setLanguages([...languages, { id: number }])
+const PersonalData = ({
+  values,
+  setValues,
+  addLanguage,
+  addLink,
+  setLinksAfterDeleting,
+  setLanguagesAfterDeleting,
+  setLanguagesChanges,
+  errors,
+  handleChangeWithValidation,
+  setImage,
+  image,
+}) => {
+  const deleteLanguage = i => {
+    const languageToBeRemoved = values.languages.find(item => item.id === i)
+    const remainingLanguages = values.languages.filter(
+      item => item.id !== languageToBeRemoved.id
+    )
+    setLanguagesAfterDeleting(remainingLanguages)
+    return remainingLanguages
   }
 
-  const deleteLanguage = langId => {
-    if (languages.length === 1) {
-      setNumber(prevValue => prevValue + 1)
-      setLanguages([{ id: number }])
+  const deleteLink = i => {
+    const linkToBeRemoved = values.links.find(item => item.id === i)
+    const remainingLinks = values.links.filter(
+      item => item.id !== linkToBeRemoved.id
+    )
+    setLinksAfterDeleting(remainingLinks)
+    return remainingLinks
+  }
+
+  const handleLanguageChange = ({ i, name, value }) => {
+    const languageToBeChanged = values.languages.find(item => item.id === i)
+    const indexToReplace = values.languages.findIndex(item => item.id === i)
+    const copy = { ...languageToBeChanged }
+    if (name.slice(0, 14) === 'language_level') {
+      copy.level = value
     } else {
-      const languageToBeRemoved = languages.find(m => langId === m.id)
-      setLanguages(languages.filter(item => item.id !== languageToBeRemoved.id))
+      copy.language = value
     }
+    const newLanguages = [...values.languages]
+    newLanguages[indexToReplace] = copy
+    setLanguagesChanges(newLanguages)
   }
 
   return (
@@ -44,36 +71,52 @@ const PersonalData = ({ values, handleChange, setValues }) => {
       <div className="personal-data__container">
         <ResumeTitle title="Персональные данные" />
         <div className="personal-data__form">
+          <div className="personal-data__form-box">
+            <div className="personal-data__form-left-column">
+              <FormInput
+                values={values}
+                handleChange={handleChangeWithValidation}
+                setValues={setValues}
+                name="name"
+                label="Имя"
+                errors={errors}
+              />
+              <FormInput
+                values={values}
+                handleChange={handleChangeWithValidation}
+                setValues={setValues}
+                name="surname"
+                label="Фамилия"
+                errors={errors}
+              />
+              <FormInput
+                values={values}
+                handleChange={handleChangeWithValidation}
+                setValues={setValues}
+                name="birthday"
+                label="Дата рождения"
+                placeholder="ДД.ММ.ГГГГ"
+                dataMask="date"
+                errors={errors}
+              />
+            </div>
+            <div className="personal-data__form-right-column">
+              <ImageUploadForm
+                name="photo"
+                label="Фото"
+                tip
+                tipText={PHOTO_TIP}
+                setImage={setImage}
+                image={image}
+              />
+            </div>
+          </div>
           <DoubleInput
-            values={values}
-            handleChange={handleChange}
             setValues={setValues}
-            name={['name']}
-            firstLabel="Имя"
-            ordinaryInputFirst
-          />
-          <DoubleInput
-            values={values}
-            handleChange={handleChange}
-            setValues={setValues}
-            name={['surname']}
-            firstLabel="Фамилия"
-            ordinaryInputFirst
-          />
-          <DoubleInput
-            handleChange={handleChange}
-            values={values}
-            setValues={setValues}
-            name={['birthday']}
-            firstLabel="Дата рождения"
-            placeholder="ДД.ММ.ГГ"
-            ordinaryInputFirst
-          />
-          <DoubleInput
-            setValues={setValues}
-            handleChange={handleChange}
+            handleChange={handleChangeWithValidation}
             values={values}
             name={['city', 'work_status']}
+            doubleLongInput
             firstLabel="Город проживания"
             secondLabel="Актуальный статус"
             doubleInput
@@ -82,12 +125,14 @@ const PersonalData = ({ values, handleChange, setValues }) => {
             optionsInputSecond={ACTUAL_STATUS_OPTIONS}
             tipSecond
             tipTextSecond={ACTUAL_STATUS_TIP}
+            errors={errors}
           />
           <DoubleInput
             setValues={setValues}
-            handleChange={handleChange}
+            handleChange={handleChangeWithValidation}
             values={values}
             name={['desired_position', 'level_knowledge']}
+            doubleLongInput
             firstLabel="Желаемая должность"
             secondLabel="Уровень"
             doubleInput
@@ -96,61 +141,55 @@ const PersonalData = ({ values, handleChange, setValues }) => {
             optionsInputSecond={LEVEL_OPTIONS}
             tipFirst
             tipTextFirst={CAREER_OBJECTIVE_TIP}
+            errors={errors}
           />
         </div>
         <ResumeTitle title="Контакты" />
         <div className="personal-data__form">
           <FormInput
             values={values}
-            handleChange={handleChange}
+            handleChange={handleChangeWithValidation}
             setValues={setValues}
-            name={['email']}
+            name="email"
             label="Почта"
             tip
             tipText={EMAIL_TIP}
+            errors={errors}
           />
           <DoubleInput
-            handleChange={handleChange}
+            handleChange={handleChangeWithValidation}
             values={values}
             setValues={setValues}
-            name={['phone', 'behance']}
+            name={['phone', 'telegram']}
+            doubleShortInput
             firstLabel="Телефон"
-            secondLabel="Ссылка на Behance"
-            doubleInput
-            ordinaryInputFirst
-            ordinaryInputSecond
+            secondLabel="Telegram"
+            placeholderFirst="+7"
+            placeholderSecond="t.me/name"
+            dataMaskFirst="phone"
+            dataMaskSecond="tgLink"
+            errors={errors}
           />
-          <DoubleInput
-            handleChange={handleChange}
-            values={values}
-            setValues={setValues}
-            name={['telegram', 'githab']}
-            firstLabel="Телеграм"
-            secondLabel="Ссылка на GitHub"
-            doubleInput
-            ordinaryInputFirst
-            ordinaryInputSecond
-          />
-          <DoubleInput
-            handleChange={handleChange}
-            values={values}
-            setValues={setValues}
-            name={['website_link', 'video_link']}
-            firstLabel="Ссылка на другой сайт"
-            secondLabel="Ссылка на видео о себе"
-            doubleInput
-            ordinaryInputFirst
-            ordinaryInputSecond
-            tipFirst
-            tipTextFirst={OTHER__SITE_LINK_TIP}
-          />
+          {values.links.map(link => (
+            <LinkInput
+              key={link.id}
+              i={link.id}
+              // values={link}
+              addLink={addLink}
+              deleteLink={deleteLink}
+              firstLabel="Название ссылки"
+              secondLabel="Ссылка"
+              tipFirst
+              tipTextFirst={SITE_LINK_TIP}
+            />
+          ))}
         </div>
         <ResumeTitle title="Владение языками" />
-        {languages.map(lang => (
+        {values.languages.map(lang => (
           <div className="personal-data__language-form" key={lang.id}>
             <LanguageInput
-              values={values}
-              handleChange={handleChange}
+              values={lang}
+              handleLanguageChange={handleLanguageChange}
               setValues={setValues}
               firstLabel="Язык"
               secondLabel="Уровень"
@@ -160,13 +199,44 @@ const PersonalData = ({ values, handleChange, setValues }) => {
               i={lang.id}
               addLanguage={addLanguage}
               deleteLanguage={deleteLanguage}
-              number={number}
             />
           </div>
         ))}
       </div>
     </section>
   )
+}
+
+PersonalData.propTypes = {
+  values: PropTypes.objectOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.arrayOf(
+        PropTypes.oneOfType([
+          PropTypes.objectOf(
+            PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+          ),
+        ])
+      ),
+    ])
+  ),
+  setValues: PropTypes.func.isRequired,
+  addLanguage: PropTypes.func.isRequired,
+  addLink: PropTypes.func.isRequired,
+  setLanguagesAfterDeleting: PropTypes.func.isRequired,
+  setLinksAfterDeleting: PropTypes.func.isRequired,
+  setLanguagesChanges: PropTypes.func.isRequired,
+  errors: PropTypes.objectOf(PropTypes.string),
+  handleChangeWithValidation: PropTypes.func.isRequired,
+  setImage: PropTypes.func.isRequired,
+  image: PropTypes.string,
+}
+
+PersonalData.defaultProps = {
+  values: {},
+  errors: {},
+  image: undefined,
 }
 
 export default PersonalData

@@ -5,21 +5,40 @@ import FormInput from '../../ResumeComponents/FormInput/FormInput'
 import PlusIcon from '../../../../img/plus-icon.svg'
 import TrashIcon from '../../../../img/trash-icon.svg'
 
-const Project = ({ addProject, deleteProject, i }) => {
+const Project = ({ addProject, deleteProject, i, values, handleChange }) => {
   const handleDelete = () => deleteProject(i)
   return (
     <>
-      <div className="experience__job-container" id={i}>
+      <div className="project__container experience__job-container" id={i}>
         <FormInput label="Название проекта" />
+      </div>
+      <div className="project__container experience__job-container" id={i}>
         <FormInput
+          values={values}
+          handleChange={handleChange}
+          id={i}
+          name={`project_name_${i}`}
+          label="Название проекта"
+        />
+        <FormInput
+          values={values}
+          handleChange={handleChange}
+          id={i}
+          name={`project_description_${i}`}
           label="Краткое описание проекта"
           extraInputClass="portfolio"
         />
-        <FormInput label="Ссылка на проект" />
+        <FormInput
+          values={values}
+          handleChange={handleChange}
+          id={i}
+          name={`project_link_${i}`}
+          label="Ссылка на проект"
+        />
       </div>
-      <div className="job__buttons-container">
+      <div className="project__buttons-container job__buttons-container">
         <button
-          className="job__delete-button link"
+          className="project__delete-button job__delete-button link"
           type="button"
           onClick={handleDelete}
         >
@@ -27,7 +46,7 @@ const Project = ({ addProject, deleteProject, i }) => {
           Удалить
         </button>
         <button
-          className="job__add-button link"
+          className="project__add-button job__add-button link"
           type="button"
           onClick={addProject}
         >
@@ -43,6 +62,24 @@ Project.propTypes = {
   addProject: PropTypes.func.isRequired,
   deleteProject: PropTypes.func.isRequired,
   i: PropTypes.string.isRequired,
+  values: PropTypes.objectOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.arrayOf(
+        PropTypes.oneOfType([
+          PropTypes.objectOf(
+            PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+          ),
+        ])
+      ),
+    ])
+  ),
+  handleChange: PropTypes.func.isRequired,
+}
+
+Project.defaultProps = {
+  values: {},
 }
 
 export default Project

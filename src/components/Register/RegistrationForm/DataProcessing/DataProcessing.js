@@ -2,22 +2,25 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './DataProcessing.scss'
 
-const DataProcessing = ({ text, handleChange }) => (
+const DataProcessing = ({ handleChange }) => (
   <div className="data-processing">
-    <input
-      className="data-processing__checkbox"
-      type="checkbox"
-      id="dataProcessing"
-      name="dataProcessing"
-      onChange={handleChange}
-      required
-    />
-    <span className="data-processing__text">{text}</span>
+    <label className="data-processing__checkbox-label" htmlFor="dataProcessing">
+      <input
+        name="dataProcessing"
+        type="checkbox"
+        id="dataProcessing"
+        className="data-processing__checkbox"
+        onClick={handleChange}
+        required
+      />
+      <span className="data-processing__checkbox-text">
+        Я даю согласие на обработку данных
+      </span>
+    </label>
   </div>
 )
 
 DataProcessing.propTypes = {
-  text: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
 }
 

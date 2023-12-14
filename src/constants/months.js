@@ -11,6 +11,7 @@ const months = [
   { id: 10, short: 'Окт.', long: 'Октябрь' },
   { id: 11, short: 'Нояб.', long: 'Ноябрь' },
   { id: 12, short: 'Дек.', long: 'Декабрь' },
+  { id: 13, short: '', long: 'До настоящего времени' },
 ]
 
 export { months }

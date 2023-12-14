@@ -47,14 +47,15 @@ const CAREER_OBJECTIVE_TIP = (
 
 const EMAIL_TIP = (
   <p className="tip-paragraph">
-    Указывайте только официальный адрес, никаких kolbasa19.
+    Не указывайте e-mail типа dominator69@mail.ru или почту с доменом своей
+    текущей работы.
   </p>
 )
 
-const OTHER__SITE_LINK_TIP = (
+const SITE_LINK_TIP = (
   <p className="tip-paragraph">
-    Можете добавить любую ссылку, которую не указывали выше. Например, личный
-    сайт с портфолио.
+    Вы можете добавить любую свою ссылку на социальные сети, сайты и прочие
+    сервисы. Только укажите его название. Например, Вконтакте
   </p>
 )
 
@@ -70,6 +71,6 @@ export {
   ACTUAL_STATUS_TIP,
   CAREER_OBJECTIVE_TIP,
   EMAIL_TIP,
-  OTHER__SITE_LINK_TIP,
+  SITE_LINK_TIP,
   JOB_TIP,
 }

@@ -1,13 +1,13 @@
 import './Result.scss'
 import PropTypes from 'prop-types'
-import jsPDF from 'jspdf'
+import { useNavigate } from 'react-router-dom'
 import { useRef } from 'react'
-import ResultResume from '../ResultResume/ResultResume'
 import DownloadIcon from '../../../img/download-icon.svg'
+import ResultResume from '../ResultResume/ResultResume'
 
-function Result({ values, checkboxValues }) {
+function Result({ values /* checkboxValues */ }) {
   const resultResumeRef = useRef(null)
-
+  const navigate = useNavigate()
   const handleGenerateWord = () => {
     const preHTML =
       "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
@@ -23,24 +23,15 @@ function Result({ values, checkboxValues }) {
     const fileDownload = document.createElement('a')
     document.body.appendChild(fileDownload)
     fileDownload.href = source
-    fileDownload.download = 'document.doc'
+    fileDownload.download = 'resume.doc'
     fileDownload.click()
     document.body.removeChild(fileDownload)
   }
 
-  const handleGeneratePdf = () => {
-    // eslint-disable-next-line new-cap
-    const document = new jsPDF({
-      format: 'a4',
-      unit: 'px',
-    })
-
-    document.html(resultResumeRef.current, {
-      // eslint-disable-next-line no-shadow
-      async callback(doc) {
-        await doc.save('document')
-      },
-    })
+  const handleGeneratePdf = async () => {
+    await navigate('/result-resume')
+    window.print()
+    navigate(-1)
   }
 
   return (
@@ -81,7 +72,7 @@ function Result({ values, checkboxValues }) {
         </div>
       </div>
       <div className="result__content" ref={resultResumeRef}>
-        <ResultResume values={values} checkboxValues={checkboxValues} />
+        <ResultResume values={values} /* checkboxValues={checkboxValues} */ />
       </div>
     </section>
   )
@@ -89,11 +80,16 @@ function Result({ values, checkboxValues }) {
 
 Result.propTypes = {
   values: PropTypes.objectOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.array,
+      PropTypes.object,
+    ])
   ),
-  checkboxValues: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.bool])),
+  // checkboxValues: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.bool])),
 }
 
-Result.defaultProps = { values: {}, checkboxValues: {} }
+Result.defaultProps = { values: {} /* checkboxValues: {} */ }
 
 export default Result

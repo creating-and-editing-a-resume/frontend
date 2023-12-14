@@ -1,6 +1,6 @@
 import '../PersonalData/PersonalData.scss'
 import React, { useState, useEffect } from 'react'
-// import { v4 as uuidv4 } from 'uuid'
+import { v4 as uuidv4 } from 'uuid'
 import './Experience.scss'
 import PropTypes from 'prop-types'
 import ResumeTitle from '../ResumeComponents/ResumeTitle/ResumeTitle'
@@ -13,7 +13,6 @@ import { JOB_TIP } from '../../../constants/tips'
 const Experience = ({
   values,
   setValues,
-  handleChange,
   handleCheckboxChange,
   checkboxValues,
   hasExperience,
@@ -21,41 +20,46 @@ const Experience = ({
   setAllTillPresent,
   allTillPresent,
   setCheckboxValues,
+  setDuties,
+  errors,
+  handleChangeWithValidation,
+  setErrors,
+  handleAddJobChange,
 }) => {
+  // console.log('🚀 ~ file: Experience.js:30 ~ handleChange:', handleChange)
+  // console.log('🚀 ~ file: Experience.js:30 ~ handleChange:', handleAddJobChange)
   // Если появился добавленный опыт, основная кнопка "Добавить" удаляется
   const [noAddedExperience, setNoAddedExperience] = useState(true)
-  const [addedExperience, setAddedExperience] = React.useState([])
-  const [number, setNumber] = useState(0)
 
   const handleTitleCheckboxClick = () => {
     setHasExperience(!hasExperience)
-    setAddedExperience([])
+    setValues({ ...values, jobs: [] })
     setNoAddedExperience(true)
+    setErrors({})
   }
 
   const addExperience = () => {
     setNoAddedExperience(false)
-    setAddedExperience([...addedExperience, { id: number + 1 }])
-    setNumber(prevValue => prevValue + 1)
+    setValues({ ...values, jobs: [...values.jobs, { id: uuidv4() }] })
   }
 
   const deleteExperience = jobId => {
-    setNumber(prevValue => prevValue - 1)
-    const experienceToBeRemoved = addedExperience.find(m => jobId === m.id)
-    setAddedExperience(
-      addedExperience.filter(item => item.id !== experienceToBeRemoved.id)
-    )
+    const experienceToBeRemoved = values.jobs.find(m => jobId === m.id)
+    setValues({
+      ...values,
+      jobs: values.jobs.filter(item => item.id !== experienceToBeRemoved.id),
+    })
   }
 
   // Если addedExperience пустой, то возвращается основная кнопка "Добавить"
   useEffect(() => {
-    if (addedExperience.length === 0) {
+    if (values.jobs.length === 0) {
       setNoAddedExperience(true)
     }
-  }, [addedExperience.length])
+  }, [values.jobs.length])
 
   return (
-    <section className="personal-data">
+    <section className="experience personal-data">
       <ResumeTitle
         name="work_experience_checkbox"
         values={checkboxValues}
@@ -70,35 +74,41 @@ const Experience = ({
         <FormInput
           name="company"
           values={values}
-          handleChange={handleChange}
+          handleChange={handleChangeWithValidation}
           label="Название компании"
           disabled={!hasExperience}
           setValues={setValues}
+          errors={errors}
+          id="0"
         />
         <FormInput
           name="company_website"
           values={values}
-          handleChange={handleChange}
+          handleChange={handleChangeWithValidation}
           label="Сайт компании"
           disabled={!hasExperience}
           setValues={setValues}
+          errors={errors}
+          id="0"
         />
         <FormInput
           name="current_position"
           values={values}
-          handleChange={handleChange}
+          handleChange={handleChangeWithValidation}
           label="Должность"
           tip
           tipText={JOB_TIP}
           disabled={!hasExperience}
           setValues={setValues}
+          errors={errors}
+          id="0"
         />
         <PeriodInput
           labelOne="Дата начала работы"
           labelTwo="Дата окончания работы"
           month
           disabled={!hasExperience}
-          i={Number('0')}
+          i="0"
           tillPresent
           checkboxValues={checkboxValues}
           handleCheckboxChange={handleCheckboxChange}
@@ -109,37 +119,41 @@ const Experience = ({
           setValues={setValues}
           setAllTillPresent={setAllTillPresent}
           allTillPresent={allTillPresent}
-          handleChange={handleChange}
+          handleChange={handleChangeWithValidation}
           setCheckboxValues={setCheckboxValues}
+          errors={errors}
         />
         <FormInput
           name="duties"
           values={values}
-          handleChange={handleChange}
+          handleChange={handleChangeWithValidation}
           label="Обязанности"
           extraInputClass="responsibilities"
           disabled={!hasExperience}
           setValues={setValues}
+          setDuties={setDuties}
+          errors={errors}
+          id="0"
         />
-        {addedExperience.map(experience => (
+        {values.jobs.map(experience => (
           <Job
-            values={values}
-            handleChange={handleChange}
+            values={experience}
+            allValues={values}
+            handleChange={handleAddJobChange}
             hasExperience={hasExperience}
             deleteExperience={deleteExperience}
             addExperience={addExperience}
-            i={Number(experience.id)}
+            i={experience.id}
             key={experience.id}
             checkboxValues={checkboxValues}
-            number={number}
             handleCheckboxChange={handleCheckboxChange}
             setValues={setValues}
             setAllTillPresent={setAllTillPresent}
             allTillPresent={allTillPresent}
-            setCheckboxValues={setCheckboxValues}
+            setDuties={setDuties}
           />
         ))}
-        {noAddedExperience && (
+        {noAddedExperience && values.jobs.length === 0 && (
           <AddButton disabled={!hasExperience} handleClick={addExperience} />
         )}
       </div>
@@ -149,33 +163,43 @@ const Experience = ({
 
 Experience.propTypes = {
   values: PropTypes.objectOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.arrayOf(
+        PropTypes.oneOfType([
+          PropTypes.objectOf(
+            PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+          ),
+        ])
+      ),
+    ])
   ),
-  setValues: PropTypes.func,
-  handleChange: PropTypes.func,
-  handleCheckboxChange: PropTypes.func,
+  setValues: PropTypes.func.isRequired,
+  handleCheckboxChange: PropTypes.func.isRequired,
   checkboxValues: PropTypes.shape({
     checkbox: PropTypes.bool,
   }),
   hasExperience: PropTypes.bool.isRequired,
-  setHasExperience: PropTypes.func,
-  setAllTillPresent: PropTypes.func,
+  setHasExperience: PropTypes.func.isRequired,
+  setAllTillPresent: PropTypes.func.isRequired,
   allTillPresent: PropTypes.shape({
     value: PropTypes.bool,
   }),
-  setCheckboxValues: PropTypes.func,
+  setCheckboxValues: PropTypes.func.isRequired,
+  setDuties: PropTypes.func.isRequired,
+  errors: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  ).isRequired,
+  handleChangeWithValidation: PropTypes.func.isRequired,
+  setErrors: PropTypes.func.isRequired,
+  handleAddJobChange: PropTypes.func.isRequired,
 }
 
 Experience.defaultProps = {
   values: {},
-  setValues: () => {},
-  handleChange: () => {},
-  handleCheckboxChange: () => {},
   checkboxValues: {},
-  setHasExperience: () => {},
-  setAllTillPresent: () => {},
   allTillPresent: {},
-  setCheckboxValues: () => {},
 }
 
 export default Experience

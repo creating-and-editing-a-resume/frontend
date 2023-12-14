@@ -2,11 +2,41 @@ import React from 'react'
 import './MonthPicker.scss'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import { useLocation } from 'react-router-dom'
 import { months } from '../../../../../constants/months'
 
-const MonthPicker = ({ disabled, setValues, values, name }) => {
+const MonthPicker = ({ disabled, setValues, values, name, id, allValues }) => {
+  const location = useLocation()
   const chooseMonth = month => {
-    setValues(prevValues => ({ ...prevValues, [name]: month.id }))
+    if (location.pathname === '/resume/experience') {
+      if (id === '0') {
+        setValues(prevValues => ({ ...prevValues, [name]: month.id }))
+      } else {
+        const updateMonth = allValues.jobs.map(job => {
+          if (job.id === id) {
+            return { ...job, [name]: month.id, id }
+          }
+          return job
+        })
+        setValues(prevValues => ({ ...prevValues, jobs: updateMonth }))
+      }
+    }
+    if (location.pathname === '/resume/qualification') {
+      if (id === '0') {
+        setValues(prevValues => ({ ...prevValues, [name]: month.id }))
+      } else {
+        const updateMonth = allValues.qualifications.map(qualifications => {
+          if (qualifications.id === id) {
+            return { ...qualifications, [name]: month.id, id }
+          }
+          return qualifications
+        })
+        setValues(prevValues => ({
+          ...prevValues,
+          qualifications: updateMonth,
+        }))
+      }
+    }
   }
 
   return (
@@ -15,7 +45,7 @@ const MonthPicker = ({ disabled, setValues, values, name }) => {
         name={name}
         type="text"
         placeholder="Месяц"
-        id={name}
+        id={id}
         className={classNames(
           'month__input',
           disabled && 'month__input_disabled'
@@ -54,18 +84,38 @@ const MonthPicker = ({ disabled, setValues, values, name }) => {
 
 MonthPicker.propTypes = {
   disabled: PropTypes.bool,
-  setValues: PropTypes.func,
+  setValues: PropTypes.func.isRequired,
   values: PropTypes.shape({
-    value: PropTypes.number,
+    value: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.arrayOf(
+        PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      ),
+    ]),
   }),
   name: PropTypes.string,
+  allValues: PropTypes.objectOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.arrayOf(
+        PropTypes.oneOfType([
+          PropTypes.objectOf(
+            PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+          ),
+        ])
+      ),
+    ])
+  ),
+  id: PropTypes.string.isRequired,
 }
 
 MonthPicker.defaultProps = {
   disabled: false,
-  setValues: () => {},
   values: {},
   name: '',
+  allValues: {},
 }
 
 export default MonthPicker

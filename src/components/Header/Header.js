@@ -10,6 +10,7 @@ import BackToProfileIcon from '../../img/back-to-profile.svg'
 import LeftArrowIcon from '../../img/left-arrow.svg'
 import RightArrowIcon from '../../img/right-arrow.svg'
 import EditIcon from '../../img/edit-icon.svg'
+import ResumeLogoBlack from '../../img/resume-logo-black.svg'
 
 function Header({
   isLoggedIn,
@@ -103,7 +104,7 @@ function Header({
 
   if (isNotFoundPage()) {
     return (
-      <header className="header ">
+      <header className="header">
         <button
           className="header__button"
           type="button"
@@ -117,7 +118,7 @@ function Header({
   }
 
   // старт страница + залогинены
-  if ((isMainPage() || isLogRegPage()) && isLoggedIn) {
+  if (isMainPage() && isLoggedIn) {
     return (
       <header className="header">
         <NavLink className="header__link" to="/">
@@ -128,7 +129,7 @@ function Header({
             className="header__button"
             type="button"
             label="button"
-            onClick={() => navigate('/resume')}
+            onClick={() => navigate('/resume/personal-data')}
           >
             Создать резюме
           </button>
@@ -153,7 +154,7 @@ function Header({
     )
   }
   // страница авт или рег + НЕ залогинены
-  if ((isMainPage() || isLogRegPage()) && !isLoggedIn) {
+  if (isMainPage() && !isLoggedIn) {
     return (
       <header className="header header_main">
         <div className="header__flex-container header__flex-container_main">
@@ -173,7 +174,7 @@ function Header({
             </NavLink>
             <NavLink className="header__nav-link" to="/signin">
               <div className="header__exit-button">
-                <span className="header__main-button">Выйти</span>
+                <span className="header__main-button">Войти</span>
                 <img
                   className="header__exit-icon"
                   alt="Кнопка выхода"
@@ -186,35 +187,21 @@ function Header({
       </header>
     )
   }
-  // Код Айшата:
-  // if ((isMainPage() || isLogRegPage()) && !isLoggedIn) {
-  //   return (
-  //     <header className="header">
-  //       <NavLink className="header__link" to="/">
-  //         <img src={headerIcon} alt="header logo" className="header__logo" />
-  //       </NavLink>
-  //       <div className="header__buttons-container">
-  //         <button
-  //           className="header__button header__button_login"
-  //           type="button"
-  //           label="button"
-  //           onClick={() => navigate('/resume')}
-  //         >
-  //           Создать резюме
-  //         </button>
-  //         <button
-  //           className="header__button header__button_register"
-  //           type="button"
-  //           label="button"
-  //           onClick={() => navigate('/signin')}
-  //         >
-  //           Войти
-  //         </button>
-  //       </div>
-  //     </header>
-  //   )
-  // }
 
+  // Логин и регистрация
+  if (isLogRegPage()) {
+    return (
+      <header className="header_white">
+        <NavLink className="header__nav-link" to="/">
+          <img
+            alt="логотип компании"
+            src={ResumeLogoBlack}
+            className="header__logo-resume-plus"
+          />
+        </NavLink>
+      </header>
+    )
+  }
   // НЕ старт страница
   if (!(isMainPage() && isLogRegPage())) {
     return (
@@ -269,39 +256,6 @@ function Header({
           </div>
         </div>
       </header>
-      // <header className="header ">
-      // <button
-      //   className="header__button"
-      //   type="button"
-      //   label="button"
-      //   onClick={onOpenPopup}
-      // >
-      //   Личный кабинет
-      // </button>
-      //   <div className="header__buttons-container">
-      //     {!isPersonDataPage() && (
-      //       <button
-      //         className="header__button header__button_prev"
-      //         type="button"
-      //         label="button"
-      //         onClick={() => navigate(-1)}
-      //       >
-      //         Предыдущий шаг
-      //       </button>
-      //     )}
-      //     <button
-      //       className="header__button header__button_next"
-      //       type="button"
-      //       label="button"
-      //       onClick={() => {
-      //         setCompletedSteps()
-      //         navigate(`${nextPage}`)
-      //       }}
-      //     >
-      //       Следующий шаг
-      //     </button>
-      //   </div>
-      // </header>
     )
   }
 }

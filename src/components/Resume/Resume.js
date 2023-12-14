@@ -13,13 +13,14 @@ function Resume({
   onOpenPopup,
   setCompletedStepsPersonalData,
   setCompletedStepsExperience,
-  // setCompletedStepsQualification,
-  // setCompletedStepsEducation,
-  // setCompletedStepsPortfolio,
-  // setCompletedStepsSkills,
-  // setCompletedStepsAbout,
+  setCompletedStepsQualification,
+  setCompletedStepsEducation,
+  setCompletedStepsPortfolio,
+  setCompletedStepsSkills,
+  setCompletedStepsAbout,
   // setCompletedLayouts,
   onClick,
+  duties,
 }) {
   const location = useLocation()
   // Находим индекс элемента в массиве с локациями
@@ -35,11 +36,11 @@ function Resume({
     const locationToFanctionMap = {
       '/resume/personal-data': setCompletedStepsPersonalData,
       '/resume/experience': setCompletedStepsExperience,
-      // '/resume/qualification': setCompletedStepsQualification,
-      // '/resume/education': setCompletedStepsEducation,
-      // '/resume/portfolio': setCompletedStepsPortfolio,
-      // '/resume/skills': setCompletedStepsSkills,
-      // '/resume/about': setCompletedStepsAbout,
+      '/resume/qualification': setCompletedStepsQualification,
+      '/resume/education': setCompletedStepsEducation,
+      '/resume/portfolio': setCompletedStepsPortfolio,
+      '/resume/skills': setCompletedStepsSkills,
+      '/resume/about': setCompletedStepsAbout,
       // '/resume/layouts': setCompletedLayouts,
     }
 
@@ -65,27 +66,29 @@ function Resume({
         ) : (
           <ProgressBar step={step} totalSteps={locationArr.length - 1} />
         )}
-        <FormPage />
+        <FormPage duties={duties} />
       </main>
     </>
   )
 }
+
 Resume.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   onOpenPopup: PropTypes.func.isRequired,
   setCompletedStepsPersonalData: PropTypes.func.isRequired,
   setCompletedStepsExperience: PropTypes.func.isRequired,
-  // setCompletedStepsQualification: PropTypes.func.isRequired,
-  // setCompletedStepsEducation: PropTypes.func.isRequired,
-  // setCompletedStepsPortfolio: PropTypes.func.isRequired,
-  // setCompletedStepsSkills: PropTypes.func.isRequired,
-  // setCompletedStepsAbout: PropTypes.func.isRequired,
+  setCompletedStepsQualification: PropTypes.func.isRequired,
+  setCompletedStepsEducation: PropTypes.func.isRequired,
+  setCompletedStepsPortfolio: PropTypes.func.isRequired,
+  setCompletedStepsSkills: PropTypes.func.isRequired,
+  setCompletedStepsAbout: PropTypes.func.isRequired,
   // setCompletedLayouts: PropTypes.func.isRequired,
-  onClick: PropTypes.func,
+  onClick: PropTypes.func.isRequired,
+  duties: PropTypes.bool,
 }
 
 Resume.defaultProps = {
-  onClick: () => {},
+  duties: false,
 }
 
 export default Resume

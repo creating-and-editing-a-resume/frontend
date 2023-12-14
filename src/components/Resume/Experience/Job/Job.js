@@ -14,41 +14,43 @@ const Job = ({
   i,
   values,
   handleChange,
-  number,
   handleCheckboxChange,
   checkboxValues,
   setValues,
   setAllTillPresent,
   allTillPresent,
+  setDuties,
+  allValues,
 }) => {
   const handleDelete = () => deleteExperience(i)
+
   return (
     <>
-      <div className="experience__job-container" id={i}>
+      <div className="job__job-container experience__job-container" id={i}>
         <FormInput
-          name={`company_${number}`}
+          name={`company_${i}`}
           values={values}
           handleChange={handleChange}
           label="Название компании"
           disabled={!hasExperience}
-          setValues={setValues}
+          id={i}
         />
         <FormInput
-          name={`company_website_${number}`}
+          name={`company_website_${i}`}
           values={values}
           handleChange={handleChange}
           label="Сайт компании"
           disabled={!hasExperience}
-          setValues={setValues}
+          id={i}
         />
         <FormInput
-          name={`current_position_${number}`}
+          name={`current_position_${i}`}
           values={values}
           handleChange={handleChange}
           label="Должность"
           tipText={JOB_TIP}
           disabled={!hasExperience}
-          setValues={setValues}
+          id={i}
         />
         <PeriodInput
           labelOne="Дата начала работы"
@@ -60,25 +62,24 @@ const Job = ({
           values={values}
           checkboxValues={checkboxValues}
           handleChange={handleChange}
-          namePeriod={`work_period_checkbox_${number}`}
-          monthPeriod={[
-            `month_work_start_${number}`,
-            `month_work_end_${number}`,
-          ]}
-          year={[`year_work_start_${number}`, `year_work_end_${number}`]}
+          namePeriod={`work_period_checkbox_${i}`}
+          monthPeriod={[`month_work_start_${i}`, `month_work_end_${i}`]}
+          year={[`year_work_start_${i}`, `year_work_end_${i}`]}
           handleCheckboxChange={handleCheckboxChange}
           setValues={setValues}
           setAllTillPresent={setAllTillPresent}
           allTillPresent={allTillPresent}
+          allValues={allValues}
         />
         <FormInput
-          name={`duties_${number}`}
+          name={`duties_${i}`}
           values={values}
           handleChange={handleChange}
           label="Обязанности"
           extraInputClass="responsibilities"
           disabled={!hasExperience}
-          setValues={setValues}
+          setDuties={setDuties}
+          id={i}
         />
       </div>
       <div className="job__buttons-container">
@@ -107,32 +108,41 @@ Job.propTypes = {
   hasExperience: PropTypes.bool.isRequired,
   addExperience: PropTypes.func.isRequired,
   deleteExperience: PropTypes.func.isRequired,
-  i: PropTypes.number.isRequired,
+  i: PropTypes.string.isRequired,
   values: PropTypes.shape({
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   }),
-  handleChange: PropTypes.func,
+  handleChange: PropTypes.func.isRequired,
   checkboxValues: PropTypes.shape({
     checkbox: PropTypes.bool,
   }),
-  number: PropTypes.number,
-  handleCheckboxChange: PropTypes.func,
-  setValues: PropTypes.func,
-  setAllTillPresent: PropTypes.func,
+  handleCheckboxChange: PropTypes.func.isRequired,
+  setValues: PropTypes.func.isRequired,
+  setAllTillPresent: PropTypes.func.isRequired,
   allTillPresent: PropTypes.shape({
     value: PropTypes.bool,
   }),
+  setDuties: PropTypes.func.isRequired,
+  allValues: PropTypes.objectOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.arrayOf(
+        PropTypes.oneOfType([
+          PropTypes.objectOf(
+            PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+          ),
+        ])
+      ),
+    ])
+  ),
 }
 
 Job.defaultProps = {
   values: {},
-  handleChange: () => {},
   checkboxValues: {},
-  number: undefined,
-  handleCheckboxChange: () => {},
-  setValues: () => {},
-  setAllTillPresent: () => {},
   allTillPresent: {},
+  allValues: {},
 }
 
 export default Job

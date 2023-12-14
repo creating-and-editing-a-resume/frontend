@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import './RegistrationField.scss'
+import classNames from 'classnames'
 
 const RegistrationField = ({
   name,
@@ -15,12 +16,16 @@ const RegistrationField = ({
 }) => {
   const inputReference = React.createRef()
 
+  const [eyeClosed, setEyeClosed] = useState(false)
+
   const handleToggle = () => {
     if (inputReference && inputReference.current) {
       if (inputReference.current.type === 'text') {
         inputReference.current.type = 'password'
+        setEyeClosed(false)
       } else {
         inputReference.current.type = 'text'
+        setEyeClosed(true)
       }
     }
   }
@@ -42,7 +47,10 @@ const RegistrationField = ({
       {eye && (
         <button
           type="button"
-          className="registration-field__button link"
+          className={classNames(
+            'registration-field__eye link',
+            eyeClosed && 'registration-field__eye_closed'
+          )}
           onClick={handleToggle}
         />
       )}

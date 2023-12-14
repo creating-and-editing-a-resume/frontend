@@ -1,0 +1,124 @@
+.popup-login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.25);
+  z-index: 2;
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    visibility 0s,
+    opacity 0.2s linear;
+}
+
+.popup_opened {
+  visibility: visible;
+  opacity: 1;
+}
+
+.popup-login__container {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: 44px;
+  width: 917px;
+  min-height: 454px;
+  background-color: #da693f;
+}
+
+.popup-login__btn-close {
+  padding: 0;
+  position: absolute;
+  top: 28px;
+  right: 28px;
+  width: 28px;
+  height: 28px;
+  outline: none;
+  border: none;
+  background: transparent url(../../../img/popups/close-icon-white.svg) center
+    center / cover no-repeat;
+  transition: opacity 0.2s linear;
+}
+
+.popup__btn-close:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.popup-login__internal-container {
+  display: flex;
+  margin: 64px auto;
+  gap: 65px;
+}
+
+.popup-login__image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.popup-login__image {
+  width: 391px;
+  height: 260px;
+}
+
+.popup-login__image-text {
+  max-width: 391px;
+  color: #fff;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.popup-login__form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 301px;
+  height: 326px;
+}
+
+.popup-login__form-title {
+  color: #f7f7f7;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 0 0 32px;
+}
+
+.popup-login__restore-password {
+  text-decoration: none;
+  color: #f7f7f7;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
+  margin-top: 16px;
+}
+
+.popup-login__link {
+  text-decoration: none;
+  color: #f7f7f7;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
+  margin-top: 12px;
+}

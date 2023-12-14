@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React from 'react'
 import PropTypes from 'prop-types'
 import './LanguageInput.scss'
@@ -12,10 +11,16 @@ const LanguageInput = ({
   addLanguage,
   deleteLanguage,
   values,
-  handleChange,
-  number,
+  // handleLanguageChange,
+  // handleLanguageLevelChange,
+  handleLanguageChange,
 }) => {
   const handleDelete = () => deleteLanguage(i)
+  const handleChange = evt => {
+    const { name, value } = evt.target
+    handleLanguageChange({ i, name, value })
+  }
+
   return (
     <div className="language-input" id={i} key={i}>
       <div className="language-input__left-box">
@@ -29,17 +34,16 @@ const LanguageInput = ({
         </div>
         <div className="language-input__select-wrapper">
           <select
-            name={`language_${number}`}
+            name={`language_${i}`}
             onChange={handleChange}
-            value={values[`language_${number}`]}
-            id={`language_${number}`}
+            value={values.language || ''}
+            id={`language_${i}`}
             className="language-input__field"
           >
             <option
               value=""
-              className="double-input__option"
+              className="language-input__option double-input__option"
               disabled
-              selected
               hidden
               aria-label="Выберите язык"
             />
@@ -56,9 +60,9 @@ const LanguageInput = ({
         </div>
       </div>
       <div className="language-input__right-box">
-        <div className="double-input__label-container">
+        <div className="language-input__label-container double-input__label-container">
           <label
-            className="double-input__label"
+            className="language-input__label double-input__label"
             htmlFor="selected-input-second"
           >
             {secondLabel}
@@ -66,24 +70,23 @@ const LanguageInput = ({
         </div>
         <div className="language-input__select-wrapper">
           <select
-            name={`language_level_${number}`}
+            name={`language_level_${i}`}
             onChange={handleChange}
-            value={values[`language_level_${number}`]}
-            id={`language_level_${number}`}
+            value={values.level || ''}
+            id={`language_level_${i}`}
             className="language-input__field"
           >
             <option
               value=""
-              className="double-input__option"
+              className="language-input__option double-input__option"
               disabled
-              selected
               hidden
               aria-label="Выберите уровень знания языка"
             />
             {optionsInputSecond.map(value => (
               <option
                 value={value}
-                className="double-input__option"
+                className="language-input__option double-input__option"
                 key={value}
               >
                 {value}
@@ -114,9 +117,13 @@ LanguageInput.propTypes = {
   secondLabel: PropTypes.string,
   optionsInputFirst: PropTypes.arrayOf(PropTypes.string),
   optionsInputSecond: PropTypes.arrayOf(PropTypes.string),
-  i: PropTypes.number.isRequired,
-  addLanguage: PropTypes.func,
-  deleteLanguage: PropTypes.func,
+  i: PropTypes.string.isRequired,
+  addLanguage: PropTypes.func.isRequired,
+  deleteLanguage: PropTypes.func.isRequired,
+  // handleLanguageChange: PropTypes.func.isRequired,
+  // handleLanguageLevelChange: PropTypes.func.isRequired,
+  handleLanguageChange: PropTypes.func.isRequired,
+  values: PropTypes.objectOf(PropTypes.string),
 }
 
 LanguageInput.defaultProps = {
@@ -124,8 +131,7 @@ LanguageInput.defaultProps = {
   secondLabel: '',
   optionsInputFirst: [],
   optionsInputSecond: [],
-  addLanguage: () => {},
-  deleteLanguage: () => {},
+  values: {},
 }
 
 export default LanguageInput

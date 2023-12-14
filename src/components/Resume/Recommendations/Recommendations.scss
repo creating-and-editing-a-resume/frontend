@@ -16,7 +16,9 @@
   width: 495px;
   color: #000;
   text-align: center;
-  font-family: Open Sans, sans-serif;
+  font-family:
+    Open Sans,
+    sans-serif;
   font-size: 20px;
   font-weight: 400;
   line-height: 1.2;
@@ -29,10 +31,50 @@
 .recommend__text {
   width: 495px;
   color: #000;
-  font-family: Open Sans, sans-serif;
+  font-family: Inter;
   font-size: 20px;
   font-weight: 400;
   line-height: 1.2;
   text-align: left;
   margin: 0;
+}
+
+.recommend__duties-formula {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  align-items: center;
+}
+
+.recommend__duties-component {
+  padding: 14px 44px;
+  border-radius: 8px;
+  border: 1px solid #000;
+  background: #fff;
+  width: 50%;
+  color: #000;
+  text-align: center;
+  font-family: Inter;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.21;
+}
+
+.recommend__duties-examples-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.recommend__duties-example {
+  padding: 28px;
+  border-radius: 20px;
+  border: 2px solid #1a1b22;
+  background: #fff;
+  color: #000;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  line-height: 1.21;
 }

@@ -6,23 +6,27 @@ import RegistrationForm from './RegistrationForm/RegistrationForm'
 import FormRedirection from './FormRedirection/FormRedirection'
 import Header from '../Header/Header'
 
-const Register = ({ onRegister, isOpen }) => (
+const Register = ({ onRegister }) => (
   <>
     <Header />
     <section className="register">
       <div className="register__container">
-        <FormTitle page="register" greeting="Регистрация" isOpen={isOpen} />
-        <RegistrationForm
-          buttonText="Зарегистрироваться"
-          onSubmit={onRegister}
-        />
-        <FormRedirection
-          page="register"
-          text="Уже есть аккаунт?"
-          button="Войти"
-          path="/signin"
-          isOpen={isOpen}
-        />
+        <FormTitle page="register" greeting="Регистрация" />
+        <div className="register__form-container">
+          <RegistrationForm
+            buttonText="Зарегистрироваться"
+            onSubmit={onRegister}
+          />
+        </div>
+        <div className="register_link-container">
+          <FormRedirection
+            page="register"
+            text="Уже есть аккаунт?"
+            button="Войти"
+            path="/signin"
+            whiteText
+          />
+        </div>
       </div>
     </section>
   </>
@@ -30,7 +34,6 @@ const Register = ({ onRegister, isOpen }) => (
 
 Register.propTypes = {
   onRegister: PropTypes.func.isRequired,
-  isOpen: PropTypes.bool.isRequired,
 }
 
 export default Register

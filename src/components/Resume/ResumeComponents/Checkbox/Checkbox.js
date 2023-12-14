@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import PropTypes from 'prop-types'
 import React from 'react'
 import './Checkbox.scss'
@@ -18,9 +17,6 @@ const Checkbox = ({
       setCheckboxValues({
         ...checkboxValues,
         work_period_checkbox: false,
-        work_period_checkbox_1: false,
-        work_period_checkbox_2: false,
-        [name]: false,
       })
     }
   }, [disabled])
@@ -53,6 +49,7 @@ Checkbox.propTypes = {
   }),
   name: PropTypes.string,
   disabled: PropTypes.bool,
+  setCheckboxValues: PropTypes.func.isRequired,
 }
 
 Checkbox.defaultProps = {
