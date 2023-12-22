@@ -50,10 +50,10 @@ const Qualification = ({
 
   // Если addedExperience пустой, то возвращается основная кнопка "Добавить"
   useEffect(() => {
-    if (values.qualifications.length === 0) {
+    if (values.qualifications && values.qualifications.length === 0) {
       setNoAddedQualification(true)
     }
-  }, [values.qualifications.length])
+  }, [values.qualifications])
 
   return (
     <section className="qualification personal-data">
@@ -130,25 +130,28 @@ const Qualification = ({
           handleChange={handleChangeWithValidation}
           setValues={setValues}
         />
-        {values.qualifications.map(qualification => (
-          <AddedQualification
-            values={qualification}
-            hasQualification={hasQualification}
-            handleChange={handleAddQualificationChange}
-            deleteQualification={deleteQualification}
-            addQualification={addQualification}
-            i={qualification.id}
-            key={qualification.id}
-            setValues={setValues}
-            allValues={values}
-          />
-        ))}
-        {noAddedQualification && values.qualifications.length === 0 && (
-          <AddButton
-            disabled={!hasQualification}
-            handleClick={addQualification}
-          />
-        )}
+        {values.qualifications &&
+          values.qualifications.length > 0 &&
+          values.qualifications.map(qualification => (
+            <AddedQualification
+              values={qualification}
+              hasQualification={hasQualification}
+              handleChange={handleAddQualificationChange}
+              deleteQualification={deleteQualification}
+              addQualification={addQualification}
+              i={qualification.id}
+              key={qualification.id}
+              setValues={setValues}
+              allValues={values}
+            />
+          ))}
+        {noAddedQualification &&
+          (!values.qualifications || values.qualifications.length === 0) && (
+            <AddButton
+              disabled={!hasQualification}
+              handleClick={addQualification}
+            />
+          )}
       </div>
     </section>
   )

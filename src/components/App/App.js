@@ -88,6 +88,9 @@ function App() {
   const [linksAfterDeleting, setLinksAfterDeleting] = useState(values.links)
   // RECOMMENDATIONS:
   const [duties, setDuties] = useState(false)
+  const [ability, setAbility] = useState(false)
+  const [projecDescription, setProjectDescription] = useState(false)
+  const [myself, setMyself] = useState(false)
   // // Если опыт есть, поля активны. Если нет, поля деактивируются:
   const [hasExperience, setHasExperience] = React.useState(
     JSON.parse(localStorage.getItem('hasExperience') || true)
@@ -194,18 +197,18 @@ function App() {
   // }
 
   useEffect(() => {
-    if (languagesAfterDeleting.length === 0) {
+    if (languagesAfterDeleting && languagesAfterDeleting.length === 0) {
       setValues({ ...values, languages: [{ id: uuidv4() }] })
-    } else {
+    } else if (languagesAfterDeleting) {
       setValues({ ...values, languages: languagesAfterDeleting })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [languagesAfterDeleting])
 
   useEffect(() => {
-    if (linksAfterDeleting.length === 0) {
+    if (linksAfterDeleting && linksAfterDeleting.length === 0) {
       setValues({ ...values, links: [{ id: uuidv4() }] })
-    } else {
+    } else if (linksAfterDeleting) {
       setValues({ ...values, links: linksAfterDeleting })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -537,6 +540,9 @@ function App() {
           setAllTillPresent={setAllTillPresent}
           allTillPresent={allTillPresent}
           setDuties={setDuties}
+          setAbility={setAbility}
+          setProjectDescription={setProjectDescription}
+          setMyself={setMyself}
           errors={errors}
           handleChangeWithValidation={handleChangeWithValidation}
           setErrors={setErrors}
@@ -740,6 +746,9 @@ function App() {
                 // setCompletedLayouts={setCompletedLayouts}
                 onClick={handleClick}
                 duties={duties}
+                ability={ability}
+                projecDescription={projecDescription}
+                myself={myself}
               />
             }
           >

@@ -170,38 +170,40 @@ const PersonalData = ({
             dataMaskSecond="tgLink"
             errors={errors}
           />
-          {values.links.map(link => (
-            <LinkInput
-              key={link.id}
-              i={link.id}
-              // values={link}
-              addLink={addLink}
-              deleteLink={deleteLink}
-              firstLabel="Название ссылки"
-              secondLabel="Ссылка"
-              tipFirst
-              tipTextFirst={SITE_LINK_TIP}
-            />
-          ))}
+          {values.links &&
+            values.links.map(link => (
+              <LinkInput
+                key={link.id}
+                i={link.id}
+                // values={link}
+                addLink={addLink}
+                deleteLink={deleteLink}
+                firstLabel="Название ссылки"
+                secondLabel="Ссылка"
+                tipFirst
+                tipTextFirst={SITE_LINK_TIP}
+              />
+            ))}
         </div>
         <ResumeTitle title="Владение языками" />
-        {values.languages.map(lang => (
-          <div className="personal-data__language-form" key={lang.id}>
-            <LanguageInput
-              values={lang}
-              handleLanguageChange={handleLanguageChange}
-              setValues={setValues}
-              firstLabel="Язык"
-              secondLabel="Уровень"
-              optionsInputFirst={LANGUAGE_OPTIONS}
-              optionsInputSecond={LANGUAGE_LEVEL_OPTIONS}
-              key={lang.id}
-              i={lang.id}
-              addLanguage={addLanguage}
-              deleteLanguage={deleteLanguage}
-            />
-          </div>
-        ))}
+        {values.languages &&
+          values.languages.map(lang => (
+            <div className="personal-data__language-form" key={lang.id}>
+              <LanguageInput
+                values={lang}
+                handleLanguageChange={handleLanguageChange}
+                setValues={setValues}
+                firstLabel="Язык"
+                secondLabel="Уровень"
+                optionsInputFirst={LANGUAGE_OPTIONS}
+                optionsInputSecond={LANGUAGE_LEVEL_OPTIONS}
+                key={lang.id}
+                i={lang.id}
+                addLanguage={addLanguage}
+                deleteLanguage={deleteLanguage}
+              />
+            </div>
+          ))}
       </div>
     </section>
   )

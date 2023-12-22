@@ -53,10 +53,10 @@ const Experience = ({
 
   // Если addedExperience пустой, то возвращается основная кнопка "Добавить"
   useEffect(() => {
-    if (values.jobs.length === 0) {
+    if (values.jobs && values.jobs.length === 0) {
       setNoAddedExperience(true)
     }
-  }, [values.jobs.length])
+  }, [values.jobs])
 
   return (
     <section className="experience personal-data">
@@ -135,25 +135,28 @@ const Experience = ({
           errors={errors}
           id="0"
         />
-        {values.jobs.map(experience => (
-          <Job
-            values={experience}
-            allValues={values}
-            handleChange={handleAddJobChange}
-            hasExperience={hasExperience}
-            deleteExperience={deleteExperience}
-            addExperience={addExperience}
-            i={experience.id}
-            key={experience.id}
-            checkboxValues={checkboxValues}
-            handleCheckboxChange={handleCheckboxChange}
-            setValues={setValues}
-            setAllTillPresent={setAllTillPresent}
-            allTillPresent={allTillPresent}
-            setDuties={setDuties}
-          />
-        ))}
-        {noAddedExperience && values.jobs.length === 0 && (
+        {values.jobs &&
+          values.jobs.length > 0 &&
+          values.jobs.map(experience => (
+            <Job
+              values={experience}
+              allValues={values}
+              handleChange={handleAddJobChange}
+              hasExperience={hasExperience}
+              deleteExperience={deleteExperience}
+              addExperience={addExperience}
+              i={experience.id}
+              key={experience.id}
+              checkboxValues={checkboxValues}
+              handleCheckboxChange={handleCheckboxChange}
+              setValues={setValues}
+              setAllTillPresent={setAllTillPresent}
+              allTillPresent={allTillPresent}
+              setDuties={setDuties}
+            />
+          ))}
+
+        {noAddedExperience && (!values.jobs || values.jobs.length === 0) && (
           <AddButton disabled={!hasExperience} handleClick={addExperience} />
         )}
       </div>

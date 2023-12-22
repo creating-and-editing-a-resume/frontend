@@ -45,10 +45,10 @@ const Education = ({
 
   // Если addedEducation пустой, то возвращается основная кнопка "Добавить"
   useEffect(() => {
-    if (values.educations.length === 0) {
+    if (values.educations && values.educations.length === 0) {
       setNoAddedEducation(true)
     }
-  }, [values.educations.length])
+  }, [values.educations])
 
   return (
     <section className="education personal-data">
@@ -90,25 +90,27 @@ const Education = ({
           name="education_level"
           label="Степень"
         />
-        {values.educations.map(education => (
-          <AddedEducation
-            values={education}
-            deleteEducation={deleteEducation}
-            addEducation={addEducation}
-            i={education.id}
-            key={education.id}
-            handleChange={handleAddEducationChange}
-            checkboxValues={checkboxValues}
-            handleCheckboxChange={handleCheckboxChange}
-            setValues={setValues}
-            setAllTillPresent={setAllTillPresent}
-            allTillPresent={allTillPresent}
-            allValues={values}
-          />
-        ))}
-        {noAddedEducation && values.educations.length === 0 && (
-          <AddButton handleClick={addEducation} />
-        )}
+        {values.educations &&
+          values.educations.map(education => (
+            <AddedEducation
+              values={education}
+              deleteEducation={deleteEducation}
+              addEducation={addEducation}
+              i={education.id}
+              key={education.id}
+              handleChange={handleAddEducationChange}
+              checkboxValues={checkboxValues}
+              handleCheckboxChange={handleCheckboxChange}
+              setValues={setValues}
+              setAllTillPresent={setAllTillPresent}
+              allTillPresent={allTillPresent}
+              allValues={values}
+            />
+          ))}
+        {noAddedEducation &&
+          (!values.educations || values.educations.length === 0) && (
+            <AddButton handleClick={addEducation} />
+          )}
       </div>
     </section>
   )

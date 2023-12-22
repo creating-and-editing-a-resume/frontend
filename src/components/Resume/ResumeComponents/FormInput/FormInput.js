@@ -18,6 +18,9 @@ const FormInput = ({
   dataMask,
   setValues,
   setDuties,
+  setAbility,
+  setProjectDescription,
+  setMyself,
   errors,
   id,
   placeholder,
@@ -61,14 +64,27 @@ const FormInput = ({
         diploma_link: '',
       }))
     }
+
+    if (disabled && location.pathname === '/resume/about') {
+      setValues(prevValues => ({
+        ...prevValues,
+        myself: '',
+      }))
+    }
   }, [disabled])
 
   const handleFocus = () => {
     setDuties(true)
+    setAbility(true)
+    setProjectDescription(true)
+    setMyself(true)
   }
 
   const handleBlur = () => {
     setDuties(false)
+    setAbility(false)
+    setProjectDescription(false)
+    setMyself(false)
   }
 
   return (
@@ -89,7 +105,8 @@ const FormInput = ({
         className={classNames(
           'form-input__field',
           extraInputClass && `form-input__field_${extraInputClass}`,
-          errors[name] && 'form-input__field_error'
+          errors[name] && 'form-input__field_error',
+          'form-input__field_about'
         )}
         onFocus={handleFocus}
         onBlur={handleBlur}
@@ -119,6 +136,9 @@ FormInput.propTypes = {
   ]).isRequired,
   setValues: PropTypes.func,
   setDuties: PropTypes.func,
+  setAbility: PropTypes.func,
+  setProjectDescription: PropTypes.func,
+  setMyself: PropTypes.func,
   errors: PropTypes.objectOf(PropTypes.string),
   id: PropTypes.string,
 }
@@ -132,6 +152,9 @@ FormInput.defaultProps = {
   values: {},
   dataMask: '',
   setDuties: () => {},
+  setAbility: () => {},
+  setProjectDescription: () => {},
+  setMyself: () => {},
   errors: {},
   id: '',
   setValues: () => {},

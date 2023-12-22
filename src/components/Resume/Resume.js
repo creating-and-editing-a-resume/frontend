@@ -21,6 +21,9 @@ function Resume({
   // setCompletedLayouts,
   onClick,
   duties,
+  ability,
+  projecDescription,
+  myself,
 }) {
   const location = useLocation()
   // Находим индекс элемента в массиве с локациями
@@ -66,7 +69,12 @@ function Resume({
         ) : (
           <ProgressBar step={step} totalSteps={locationArr.length - 1} />
         )}
-        <FormPage duties={duties} />
+        <FormPage
+          duties={duties}
+          ability={ability}
+          projecDescription={projecDescription}
+          myself={myself}
+        />
       </main>
     </>
   )
@@ -85,10 +93,16 @@ Resume.propTypes = {
   // setCompletedLayouts: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
   duties: PropTypes.bool,
+  ability: PropTypes.bool,
+  projecDescription: PropTypes.bool,
+  myself: PropTypes.bool,
 }
 
 Resume.defaultProps = {
   duties: false,
+  ability: false,
+  projecDescription: false,
+  myself: false,
 }
 
 export default Resume
