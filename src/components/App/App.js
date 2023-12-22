@@ -43,7 +43,7 @@ import ResultResume from '../Resume/ResultResume/ResultResume'
 
 function App() {
   // eslint-disable-next-line no-unused-vars
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false) // Пользователь авторизован/неавторизован
+  const [isLoggedIn, setIsLoggedIn] = React.useState(true) // Пользователь авторизован/неавторизован
   // eslint-disable-next-line no-unused-vars
   const [currentUser, setCurrentUser] = React.useState({}) // Сохраняем данные пользователя
 
