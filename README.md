@@ -1,6 +1,48 @@
-# creating-and-editing-a-resume
+# creating-and-editing-a-resume project (website)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Installing
+
+To run you will need the Docker application installed
+
+[Installation instructions](https://docs.docker.com/desktop/)
+
+1. Clone the repositories:
+
+```
+git clone https://github.com/creating-and-editing-a-resume/frontend.git
+
+```
+
+2. Create an image, specify a name
+
+docker built -t <your-image-name> .
+
+3. Start the Docker container:
+
+```
+docker run -p 3000:3000 -d <your-image-name>
+
+```
+
+The project runs locally on port 3000.
+
+### Description of Docker scripts
+
+FROM node:20 as build - creating a container image (detecting the Node version)
+
+WORKDIR /app - setting the working directory
+
+COPY package*.json ./ - copying package*.json files to the working directory
+
+RUN npm install - installing dependency inside container
+
+COPY. ./ copy all files to the working directory
+
+RUN npm run build - build the image
+
+CMD cp -r build result_build - install the command when starting the container / copy the contents of the build folder to the result_build folder inside the container
 
 ## Available Scripts
 

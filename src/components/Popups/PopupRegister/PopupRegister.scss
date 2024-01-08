@@ -1,0 +1,38 @@
+.popup-register__form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 301px;
+  height: 326px;
+  justify-content: center;
+}
+
+.popup-register__link {
+  text-decoration: none;
+  color: #f7f7f7;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
+  margin-top: 16px;
+}
+
+.popup-register__internal-container {
+  display: flex;
+  margin: 56px auto;
+  gap: 67px;
+}
+
+.popup-register__container {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: 44px;
+  width: 915px;
+  min-height: 520px;
+  background-color: #da693f;
+}

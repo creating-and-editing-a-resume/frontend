@@ -1,0 +1,62 @@
+.confirmation-delete {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 44px;
+  padding: 40px 72px 40px 40px;
+  border-radius: 24px;
+  position: relative;
+}
+
+.confirmation-delete__text {
+  width: 546px;
+  color: #212121;
+  text-align: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: left;
+  line-height: 1.2;
+}
+
+.confirmation-delete__buttons {
+  display: flex;
+  gap: 26px;
+}
+
+.confirmation-delete__button {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+  border-radius: 16px;
+  border: 2px solid;
+  width: 260px;
+height: 48px;
+}
+
+.confirmation-delete__button:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.confirmation-delete__button_delete {
+  color: #ff4b4b;
+  background-color: #fff;
+  border-color: #FF4B4B;
+}
+
+.confirmation-delete__button_cancel {
+  color: #fff;
+  background-color: #1A1B22;
+  border-color: #1A1B22;
+}
+
+.confirmation-delete__close-button {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  position: absolute;
+  top: 24px;
+  right: 24px;
+}

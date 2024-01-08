@@ -1,0 +1,126 @@
+.skills {
+  width: 59.2%;
+  height: 100%;
+  min-height: 100vh;
+  padding-right: 20px;
+  border-right: 1px solid #d0d0d0;
+}
+
+.skills__title {
+  padding: 0;
+  margin: 0;
+  color: #212121;
+  font-family:
+    Open Sans,
+    sans-serif;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  text-align: left;
+  margin-bottom: 36px;
+}
+
+.skills__subtitle {
+  padding: 0;
+  margin: 0;
+  color: #212121;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: none;
+  margin-bottom: 12px;
+}
+
+.skills__container {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 48px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16px;
+  border: 1px solid var(--grey-dark, #9f9f9f);
+  background: var(--White, #fff);
+}
+
+.skills__field-selected-btn:hover {
+  cursor: pointer;
+}
+
+.skills__field-selected-btn {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  width: 50px;
+  height: 50px;
+  align-self: start;
+  border-left: 1px solid var(--grey-dark, #9f9f9f);
+  border-bottom: 1px solid var(--grey-dark, #9f9f9f);
+}
+.skills__field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #9f9f9f;
+  width: 100%;
+}
+
+.skills__field-selected-btn_disabled {
+  border: none;
+}
+
+.skills__field_disabled-border-bottom {
+  border: none;
+  justify-content: space-between;
+}
+
+.skills__field-selected-img {
+  width: 16px;
+  height: 16px;
+  padding: 16px;
+  position: relative;
+}
+
+.skills__list {
+  display: none;
+  margin: 0;
+}
+
+.skills__list_visible {
+  padding: 0;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 24px;
+}
+
+.skills__item {
+  list-style: none;
+}
+
+.skills__item-button {
+  padding: 12px;
+  display: flex;
+  padding: 12px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  border: 1px solid #1a1b22;
+  background-color: #fff;
+}
+
+.skills__item-button_active {
+  background-color: #1a1b22;
+  color: #fff;
+}
+
+.skills__item-button:hover {
+  cursor: pointer;
+}

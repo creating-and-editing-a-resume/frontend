@@ -1,0 +1,32 @@
+.popup-copy-link {
+  width: 252px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(26, 27, 34, 0.60);
+  border-radius: 14px;
+  text-align: center;
+  position: fixed;
+  top: calc(100vh / 2);
+  right: calc(100vw / 2.5);
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.5s, opacity 0.2s linear;
+  z-index: 2;
+
+  &_opened {
+    visibility: visible;
+    opacity: 1;
+  }
+
+
+  &__text {
+    padding: 12px 24px;
+    color: #FFFFFF;
+    font-family: Open Sans, sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 120%;
+  }
+}

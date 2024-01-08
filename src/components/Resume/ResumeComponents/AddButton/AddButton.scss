@@ -1,0 +1,22 @@
+.add-button {
+  height: 52px;
+  width: 100%;
+	padding: 15px 0;
+	color: #000;
+	text-align: center;
+	font-family: Open Sans, sans-serif;
+	font-size: 20px;
+	font-weight: 400;
+	line-height: 1.21;
+	border-radius: 16px;
+	border: 2px solid #1A1B22;
+	background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-button_inactive {
+  opacity: .5;
+	cursor: not-allowed;
+}

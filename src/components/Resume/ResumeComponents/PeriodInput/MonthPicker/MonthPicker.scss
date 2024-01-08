@@ -1,0 +1,113 @@
+.month__container {
+  position: relative;
+  display: flex;
+  width: 50%;
+}
+
+.month__input {
+  border-radius: 16px;
+  border: 1px solid #9f9f9f;
+  outline: #000;
+  background-color: #fff;
+  display: block;
+  opacity: 1;
+  width: 100%;
+  min-height: 22px;
+  padding: 12px;
+}
+
+.month__input:disabled {
+  border: 1px solid #9f9f9f;
+  background: #e6e6e6;
+}
+
+.month__input:active{
+  border-color: #000;
+  outline-offset: 0;
+}
+
+.month__input:focus {
+  border-color: #000;
+  outline-offset: 0;
+}
+
+.month__input_disabled {
+  background-color: #fafafa;
+}
+
+.month__container-list {
+  display: none;
+  position: absolute;
+  top: 48px;
+  left: 0px;
+  z-index: 1;
+  border: #000 solid 1px;
+  padding: 12px 9px;
+  width: 88%;
+  border-radius: 0px 0px 16px 16px;
+  background-color: #fff;
+}
+
+.month__input:active {
+  opacity: 0.75;
+  transition: opacity 0.1s ease;
+}
+
+.month__container:hover .month__container-list {
+  display: block;
+}
+
+.month__container:hover .month__input {
+  border-radius: 16px 16px 0 0;
+}
+
+.month__container:hover .month__input_disabled {
+  border-radius: 16px;
+}
+
+.month__grid-list {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: repeat(auto-fill, 23px);
+  background-color: #e0dfdf;
+  gap: 1px;
+}
+
+.month__button {
+  background-color: #fff;
+  color: #000;
+  text-align: center;
+  font-family: Inter;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.21;
+}
+
+.month__button_active {
+  background-color: #d6f3ff;
+}
+
+@media screen and (max-width: 1300px) {
+  .month__grid-list {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .month__container-list {
+    width: 85.5%;
+  }
+}
+
+@media screen and (max-width: 1269px) {
+
+  .month__container-list {
+    width: 84%;
+  }
+}
+
+@media screen and (max-width: 1238px) {
+
+  .month__container-list {
+    width: 84.5%;
+  }
+}

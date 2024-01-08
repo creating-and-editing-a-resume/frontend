@@ -1,0 +1,58 @@
+.period-input__container {
+  width: 100%;
+  display: flex;
+  gap: 22px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.period-input__container_year-only {
+  justify-content: flex-start;
+}
+
+.period-input__container_year-only-education {
+  width: 492px;
+  gap: 20px;
+}
+
+.period-input__inputs-container {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+}
+
+.period-input__inputs-container_year-only {
+  justify-content: flex-start;
+}
+
+.period-input__inputs-container_year-only-education {
+  width: 301px;
+}
+
+.period-input__inputs-container_year-only-first {
+  width: 168px;
+}
+
+.period-input__field {
+  width: 50%;
+  padding: 12px;
+}
+
+.period-input__field_year-only {
+  width: 100%;
+}
+
+.period-input__field_year-only-education {
+  width: 142px;
+}
+
+.period-input__checkbox-container {
+  margin-top: 12px;
+}
+
+.input-with-error {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}

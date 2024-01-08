@@ -1,0 +1,351 @@
+$line-height: 120%;
+$font-size: 12px;
+$font-weight: 600;
+$font-size-profile: 8.15px;
+
+.result-resume {
+  box-sizing: border-box;
+  padding: 40px;
+  width: 100%;
+  height: 100%;
+  place-items: stretch;
+  display: grid;
+  grid-template-columns: 108px 1fr 144px;
+  column-gap: 32px;
+  row-gap: 40px;
+  text-align: left;
+  background-color: #fff;
+  margin-bottom: 165px;
+
+  &_profile {
+    padding: 33px;
+    grid-template-columns: 71px 1fr 89px;
+    column-gap: 22px;
+    row-gap: 0;
+    margin-bottom: 0;
+  }
+
+  // Стили для блока с ФИО, фото, датой и местом рождения
+  &__user-name {
+    font-family:
+      Space Grotesk,
+      sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin: 11px 0 0;
+
+    &_profile {
+      margin: 7.5px 0 0;
+      font-size: 13.5px;
+    }
+  }
+
+  &__user-photo {
+    object-fit: cover;
+    display: grid;
+    grid-row: 1/2;
+    grid-column: 1/2;
+    max-width: 104px;
+    max-height: 104px;
+    border-radius: 50%;
+
+    &_profile {
+      max-width: 71px;
+      max-height: 71px;
+      margin-bottom: 24px;
+    }
+  }
+
+  &__user-info {
+    display: flex;
+    flex-direction: column;
+    row-gap: 14px;
+
+    &_profile {
+      row-gap: 9.5px;
+    }
+  }
+
+  &__user-desired-position {
+    font-size: $font-size;
+    line-height: $line-height;
+    margin: 0;
+
+    &_profile {
+      font-size: $font-size-profile;
+    }
+  }
+
+  &__user-birth-info-list {
+    display: flex;
+    padding: 0;
+    margin: 0;
+
+    &-item {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      // &:not(:first-child)::before {
+      //   content: '•';
+      //   display: inline-block;
+      //   margin: 5px 4px 3px;
+      //   font-size: 10px;
+      // }
+
+      &-element {
+        font-size: $font-size;
+        line-height: $line-height;
+        align-items: center;
+
+        &_profile {
+          font-size: $font-size-profile;
+        }
+      }
+    }
+  }
+
+  .result-resume__user-birth-info-list-item-element_point::before {
+    content: '•';
+    display: inline-block;
+    margin: 5px 4px 3px;
+    font-size: 10px;
+  }
+
+  // Стили основных блоков резюме
+  &__container {
+    grid-column: 1/3;
+    display: grid;
+    align-content: start;
+    grid-template-columns: 108px 1fr;
+    column-gap: 32px;
+    grid-template-rows: repeat(auto-fill, minmax(min-content, 1fr));
+    box-sizing: border-box;
+
+    &_profile {
+      grid-template-columns: 71px 1fr;
+      column-gap: 24px;
+    }
+  }
+
+  &__title {
+    border-bottom: 1px solid #c4c4c4;
+    padding-bottom: 8px;
+    margin-bottom: 28px;
+    font-size: 14px;
+    font-weight: $font-weight;
+    line-height: $line-height;
+    grid-column: 1/3;
+
+    &_contacts {
+      border-bottom: none;
+      margin-bottom: 16px;
+      padding: 0;
+    }
+
+    &_profile {
+      font-size: $font-size-profile;
+      padding-bottom: 7px;
+      margin-bottom: 19px;
+    }
+  }
+
+  &__children {
+    grid-column: 1/3;
+    grid-row: auto;
+    display: grid;
+    grid-template-columns: 108px 1fr;
+    column-gap: 32px;
+    margin-bottom: 40px;
+
+    &:last-child {
+      margin-bottom: 0px;
+    }
+
+    &_profile {
+      grid-template-columns: 71px 1fr;
+      column-gap: 8.15px;
+      margin-bottom: 25px;
+
+      &:last-child {
+        margin-bottom: 19px;
+      }
+    }
+  }
+
+  &__first-column {
+    grid-column: 1/2;
+    display: flex;
+    flex-direction: column;
+    row-gap: 12px;
+
+    &_profile {
+      row-gap: 8.15px;
+    }
+  }
+
+  &__date {
+    margin: 0;
+    font-size: $font-size;
+    font-weight: $font-weight;
+    line-height: $line-height;
+
+    &_profile {
+      font-size: $font-size-profile;
+    }
+  }
+
+  &__paragraph {
+    padding: 0;
+    margin: 0;
+    word-wrap: break-word;
+    font-size: $font-size;
+    line-height: $line-height;
+
+    &_about {
+      grid-column: 1/3;
+    }
+
+    &_position {
+      font-weight: 600;
+    }
+
+    &_contacts {
+      display: block;
+      padding-bottom: 12px;
+      text-decoration-line: underline;
+      color: #212121;
+
+      &-link {
+        cursor: pointer;
+
+        &:hover {
+          opacity: 0.5;
+        }
+      }
+
+      &:last-child {
+        padding-bottom: 0;
+      }
+    }
+
+    &_profile {
+      font-size: $font-size-profile;
+    }
+  }
+
+  &__organization {
+    font-size: $font-size;
+    line-height: $line-height;
+
+    &_profile {
+      font-size: $font-size-profile;
+    }
+  }
+
+  &__experience-company {
+    text-decoration-line: underline;
+    cursor: pointer;
+    color: #212121;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+
+  &__second-column {
+    grid-column: 2/3;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+
+    &_profile {
+      row-gap: 13px;
+    }
+  }
+
+  &__experience-duty-title {
+    margin: 0;
+    font-size: $font-size;
+    font-weight: $font-weight;
+    line-height: $line-height;
+
+    &_profile {
+      font-size: $font-size-profile;
+    }
+  }
+
+  &__project {
+    grid-column: 1/3;
+    margin-bottom: 40px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &_profile {
+      margin-bottom: 25px;
+    }
+  }
+
+  &__project-name {
+    font-size: $font-size;
+    font-weight: $font-weight;
+    line-height: $line-height;
+    padding: 0;
+    margin: 0;
+
+    &_profile {
+      font-size: $font-size-profile;
+    }
+  }
+
+  &__right-container {
+    grid-column: 3/4;
+    grid-row: 2/7;
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+
+    &-info {
+      grid-column: 3/4;
+    }
+  }
+
+  &__user-contacts {
+    grid-row-start: 2;
+  }
+
+  &__list-skills {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    row-gap: 12px;
+
+    &_profile {
+      row-gap: 8.15px;
+    }
+  }
+
+  &__list-item {
+    margin: 0;
+    padding: 0;
+  }
+
+  &__project-link {
+    color: #212121;
+    padding-left: 5px;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+}
+// для теста, потом можно удалить
+@media print {
+  @page {
+    margin: 10px;
+  }
+}

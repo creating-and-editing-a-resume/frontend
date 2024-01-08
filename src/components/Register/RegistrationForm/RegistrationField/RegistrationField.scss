@@ -1,0 +1,69 @@
+.registration-field {
+	position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.registration-field__input {
+	width: 261px;
+	height: 24px;
+	padding: 10px 10px 10px 16px;
+	font-family: Inter;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.21;
+	border-radius: 16px;
+	background: #fff;
+	border: 1px solid #9F9F9F;
+  outline: #000;
+}
+
+
+.registration-field__input_error {
+  border-color: #FF4B4B;
+}
+
+.registration-field__input:disabled {
+  border: 1px solid #9f9f9f;
+  background: #e6e6e6;
+}
+
+.registration-field__input:active {
+  border-color: #000;
+  outline-offset: 0;
+}
+
+.registration-field__input:focus {
+  border-color: #000;
+  outline-offset: 0;
+}
+.registration-field__eye {
+	background-image: url(../../../../img/eye-icon.svg);
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-color: transparent;
+	appearance: none;
+	border: none;
+	width: 24px;
+	height: 24px;
+	position: absolute;
+	top: 11px;
+	left: 255px;
+}
+
+.registration-field__eye_closed {
+  background-image: url(../../../../img/eye-closed-icon.svg);
+}
+
+/*Popup*/
+.registration-field__input_popup {
+	border-radius: 16px;
+	border: 1px solid #fff;
+	background: #fff;
+}
+
+.registration-field__input-error {
+  color: #fff;
+  text-align: left;
+  margin: 5px 10px 0;
+  font-size: 14px;
+}
