@@ -10,20 +10,20 @@ import DeleteIcon from '../../../img/trash-icon-red.svg'
 import ellipsesIcon from '../../../img/ellipses-icon.svg'
 import ResultResume from '../../Resume/ResultResume/ResultResume'
 import { handleGeneratePdf, copyToClipboard } from '../../Utils/Utils'
+import { CurrentArrValuesContext } from '../../../contexts/ArrValuesContext'
+import { CurrentResumeContext } from '../../../contexts/CurrentResumeContext'
 
 const Cv = ({
-  // isEditMod,
   cv,
   deletePopupSetState,
-  currentResume,
   setCurrentResume,
   setIsEditMod,
-  // setArrValues,
-  arrValues,
   setIsResumeNamePopupOpen,
   setPopupCopyLink,
   setPopupCopyLinkText,
 }) => {
+  const arrValues = React.useContext(CurrentArrValuesContext)
+  const currentResume = React.useContext(CurrentResumeContext)
   const resumePath = `/resume/result/${cv.id}`
   const navigate = useNavigate()
   const [isEditCvPopupOpen, setIsEditCvPopupOpen] = useState(false)
@@ -72,6 +72,7 @@ const Cv = ({
     setCurrentResume({ ...currentResume, ...cv })
     deletePopupSetState(true)
     setIsEditCvPopupOpen(false)
+    navigate('/my-profile')
   }
 
   useEffect(() => {
@@ -165,27 +166,6 @@ const Cv = ({
 }
 
 Cv.propTypes = {
-  // isEditMod: PropTypes.bool.isRequired,
-  // values: PropTypes.objectOf(
-  //   PropTypes.oneOfType([
-  //     PropTypes.string,
-  //     PropTypes.number,
-  //     PropTypes.bool,
-  //     PropTypes.arrayOf(
-  //       PropTypes.oneOfType([
-  //         PropTypes.string,
-  //         PropTypes.objectOf(
-  //           PropTypes.oneOfType([
-  //             PropTypes.string,
-  //             PropTypes.number,
-  //             PropTypes.bool,
-  //           ])
-  //         ),
-  //       ])
-  //     ),
-  //   ])
-  // ),
-  // setValues: PropTypes.func.isRequired,
   setIsEditMod: PropTypes.func,
   cv: PropTypes.objectOf(
     PropTypes.oneOfType([
@@ -204,50 +184,11 @@ Cv.propTypes = {
           ),
         ])
       ),
+      PropTypes.objectOf(PropTypes.bool),
     ])
   ),
   deletePopupSetState: PropTypes.func.isRequired,
   setCurrentResume: PropTypes.func,
-  currentResume: PropTypes.objectOf(
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-      PropTypes.bool,
-      PropTypes.arrayOf(
-        PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.objectOf(
-            PropTypes.oneOfType([
-              PropTypes.string,
-              PropTypes.number,
-              PropTypes.bool,
-            ])
-          ),
-        ])
-      ),
-    ])
-  ).isRequired,
-  arrValues: PropTypes.arrayOf(
-    PropTypes.objectOf(
-      PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-        PropTypes.bool,
-        PropTypes.arrayOf(
-          PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.objectOf(
-              PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.number,
-                PropTypes.bool,
-              ])
-            ),
-          ])
-        ),
-      ])
-    )
-  ).isRequired,
   setIsResumeNamePopupOpen: PropTypes.func.isRequired,
   setPopupCopyLink: PropTypes.func.isRequired,
   setPopupCopyLinkText: PropTypes.func.isRequired,

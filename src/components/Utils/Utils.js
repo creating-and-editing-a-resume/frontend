@@ -23,6 +23,8 @@ export function cleanLocalStorage() {
   localStorage.removeItem('isTillPresent')
   localStorage.removeItem('image')
   localStorage.removeItem('hasQualification')
+  localStorage.removeItem('hasEducation')
+  localStorage.removeItem('hasPortfolio')
 }
 
 export function copyToClipboard(

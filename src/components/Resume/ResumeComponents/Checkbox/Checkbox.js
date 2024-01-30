@@ -20,7 +20,7 @@ const Checkbox = ({
         type="checkbox"
         onClick={onClick}
         id={checkboxId}
-        disabled={disabled}
+        disabled={disabled === true}
         className="checkbox__input"
         onChange={handleCheckboxChange}
         checked={values[name]}

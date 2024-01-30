@@ -8,20 +8,34 @@ import ResumeTitle from '../ResumeComponents/ResumeTitle/ResumeTitle'
 import AddButton from '../ResumeComponents/AddButton/AddButton'
 import FormInput from '../ResumeComponents/FormInput/FormInput'
 import Project from './Project/Project'
+import { CurrentValuesContext } from '../../../contexts/ValuesContext'
 
 const Portfolio = ({
-  values,
   setValues,
   handleChangeWithValidation,
   handleAddPortfolioChange,
   setPortfolio,
+  handleCheckboxChange,
 }) => {
   // Если появился добавленное образование, основная кнопка "Добавить" удаляется
   const [noAddedProjects, setNoAddedProjects] = useState(true)
+  const values = React.useContext(CurrentValuesContext)
+
+  const handleTitleCheckboxClick = () => {
+    setValues(prevValues => ({
+      ...prevValues,
+      portfolio: [],
+      portfolio_checkbox: !prevValues.portfolio_checkbox,
+    }))
+    setNoAddedProjects(true)
+  }
 
   const addProject = () => {
     setNoAddedProjects(false)
-    setValues({ ...values, portfolio: [...values.portfolio, { id: uuidv4() }] })
+    setValues(prevValues => ({
+      ...prevValues,
+      portfolio: [...prevValues.portfolio, { id: uuidv4() }],
+    }))
   }
 
   const deleteProject = projectId => {
@@ -48,6 +62,13 @@ const Portfolio = ({
     <section className="portfolio">
       <ResumeTitle
         title="Проекты и портфолио"
+        name="portfolio_checkbox"
+        values={values}
+        handleCheckboxChange={handleCheckboxChange}
+        checkbox
+        checkboxText="Отсутствует"
+        checkboxId="title-portfolio-checkbox"
+        onClick={handleTitleCheckboxClick}
         handleBackToBasicRecommend={handleBackToBasicRecommend}
       />
       <div className="portfolio__form-container">
@@ -62,6 +83,8 @@ const Portfolio = ({
             values={values}
             handleChange={handleChangeWithValidation}
             label="Название проекта"
+            disabled={values.portfolio_checkbox}
+            setValues={setValues}
           />
         </div>
         <FormInput
@@ -71,6 +94,8 @@ const Portfolio = ({
           label="Краткое описание проекта"
           extraInputClass="portfolio"
           setPortfolio={setPortfolio}
+          disabled={values.portfolio_checkbox}
+          setValues={setValues}
         />
         <div
           className="portfolio__basic-recommend"
@@ -83,6 +108,8 @@ const Portfolio = ({
             values={values}
             handleChange={handleChangeWithValidation}
             label="Ссылка на проект"
+            disabled={values.portfolio_checkbox}
+            setValues={setValues}
           />
         </div>
         {values.portfolio.map(project => (
@@ -95,10 +122,14 @@ const Portfolio = ({
             handleChange={handleAddPortfolioChange}
             setPortfolio={setPortfolio}
             handleBackToBasicRecommend={handleBackToBasicRecommend}
+            disabled={values.portfolio_checkbox}
           />
         ))}
         {noAddedProjects && values.portfolio?.length === 0 && (
-          <AddButton handleClick={addProject} />
+          <AddButton
+            handleClick={addProject}
+            disabled={values.portfolio_checkbox}
+          />
         )}
       </div>
     </section>
@@ -106,33 +137,11 @@ const Portfolio = ({
 }
 
 Portfolio.propTypes = {
-  values: PropTypes.objectOf(
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-      PropTypes.bool,
-      PropTypes.arrayOf(
-        PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.objectOf(
-            PropTypes.oneOfType([
-              PropTypes.string,
-              PropTypes.number,
-              PropTypes.bool,
-            ])
-          ),
-        ])
-      ),
-    ])
-  ),
   setValues: PropTypes.func.isRequired,
   handleChangeWithValidation: PropTypes.func.isRequired,
   handleAddPortfolioChange: PropTypes.func.isRequired,
   setPortfolio: PropTypes.func.isRequired,
-}
-
-Portfolio.defaultProps = {
-  values: {},
+  handleCheckboxChange: PropTypes.func.isRequired,
 }
 
 export default Portfolio

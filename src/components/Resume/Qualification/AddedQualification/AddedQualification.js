@@ -8,7 +8,6 @@ import PlusIcon from '../../../../img/plus-icon.svg'
 import TrashIcon from '../../../../img/trash-icon-red.svg'
 
 const AddedQualification = ({
-  hasQualification,
   addQualification,
   deleteQualification,
   i,
@@ -18,6 +17,7 @@ const AddedQualification = ({
   allValues,
   setQualifications,
   handleBackToBasicRecommend,
+  disabled,
 }) => {
   const handleDelete = () => deleteQualification(i)
   return (
@@ -34,7 +34,7 @@ const AddedQualification = ({
             values={values}
             handleChange={handleChange}
             label="Проводившая организация"
-            disabled={!hasQualification}
+            disabled={disabled}
             id={i}
           />
           <FormInput
@@ -42,7 +42,7 @@ const AddedQualification = ({
             values={values}
             handleChange={handleChange}
             label="Название курса"
-            disabled={!hasQualification}
+            disabled={disabled}
             id={i}
           />
           <FormInput
@@ -50,14 +50,14 @@ const AddedQualification = ({
             values={values}
             handleChange={handleChange}
             label="Специальность"
-            disabled={!hasQualification}
+            disabled={disabled}
             id={i}
           />
           <PeriodInput
             labelOne="Дата начала"
             labelTwo="Дата окончания"
             month
-            disabled={!hasQualification}
+            disabled={disabled}
             i={i}
             values={values}
             handleChange={handleChange}
@@ -73,7 +73,7 @@ const AddedQualification = ({
             handleChange={handleChange}
             label="Описание полученного опыта"
             extraInputClass="qualification-experience"
-            disabled={!hasQualification}
+            disabled={disabled}
             id={i}
           />
         </div>
@@ -83,7 +83,7 @@ const AddedQualification = ({
           handleChange={handleChange}
           label="Навыки"
           extraInputClass="qualification-skills"
-          disabled={!hasQualification}
+          disabled={disabled}
           id={i}
           setQualifications={setQualifications}
         />
@@ -98,7 +98,7 @@ const AddedQualification = ({
             values={values}
             handleChange={handleChange}
             label="Ссылка на дипломную работу"
-            disabled={!hasQualification}
+            disabled={disabled}
             id={i}
           />
         </div>
@@ -126,7 +126,6 @@ const AddedQualification = ({
 }
 
 AddedQualification.propTypes = {
-  hasQualification: PropTypes.bool.isRequired,
   addQualification: PropTypes.func.isRequired,
   deleteQualification: PropTypes.func.isRequired,
   i: PropTypes.string.isRequired,
@@ -156,6 +155,7 @@ AddedQualification.propTypes = {
       ),
     ])
   ),
+  disabled: PropTypes.bool.isRequired,
 }
 
 AddedQualification.defaultProps = {

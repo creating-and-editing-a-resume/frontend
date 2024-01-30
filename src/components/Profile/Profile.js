@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useContext } from 'react'
 import PropTypes from 'prop-types'
 import './Profile.scss'
@@ -17,28 +16,24 @@ import {
   validationPassword,
   validationEmail,
   validationPhone,
+  deleteNonLatin,
 } from '../../constants/validation'
+import { CurrentArrValuesContext } from '../../contexts/ArrValuesContext'
 
 function Profile({
   setIsLoggedIn,
   isEditMod,
   setCurrentResume,
-  currentResume,
   isLoggedIn,
   deletePopupSetState,
   setCurrentUser,
   imageProfile,
   setImageProfile,
-  arrValues,
   setArrValues,
   setIsEditMod,
-  values,
   setValues,
   setIsResumeNamePopupOpen,
-  setImage,
-  setHasQualification,
-  setHasExperience,
-  setAllTillPresent,
+  clearData,
 }) {
   const nextPage = '/*'
   const [isProfileData, setIsProfileData] = useState(true)
@@ -46,6 +41,7 @@ function Profile({
   const [popupCopyLink, setPopupCopyLink] = useState(false)
   const [popupCopyLinkText, setPopupCopyLinkText] = useState('')
   const currentUser = useContext(CurrentUserContext)
+  const arrValues = useContext(CurrentArrValuesContext)
 
   // Объект, который содержит текст ошибки во вкладке "профиль"
   const [errorsUserInfo, setErrorsUserInfo] = useState({
@@ -206,6 +202,23 @@ function Profile({
     setCurrentUser({ ...currentUser, [name]: value })
   }
 
+  // Функция, которая накладывает маску на поле телеграм и собирает данные
+  function checkTgInput(name, value) {
+    const cleanValue = deleteNonLatin(value)
+    if (cleanValue === '') {
+      setCurrentUser({ ...currentUser, [name]: '' })
+    } else if (cleanValue === 'https://t.me/') {
+      setCurrentUser({ ...currentUser, [name]: '' })
+    } else if (cleanValue.includes('https://t.me/')) {
+      setCurrentUser({ ...currentUser, [name]: cleanValue })
+    } else {
+      setCurrentUser({
+        ...currentUser,
+        [name]: `https://t.me/${cleanValue}`,
+      })
+    }
+  }
+
   // Функция, которая собирает и валидирует поля с данными пользователя во вкладке "контакты"
   function handleChangeUserContacts(evt) {
     const { name, value } = evt.target
@@ -218,6 +231,7 @@ function Profile({
         setErrorsUserContacts,
         errorsUserContacts
       )
+      setCurrentUser(prevValues => ({ ...prevValues, [name]: value }))
     }
 
     if (name === 'phone') {
@@ -228,13 +242,13 @@ function Profile({
         setErrorsUserContacts,
         errorsUserContacts
       )
+      setCurrentUser(prevValues => ({ ...prevValues, [name]: value }))
     }
 
     if (name === 'telegram') {
+      checkTgInput(name, value)
       setIsValidUserContacts({ ...isValidUserContacts, telegram: true })
     }
-
-    setCurrentUser(prevValues => ({ ...prevValues, [name]: value }))
   }
 
   // Функция, которая собирает и валидирует поля с подтверждением пароля во вкладке "профиль"
@@ -344,11 +358,7 @@ function Profile({
         isLoggedIn={isLoggedIn}
         nextPage={nextPage}
         setIsEditMod={setIsEditMod}
-        setValues={setValues}
-        setImage={setImage}
-        setHasExperience={setHasExperience}
-        setHasQualification={setHasQualification}
-        setAllTillPresent={setAllTillPresent}
+        clearData={clearData}
       />
       <main className="profile">
         <h1 className="profile__title">Личный кабинет</h1>
@@ -627,14 +637,11 @@ function Profile({
                 <Cv
                   isEditMod={isEditMod}
                   setCurrentResume={setCurrentResume}
-                  currentResume={currentResume}
-                  arrValues={arrValues}
                   setArrValues={setArrValues}
                   key={cv.id}
                   cv={cv}
                   deletePopupSetState={deletePopupSetState}
                   setIsEditMod={setIsEditMod}
-                  values={values}
                   setValues={setValues}
                   setIsResumeNamePopupOpen={setIsResumeNamePopupOpen}
                   setPopupCopyLink={setPopupCopyLink}
@@ -653,88 +660,22 @@ function Profile({
 Profile.propTypes = {
   setIsLoggedIn: PropTypes.func.isRequired,
   isEditMod: PropTypes.bool.isRequired,
-  values: PropTypes.objectOf(
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-      PropTypes.bool,
-      PropTypes.arrayOf(
-        PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.objectOf(
-            PropTypes.oneOfType([
-              PropTypes.string,
-              PropTypes.number,
-              PropTypes.bool,
-            ])
-          ),
-        ])
-      ),
-    ])
-  ).isRequired,
   setValues: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   deletePopupSetState: PropTypes.func.isRequired,
-  // errors: PropTypes.objectOf(
-  //   PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-  // ).isRequired,
   setCurrentUser: PropTypes.func.isRequired,
   imageProfile: PropTypes.string,
   setImageProfile: PropTypes.func.isRequired,
-  arrValues: PropTypes.arrayOf(
-    PropTypes.objectOf(
-      PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-        PropTypes.bool,
-        PropTypes.arrayOf(
-          PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.objectOf(
-              PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.number,
-                PropTypes.bool,
-              ])
-            ),
-          ])
-        ),
-      ])
-    )
-  ).isRequired,
   setArrValues: PropTypes.func.isRequired,
   setCurrentResume: PropTypes.func.isRequired,
-  currentResume: PropTypes.objectOf(
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-      PropTypes.bool,
-      PropTypes.arrayOf(
-        PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.objectOf(
-            PropTypes.oneOfType([
-              PropTypes.string,
-              PropTypes.number,
-              PropTypes.bool,
-            ])
-          ),
-        ])
-      ),
-    ])
-  ).isRequired,
   setIsEditMod: PropTypes.func,
   setIsResumeNamePopupOpen: PropTypes.func.isRequired,
-  setImage: PropTypes.func,
-  setHasExperience: PropTypes.func.isRequired,
-  setHasQualification: PropTypes.func.isRequired,
-  setAllTillPresent: PropTypes.func.isRequired,
+  clearData: PropTypes.func.isRequired,
 }
 
 Profile.defaultProps = {
   imageProfile: '',
   setIsEditMod: () => {},
-  setImage: () => {},
 }
 
 export default Profile

@@ -9,6 +9,8 @@ export const exampleObject = {
   work_period_experience_checkbox: false,
   education_period_checkbox: false,
   qualification_checkbox: false,
+  portfolio_checkbox: false,
+  education_checkbox: false,
   languages: [
     {
       id: '146664e2-f6c8-4ca0-bc7a-1075afe14fab',

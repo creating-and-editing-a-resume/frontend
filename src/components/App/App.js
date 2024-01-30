@@ -11,6 +11,9 @@ import {
   useLocation,
 } from 'react-router-dom'
 import { CurrentUserContext } from '../../contexts/CurrentUserContext'
+import { CurrentValuesContext } from '../../contexts/ValuesContext'
+import { CurrentArrValuesContext } from '../../contexts/ArrValuesContext'
+import { CurrentResumeContext } from '../../contexts/CurrentResumeContext'
 import Main from '../Main/Main'
 import Profession from '../Profession/Profession'
 import Resume from '../Resume/Resume'
@@ -32,7 +35,6 @@ import {
 import About from '../Resume/About/About'
 import Education from '../Resume/Education/Education'
 import Experience from '../Resume/Experience/Experience'
-// import Layouts from '../Resume/Layouts/Layouts'
 import PersonalData from '../Resume/PersonalData/PersonalData'
 import Portfolio from '../Resume/Portfolio/Portfolio'
 import Qualification from '../Resume/Qualification/Qualification'
@@ -86,21 +88,22 @@ function App() {
       work_experience_checkbox: false,
       work_period_experience_checkbox: false,
       education_period_checkbox: false,
+      education_checkbox: false,
       qualification_checkbox: false,
+      portfolio_checkbox: false,
       languages: [{ id: uuidv4() }],
       links: [{ id: uuidv4() }],
       jobs: [],
       qualifications: [],
       educations: [],
       portfolio: [],
+      id: uuidv4(),
     }
   )
 
   const [arrValues, setArrValues] = useState(
     JSON.parse(localStorage.getItem('allData')) || [exampleObject]
   )
-
-  // console.log(values)
 
   const [languagesAfterChanges, setLanguagesChanges] = useState(
     values.languages
@@ -118,18 +121,6 @@ function App() {
   const [portfolio, setPortfolio] = useState(false)
   const [about, setAbout] = useState(false)
 
-  // // Если опыт есть, поля активны. Если нет, поля деактивируются:
-  const [hasExperience, setHasExperience] = React.useState(
-    JSON.parse(localStorage.getItem('hasExperience') || true)
-  )
-  // Если повышение квалицикации есть, поля активны. Если нет, поля деактивируются:
-  const [hasQualification, setHasQualification] = React.useState(
-    JSON.parse(localStorage.getItem('hasQualification') || true)
-  )
-  // Записываем данные isTillPresent в один объект
-  const [allTillPresent, setAllTillPresent] = React.useState(
-    JSON.parse(localStorage.getItem('isTillPresent')) || {}
-  )
   const [errors, setErrors] = useState({})
   // Сохраняем ссылку изображения в переменную и вытягиваем из локального хранилища данные
   const [image, setImage] = React.useState(localStorage.getItem('image') || '')
@@ -151,7 +142,6 @@ function App() {
     React.useState(false)
   const [completedStepsSkills, setCompletedStepsSkills] = React.useState(false)
   const [completedStepsAbout, setCompletedStepsAbout] = React.useState(false)
-  // const [completedLayouts, setCompletedLayouts] = React.useState(false)
 
   // --------------------------- Работа с данными через локальное хранилище ----------------------
 
@@ -161,9 +151,6 @@ function App() {
   }, [currentResume])
 
   useEffect(() => {
-    if (location.pathname === '/resume/result' && !isEditMod && !values.id) {
-      setValues({ ...values, id: uuidv4() })
-    }
     localStorage.setItem('allData', JSON.stringify(arrValues))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname])
@@ -171,6 +158,34 @@ function App() {
   useEffect(() => {
     setValues(prevValues => ({ ...prevValues, img: image }))
   }, [image])
+
+  // Функция очищает объекты данных
+  const clearData = () => {
+    setValues({
+      name: isLoggedIn ? currentUser.name : '',
+      surname: isLoggedIn ? currentUser.surname : '',
+      birthday: isLoggedIn ? currentUser.birthday : '',
+      telegram: isLoggedIn ? currentUser.telegram : '',
+      phone: isLoggedIn ? currentUser.phone : '',
+      work_status: '',
+      email: isLoggedIn ? currentUser.email : '',
+      city: isLoggedIn ? currentUser.city : '',
+      work_experience_checkbox: false,
+      work_period_experience_checkbox: false,
+      education_period_checkbox: false,
+      qualification_checkbox: false,
+      education_checkbox: false,
+      portfolio_checkbox: false,
+      languages: [{ id: uuidv4() }],
+      links: [{ id: uuidv4() }],
+      jobs: [],
+      qualifications: [],
+      educations: [],
+      portfolio: [],
+      id: uuidv4(),
+    })
+    setImage(isLoggedIn ? currentUser.imageProfile : '')
+  }
 
   // Функция, которая записывает данные дополнительных полей опыта работы
   const handleAddJobChange = evt => {
@@ -185,7 +200,7 @@ function App() {
       }
       return job
     })
-    setValues({ ...values, jobs: updatedJobs })
+    setValues(prevValues => ({ ...prevValues, jobs: updatedJobs }))
   }
 
   // Функция, которая записывает данные ополнительных чекбоксов опыта работы
@@ -201,7 +216,7 @@ function App() {
       }
       return job
     })
-    setValues({ ...values, jobs: updatedJobs })
+    setValues(prevValues => ({ ...prevValues, jobs: updatedJobs }))
   }
 
   // Функция, которая записывает данные дополнительных полей с квалификацией
@@ -213,7 +228,10 @@ function App() {
       }
       return qual
     })
-    setValues({ ...values, qualifications: updatedQualification })
+    setValues(prevValues => ({
+      ...prevValues,
+      qualifications: updatedQualification,
+    }))
   }
 
   // Функция, которая записывает данные дополнительных полей с образованием
@@ -225,7 +243,10 @@ function App() {
       }
       return education
     })
-    setValues({ ...values, educations: updatedEducation })
+    setValues(prevValues => ({
+      ...prevValues,
+      educations: updatedEducation,
+    }))
   }
 
   // Функция, которая записывает данные чекбоксов дополнительных полей с образованием
@@ -241,7 +262,10 @@ function App() {
       }
       return education
     })
-    setValues({ ...values, educations: updatedEducation })
+    setValues(prevValues => ({
+      ...prevValues,
+      educations: updatedEducation,
+    }))
   }
 
   // Функция, которая записывает данные дополнительных полей с портфолио
@@ -253,7 +277,10 @@ function App() {
       }
       return p
     })
-    setValues({ ...values, portfolio: updatedPortfolio })
+    setValues(prevValues => ({
+      ...prevValues,
+      portfolio: updatedPortfolio,
+    }))
   }
 
   const addLink = () => {
@@ -298,8 +325,8 @@ function App() {
 
   // Функция, которая записывает данные основных чекбоксов
   const handleCheckboxChange = evt => {
-    const { name } = evt.target
-    setValues(prevValues => ({ ...prevValues, [name]: !prevValues[name] }))
+    const { name, checked } = evt.target
+    setValues(prevValues => ({ ...prevValues, [name]: checked }))
   }
 
   function deleteNonLatin(text) {
@@ -322,11 +349,12 @@ function App() {
   // Функция, которая записывает данные полей форм
   const handleChange = evt => {
     const { name, value } = evt.target
+
     const cleanValue = deleteNonLatin(value)
     if (name === 'telegram') {
       checkTgInput(name, cleanValue)
     } else {
-      setValues({ ...values, [name]: value })
+      setValues(prevValues => ({ ...prevValues, [name]: value }))
     }
     setErrors({ ...errors, [name]: evt.target.validationMessage })
   }
@@ -449,11 +477,9 @@ function App() {
       }
     }
   }
-
   // INPUTS  VALIDATION:
   const handleChangeWithValidation = evt => {
     handleChange(evt)
-    // console.log(isValid)
     const { name, value } = evt.target
     if (name === 'name' && !NAME_REGEX.test(value)) {
       setErrors({
@@ -793,14 +819,9 @@ function App() {
       ) {
         setInputsAreNotEmpty(true)
       } else {
-        localStorage.setItem('hasExperience', JSON.stringify(hasExperience))
-        localStorage.setItem('isTillPresent', JSON.stringify(allTillPresent))
+        // localStorage.setItem('isTillPresent', JSON.stringify(allTillPresent))
         localStorage.setItem('image', image)
         localStorage.setItem('formData', JSON.stringify(formData))
-        localStorage.setItem(
-          'hasQualification',
-          JSON.stringify(hasQualification)
-        )
       }
       // console.log(errors)
       setErrors(object)
@@ -812,7 +833,6 @@ function App() {
     // }
 
     if (location.pathname === '/resume/experience') {
-      // console.log(inputsAreNotEmpty)
       if (!formData.work_experience_checkbox) {
         if (formData.company === undefined || formData.company === '') {
           object = {
@@ -893,19 +913,14 @@ function App() {
         ) {
           setInputsAreNotEmpty(true)
         } else {
-          localStorage.setItem('hasExperience', JSON.stringify(hasExperience))
-          localStorage.setItem('isTillPresent', JSON.stringify(allTillPresent))
-          localStorage.setItem('image', image)
           localStorage.setItem('formData', JSON.stringify(formData))
-          localStorage.setItem(
-            'hasQualification',
-            JSON.stringify(hasQualification)
-          )
         }
         setErrors(object)
       }
       // else setInputsAreNotEmpty(true)
     }
+    localStorage.setItem('image', image)
+    localStorage.setItem('formData', JSON.stringify(formData))
   }
   //  else {
   //   setErrors({})
@@ -914,7 +929,6 @@ function App() {
   // console.log(errors)
 
   /* ----------------------------------------- Popup -----------------------------------------------------*/
-
   // закрытие попапа
   const closeAllPopup = () => {
     setIsLoginPopupOpen(false)
@@ -954,10 +968,7 @@ function App() {
       path: 'personal-data',
       element: (
         <PersonalData
-          values={values}
           handleChange={handleChange}
-          // handleLanguageChange={handleLanguageChange}
-          // handleLanguageLevelChange={handleLanguageLevelChange}
           setLanguagesChanges={setLanguagesChanges}
           setValues={setValues}
           addLanguage={addLanguage}
@@ -977,14 +988,8 @@ function App() {
       path: 'experience',
       element: (
         <Experience
-          values={values}
-          handleChange={handleChange}
           handleCheckboxChange={handleCheckboxChange}
-          hasExperience={hasExperience}
-          setHasExperience={setHasExperience}
           setValues={setValues}
-          setAllTillPresent={setAllTillPresent}
-          allTillPresent={allTillPresent}
           setDuties={setDuties}
           errors={errors}
           handleChangeWithValidation={handleChangeWithValidation}
@@ -1001,9 +1006,6 @@ function App() {
       element: (
         <Qualification
           handleCheckboxChange={handleCheckboxChange}
-          setHasQualification={setHasQualification}
-          hasQualification={hasQualification}
-          values={values}
           handleChangeWithValidation={handleChangeWithValidation}
           setValues={setValues}
           handleAddQualificationChange={handleAddQualificationChange}
@@ -1017,12 +1019,9 @@ function App() {
       path: 'education',
       element: (
         <Education
-          values={values}
           handleChangeWithValidation={handleChangeWithValidation}
           setValues={setValues}
           handleCheckboxChange={handleCheckboxChange}
-          setAllTillPresent={setAllTillPresent}
-          allTillPresent={allTillPresent}
           handleAddEducationChange={handleAddEducationChange}
           handleAddEducationCheckboxChange={handleAddEducationCheckboxChange}
         />
@@ -1039,6 +1038,7 @@ function App() {
           handleChangeWithValidation={handleChangeWithValidation}
           handleAddPortfolioChange={handleAddPortfolioChange}
           setPortfolio={setPortfolio}
+          handleCheckboxChange={handleCheckboxChange}
         />
       ),
       id: 5,
@@ -1046,7 +1046,7 @@ function App() {
     },
     {
       path: 'skills',
-      element: <Skills values={values} setValues={setValues} />,
+      element: <Skills setValues={setValues} />,
       id: 6,
       completedSteps: completedStepsSkills,
     },
@@ -1054,7 +1054,6 @@ function App() {
       path: 'about',
       element: (
         <About
-          values={values}
           handleChangeWithValidation={handleChangeWithValidation}
           setAbout={setAbout}
         />
@@ -1062,12 +1061,6 @@ function App() {
       id: 7,
       completedSteps: completedStepsAbout,
     },
-    // {
-    //   path: 'layouts',
-    //   element: <Layouts />,
-    //   id: 8,
-    //   completedSteps: completedLayouts,
-    // },
     {
       path: 'result',
       element: <Result values={values} setIsTempResume={setIsTempResume} />,
@@ -1091,234 +1084,221 @@ function App() {
 
   return (
     <div className="app">
-      <CurrentUserContext.Provider value={currentUser}>
-        <Routes>
-          <Route
-            path="/signup"
-            element={
-              isLoggedIn ? (
-                <Navigate to="/" replace />
-              ) : (
-                <Register
-                  onRegister={handleRegister}
-                  isOpen={isRegisterPopupOpen}
+      <CurrentResumeContext.Provider value={currentResume}>
+        <CurrentArrValuesContext.Provider value={arrValues}>
+          <CurrentValuesContext.Provider value={values}>
+            <CurrentUserContext.Provider value={currentUser}>
+              <Routes>
+                <Route
+                  path="/signup"
+                  element={
+                    isLoggedIn ? (
+                      <Navigate to="/" replace />
+                    ) : (
+                      <Register
+                        onRegister={handleRegister}
+                        isOpen={isRegisterPopupOpen}
+                      />
+                    )
+                  }
                 />
-              )
-            }
-          />
-          <Route
-            path="/signin"
-            element={
-              isLoggedIn ? (
-                <Navigate to="/" replace />
-              ) : (
-                <Login
-                  onLogin={handleLogin}
-                  isOpen={isLoginPopupOpen}
-                  isLoggedIn={isLoggedIn}
+                <Route
+                  path="/signin"
+                  element={
+                    isLoggedIn ? (
+                      <Navigate to="/" replace />
+                    ) : (
+                      <Login
+                        onLogin={handleLogin}
+                        isOpen={isLoginPopupOpen}
+                        isLoggedIn={isLoggedIn}
+                      />
+                    )
+                  }
                 />
-              )
-            }
-          />
-          <Route
-            path="/my-profile"
-            element={
-              <ProtectedRoute
-                element={Profile}
-                isEditMod={isEditMod}
-                values={values}
-                setValues={setValues}
-                isLoggedIn={isLoggedIn}
-                deletePopupSetState={setIsConfirmDeletePopupOpen}
-                errors={errors}
-                setErrors={setErrors}
-                setCurrentUser={setCurrentUser}
-                imageProfile={imageProfile}
-                setImageProfile={setImageProfile}
-                arrValues={arrValues}
-                setArrValues={setArrValues}
-                setCurrentResume={setCurrentResume}
-                currentResume={currentResume}
-                setIsEditMod={setIsEditMod}
-                setIsResumeNamePopupOpen={setIsResumeNamePopupOpen}
-                setImage={setImage}
-                setHasQualification={setHasQualification}
-                setHasExperience={setHasExperience}
-                setAllTillPresent={setAllTillPresent}
-                setIsLoggedIn={setIsLoggedIn}
+                <Route
+                  path="/my-profile"
+                  element={
+                    <ProtectedRoute
+                      element={Profile}
+                      isEditMod={isEditMod}
+                      setValues={setValues}
+                      isLoggedIn={isLoggedIn}
+                      deletePopupSetState={setIsConfirmDeletePopupOpen}
+                      errors={errors}
+                      setErrors={setErrors}
+                      setCurrentUser={setCurrentUser}
+                      imageProfile={imageProfile}
+                      setImageProfile={setImageProfile}
+                      setArrValues={setArrValues}
+                      setCurrentResume={setCurrentResume}
+                      setIsEditMod={setIsEditMod}
+                      setIsResumeNamePopupOpen={setIsResumeNamePopupOpen}
+                      setIsLoggedIn={setIsLoggedIn}
+                      clearData={clearData}
+                    />
+                  }
+                />
+                <Route
+                  path="/"
+                  element={
+                    <Main
+                      setIsLoggedIn={setIsLoggedIn}
+                      isLoggedIn={isLoggedIn}
+                      onOpenPopup={handleConfirmRegPopupOpen}
+                      isValid={isValid}
+                      inputsAreNotEmpty={inputsAreNotEmpty}
+                      clearData={clearData}
+                    />
+                  }
+                />
+                <Route
+                  path="/profession"
+                  element={
+                    <Profession
+                      isLoggedIn={isLoggedIn}
+                      onOpenPopup={handleConfirmDeletePopupOpen}
+                    />
+                  }
+                />
+                <Route
+                  path="/resume"
+                  element={
+                    <Resume
+                      setArrValues={setArrValues}
+                      setIsEditMod={setIsEditMod}
+                      isEditMod={isEditMod}
+                      isLoggedIn={isLoggedIn}
+                      isValid={isValid}
+                      inputsAreNotEmpty={inputsAreNotEmpty}
+                      onOpenPopup={
+                        isLoggedIn
+                          ? handleConfirmExitPopupOpen
+                          : handleConfirmDeletePopupOpen
+                      }
+                      setCompletedStepsPersonalData={
+                        setCompletedStepsPersonalData
+                      }
+                      setCompletedStepsExperience={setCompletedStepsExperience}
+                      setCompletedStepsQualification={
+                        setCompletedStepsQualification
+                      }
+                      setCompletedStepsEducation={setCompletedStepsEducation}
+                      setCompletedStepsPortfolio={setCompletedStepsPortfolio}
+                      setCompletedStepsSkills={setCompletedStepsSkills}
+                      setCompletedStepsAbout={setCompletedStepsAbout}
+                      onClick={handleClick}
+                      onClickMyProfile={handleClickMyProfile}
+                      duties={duties}
+                      qualifications={qualifications}
+                      portfolio={portfolio}
+                      about={about}
+                      handleResumeNamePopupOpen={handleResumeNamePopupOpen}
+                      handleConfirmRegPopupOpen={handleConfirmRegPopupOpen}
+                      handleRegisterPopupOpen={handleRegisterPopupOpen}
+                      clearData={clearData}
+                    />
+                  }
+                >
+                  <Route index element={<Navigate to="personal-data" />} />
+                  {routesResumeArr.map((route, i) => (
+                    <Route
+                      path={route.path}
+                      element={
+                        i === 0 || routesResumeArr[i - 1].completedSteps ? (
+                          route.element
+                        ) : (
+                          <Navigate to="/resume" replace />
+                        )
+                      }
+                      key={route.id}
+                    />
+                  ))}
+                </Route>
+                {/* отрисовка путей-компонентов под каждое готовое резюме  */}
+                {arrValues.map(resume => (
+                  <Route
+                    key={resume.id}
+                    path={`/resume/result/${resume.id}`}
+                    element={
+                      <ResultResume
+                        values={resume}
+                        isLoggedIn={isLoggedIn}
+                        onOpenPopup={handleConfirmExitPopupOpen}
+                        image={image}
+                      />
+                    }
+                  />
+                ))}
+                {/* отрисовка пути-компонента под временное резюме  */}
+                {values.id && (
+                  <Route
+                    path={`/resume/result/${values.id}`}
+                    element={
+                      <ResultResume
+                        isLoggedIn={isLoggedIn}
+                        onOpenPopup={handleConfirmExitPopupOpen}
+                        image={image}
+                      />
+                    }
+                  />
+                )}
+
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+              {/* Попап регистрации */}
+              <PopupRegister
+                isOpen={isRegisterPopupOpen}
+                onClose={closeAllPopup}
+                onRegister={handleRegister}
+                onLogin={handleLoginPopupOpen}
               />
-            }
-          />
-          <Route
-            path="/"
-            element={
-              <Main
-                setIsLoggedIn={setIsLoggedIn}
-                isLoggedIn={isLoggedIn}
-                onOpenPopup={handleConfirmRegPopupOpen}
-                isValid={isValid}
-                inputsAreNotEmpty={inputsAreNotEmpty}
-                setValues={setValues}
-                setImage={setImage}
-                setHasExperience={setHasExperience}
-                setHasQualification={setHasQualification}
-                setAllTillPresent={setAllTillPresent}
-              />
-            }
-          />
-          <Route
-            path="/profession"
-            element={
-              <Profession
-                isLoggedIn={isLoggedIn}
-                onOpenPopup={handleConfirmDeletePopupOpen}
-              />
-            }
-          />
-          <Route
-            path="/resume"
-            element={
-              <Resume
-                setArrValues={setArrValues}
-                arrValues={arrValues}
-                values={values}
-                setValues={setValues}
-                setIsEditMod={setIsEditMod}
-                isEditMod={isEditMod}
-                isLoggedIn={isLoggedIn}
-                isValid={isValid}
-                inputsAreNotEmpty={inputsAreNotEmpty}
-                onOpenPopup={
-                  isLoggedIn
-                    ? handleConfirmExitPopupOpen
-                    : handleConfirmDeletePopupOpen
-                }
-                setCompletedStepsPersonalData={setCompletedStepsPersonalData}
-                setCompletedStepsExperience={setCompletedStepsExperience}
-                setCompletedStepsQualification={setCompletedStepsQualification}
-                setCompletedStepsEducation={setCompletedStepsEducation}
-                setCompletedStepsPortfolio={setCompletedStepsPortfolio}
-                setCompletedStepsSkills={setCompletedStepsSkills}
-                setCompletedStepsAbout={setCompletedStepsAbout}
-                // setCompletedLayouts={setCompletedLayouts}
-                onClick={handleClick}
-                onClickMyProfile={handleClickMyProfile}
-                duties={duties}
-                qualifications={qualifications}
-                portfolio={portfolio}
-                about={about}
-                handleResumeNamePopupOpen={handleResumeNamePopupOpen}
-                handleConfirmRegPopupOpen={handleConfirmRegPopupOpen}
-                setHasExperience={setHasExperience}
-                setHasQualification={setHasQualification}
-                setAllTillPresent={setAllTillPresent}
+              {/* Попап авторизации */}
+              <PopupLogin
+                isOpen={isLoginPopupOpen}
+                onClose={closeAllPopup}
+                onLogin={handleLogin}
                 handleRegisterPopupOpen={handleRegisterPopupOpen}
               />
-            }
-          >
-            <Route index element={<Navigate to="personal-data" />} />
-            {routesResumeArr.map((route, i) => (
-              <Route
-                path={route.path}
-                element={
-                  i === 0 || routesResumeArr[i - 1].completedSteps ? (
-                    route.element
-                  ) : (
-                    <Navigate to="/resume" replace />
-                  )
-                }
-                key={route.id}
+              {/* Попап подтверждения выхода */}
+              <PopupConfirmationExit
+                isOpen={isConfirmExitPopupOpen}
+                onClose={closeAllPopup}
+                handleResumeNamePopupOpen={handleResumeNamePopupOpen}
+                isEditMod={isEditMod}
+                setArrValues={setArrValues}
+                setIsEditMod={setIsEditMod}
+                clearData={clearData}
               />
-            ))}
-          </Route>
-          {/* отрисовка путей-компонентов под каждое готовое резюме  */}
-          {arrValues.map(resume => (
-            <Route
-              key={resume.id}
-              path={`/resume/result/${resume.id}`}
-              element={
-                <ResultResume
-                  values={resume}
-                  isLoggedIn={isLoggedIn}
-                  onOpenPopup={handleConfirmExitPopupOpen}
-                  image={image}
-                />
-              }
-            />
-          ))}
-          {/* отрисовка пути-компонента под временное резюме  */}
-          {values.id && (
-            <Route
-              path={`/resume/result/${values.id}`}
-              element={
-                <ResultResume
-                  values={values}
-                  isLoggedIn={isLoggedIn}
-                  onOpenPopup={handleConfirmExitPopupOpen}
-                  image={image}
-                />
-              }
-            />
-          )}
-
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        {/* Попап регистрации */}
-        <PopupRegister
-          isOpen={isRegisterPopupOpen}
-          onClose={closeAllPopup}
-          onRegister={handleRegister}
-          onLogin={handleLoginPopupOpen}
-        />
-        {/* Попап авторизации */}
-        <PopupLogin
-          isOpen={isLoginPopupOpen}
-          onClose={closeAllPopup}
-          onLogin={handleLogin}
-          handleRegisterPopupOpen={handleRegisterPopupOpen}
-        />
-        {/* Попап подтверждения выхода */}
-        <PopupConfirmationExit
-          isOpen={isConfirmExitPopupOpen}
-          onClose={closeAllPopup}
-          handleResumeNamePopupOpen={handleResumeNamePopupOpen}
-          setValues={setValues}
-          setImage={setImage}
-          isEditMod={isEditMod}
-          setArrValues={setArrValues}
-          arrValues={arrValues}
-          values={values}
-          setIsEditMod={setIsEditMod}
-        />
-        {/* попап добавления имени резюме */}
-        <PopupResumeName
-          isOpen={isResumeNamePopupOpen}
-          onClose={closeAllPopup}
-          setValues={setValues}
-          values={values}
-          setArrValues={setArrValues}
-          arrValues={arrValues}
-          setIsEditMod={setIsEditMod}
-          currentResume={currentResume}
-          setCurrentResume={setCurrentResume}
-        />
-        {/* Попап подтверждения удаления */}
-        <PopupConfirmationDelete
-          isOpen={isConfirmDeletePopupOpen}
-          onClose={closeAllPopup}
-          currentResume={currentResume}
-          setCurrentResume={setCurrentResume}
-          arrValues={arrValues}
-          setArrValues={setArrValues}
-          setValues={setValues}
-          setImage={setImage}
-        />
-        {/* Попап подтверждения перехода */}
-        <PopupConfirmationRegister
-          isOpen={isConfirmRegPopupOpen}
-          onClose={closeAllPopup}
-        />
-      </CurrentUserContext.Provider>
+              {/* попап добавления имени резюме */}
+              <PopupResumeName
+                isOpen={isResumeNamePopupOpen}
+                onClose={closeAllPopup}
+                setValues={setValues}
+                setArrValues={setArrValues}
+                setIsEditMod={setIsEditMod}
+                setCurrentResume={setCurrentResume}
+                clearData={clearData}
+              />
+              {/* Попап подтверждения удаления */}
+              <PopupConfirmationDelete
+                isOpen={isConfirmDeletePopupOpen}
+                onClose={closeAllPopup}
+                setCurrentResume={setCurrentResume}
+                setArrValues={setArrValues}
+                setValues={setValues}
+                setImage={setImage}
+                clearData={clearData}
+              />
+              {/* Попап подтверждения перехода */}
+              <PopupConfirmationRegister
+                isOpen={isConfirmRegPopupOpen}
+                onClose={closeAllPopup}
+              />
+            </CurrentUserContext.Provider>
+          </CurrentValuesContext.Provider>
+        </CurrentArrValuesContext.Provider>
+      </CurrentResumeContext.Provider>
     </div>
   )
 }

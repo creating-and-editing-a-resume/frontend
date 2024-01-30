@@ -23,19 +23,14 @@ const PeriodInput = ({
   values,
   handleCheckboxChange,
   handleChange,
-  setAllTillPresent,
-  allTillPresent,
   errors,
   allValues,
   education,
 }) => {
   const location = useLocation()
   const [disabledMonthChoice, setDisabledMonthChoice] = useState(false)
-  const [isTillPresent, setIsTillPresent] = React.useState(
-    allTillPresent[i] || false
-  )
   useEffect(() => {
-    if (isTillPresent) {
+    if (values[namePeriod] === true) {
       if (i === '0' || i === '1') {
         setValues(prevValue => ({
           ...prevValue,
@@ -65,10 +60,10 @@ const PeriodInput = ({
       }
     }
     if (disabled) {
-      setIsTillPresent(false)
+      setValues(prevValues => ({ ...prevValues, [namePeriod]: false }))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isTillPresent])
+  }, [values[namePeriod]])
 
   useEffect(() => {
     if (disabled) {
@@ -79,14 +74,16 @@ const PeriodInput = ({
         [year[0]]: '',
         [year[1]]: '',
       })
-      setIsTillPresent(false)
+      setValues(prevValues => ({ ...prevValues, [namePeriod]: false }))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [disabled])
 
   const handleCheckboxToggle = () => {
-    setIsTillPresent(!isTillPresent)
-    setAllTillPresent(prevValue => ({ ...prevValue, [i]: !isTillPresent }))
+    setValues(prevValues => ({
+      ...prevValues,
+      [namePeriod]: !prevValues.namePeriod,
+    }))
   }
 
   useEffect(() => {
@@ -170,7 +167,7 @@ const PeriodInput = ({
               name={monthPeriod[1]}
               values={values}
               setValues={setValues}
-              disabled={disabledMonthChoice || isTillPresent}
+              disabled={disabledMonthChoice || values[namePeriod] === true}
               id={i}
               allValues={allValues}
             />
@@ -188,7 +185,7 @@ const PeriodInput = ({
               errors[year[1]] && 'form-input__field_error',
               education && 'period-input__field_year-only-education'
             )}
-            disabled={disabled || isTillPresent}
+            disabled={disabled || values[namePeriod] === true}
           />
         </div>
         {errors && (
@@ -248,10 +245,10 @@ PeriodInput.propTypes = {
           ),
         ])
       ),
+      PropTypes.objectOf(PropTypes.bool),
     ])
   ),
   handleChange: PropTypes.func,
-  setAllTillPresent: PropTypes.func,
   allTillPresent: PropTypes.shape({
     value: PropTypes.bool,
   }),
@@ -263,6 +260,7 @@ PeriodInput.propTypes = {
       PropTypes.bool,
       PropTypes.arrayOf(
         PropTypes.oneOfType([
+          PropTypes.string,
           PropTypes.objectOf(
             PropTypes.oneOfType([
               PropTypes.string,
@@ -270,9 +268,9 @@ PeriodInput.propTypes = {
               PropTypes.bool,
             ])
           ),
-          PropTypes.string,
         ])
       ),
+      PropTypes.objectOf(PropTypes.bool),
     ])
   ),
   education: PropTypes.bool,
@@ -290,7 +288,6 @@ PeriodInput.defaultProps = {
   year: [],
   values: {},
   handleChange: () => {},
-  setAllTillPresent: () => {},
   allTillPresent: {},
   allValues: {},
   errors: {},

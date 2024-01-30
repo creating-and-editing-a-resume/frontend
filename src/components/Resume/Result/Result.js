@@ -86,6 +86,7 @@ Result.propTypes = {
           ),
         ])
       ),
+      PropTypes.objectOf(PropTypes.bool),
     ])
   ),
 }

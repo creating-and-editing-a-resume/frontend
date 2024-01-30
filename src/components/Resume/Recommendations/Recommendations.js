@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -162,10 +163,10 @@ const Recommendations = ({ duties, qualifications, portfolio, about }) => {
             )}
           </div>
           <div className="recommend__duties-examples-container">
-            {dutiesRecommendationsToRender.map(recs => {
+            {dutiesRecommendationsToRender.map((recs, i) => {
               const { text } = recs
               return (
-                <div className="recommend__duties-example">
+                <div key={i} className="recommend__duties-example">
                   <span className="recommend__duties-example-text">{text}</span>
                   <button
                     type="button"
@@ -258,10 +259,10 @@ const Recommendations = ({ duties, qualifications, portfolio, about }) => {
             )}
           </div>
           <div className="recommend__duties-examples-container">
-            {qualificationsRecommendationsToRender.map(recs => {
+            {qualificationsRecommendationsToRender.map((recs, i) => {
               const { text } = recs
               return (
-                <div className="recommend__duties-example">
+                <div key={i} className="recommend__duties-example">
                   <span className="recommend__duties-example-text">{text}</span>
                   <button
                     type="button"

@@ -14,9 +14,8 @@ const AddedEducation = ({
   handleChange,
   handleCheckboxChange,
   setValues,
-  setAllTillPresent,
-  allTillPresent,
   allValues,
+  disabled,
 }) => {
   const handleDelete = () => deleteEducation(i)
   return (
@@ -28,6 +27,7 @@ const AddedEducation = ({
           handleChange={handleChange}
           label="Название вуза"
           id={i}
+          disabled={disabled}
         />
         <PeriodInput
           education
@@ -42,9 +42,8 @@ const AddedEducation = ({
           handleChange={handleChange}
           handleCheckboxChange={handleCheckboxChange}
           setValues={setValues}
-          setAllTillPresent={setAllTillPresent}
-          allTillPresent={allTillPresent}
           allValues={allValues}
+          disabled={disabled}
         />
         <FormInput
           name="university_specialization"
@@ -52,6 +51,7 @@ const AddedEducation = ({
           handleChange={handleChange}
           label="Специальность"
           id={i}
+          disabled={disabled}
         />
         <FormInput
           name="education_level"
@@ -59,6 +59,7 @@ const AddedEducation = ({
           handleChange={handleChange}
           label="Степень"
           id={i}
+          disabled={disabled}
         />
       </div>
       <div className="added-education__buttons-container">
@@ -96,7 +97,6 @@ AddedEducation.propTypes = {
   }),
   handleCheckboxChange: PropTypes.func.isRequired,
   setValues: PropTypes.func.isRequired,
-  setAllTillPresent: PropTypes.func.isRequired,
   allTillPresent: PropTypes.shape({
     value: PropTypes.bool,
   }),
@@ -119,6 +119,7 @@ AddedEducation.propTypes = {
       ),
     ])
   ),
+  disabled: PropTypes.bool.isRequired,
 }
 
 AddedEducation.defaultProps = {

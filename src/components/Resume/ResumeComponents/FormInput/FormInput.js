@@ -16,7 +16,6 @@ const FormInput = ({
   values,
   handleChange,
   dataMask,
-  setValues,
   setDuties,
   setQualifications,
   setPortfolio,
@@ -24,6 +23,7 @@ const FormInput = ({
   errors,
   id,
   placeholder,
+  setValues,
 }) => {
   const location = useLocation()
   const maskInput = (dataValue, options) => {
@@ -42,8 +42,15 @@ const FormInput = ({
     maskInput('date', maskOptionsDate)
   })
 
+  const handleFocus = () => {
+    setDuties(true)
+    setQualifications(true)
+    setAbout(true)
+    setPortfolio(true)
+  }
+
   React.useEffect(() => {
-    if (disabled && location.pathname === '/resume/experience') {
+    if (disabled === true && location.pathname === '/resume/experience') {
       setValues(prevValues => ({
         ...prevValues,
         company: '',
@@ -53,7 +60,7 @@ const FormInput = ({
       }))
     }
 
-    if (disabled && location.pathname === '/resume/qualification') {
+    if (disabled === true && location.pathname === '/resume/qualification') {
       setValues(prevValues => ({
         ...prevValues,
         organization: '',
@@ -64,19 +71,26 @@ const FormInput = ({
         diploma_link: '',
       }))
     }
+
+    if (disabled === true && location.pathname === '/resume/education') {
+      setValues(prevValues => ({
+        ...prevValues,
+        university_name: '',
+        university_specialization: '',
+        education_level: '',
+      }))
+    }
+
+    if (disabled === true && location.pathname === '/resume/portfolio') {
+      setValues(prevValues => ({
+        ...prevValues,
+        project_name: '',
+        project_description: '',
+        project_link: '',
+      }))
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [disabled])
-
-  const handleFocus = () => {
-    setDuties(true)
-    setQualifications(true)
-    setAbout(true)
-    setPortfolio(true)
-  }
-
-  // const handleBlur = () => {
-  //   setDuties(false)
-  // }
 
   return (
     <div className="form-input">
@@ -90,7 +104,7 @@ const FormInput = ({
         name={name}
         value={values[name]}
         onChange={handleChange}
-        disabled={disabled}
+        disabled={disabled === true}
         placeholder={placeholder}
         id={id}
         className={classNames(
@@ -99,7 +113,6 @@ const FormInput = ({
           errors[name] && 'form-input__field_error'
         )}
         onFocus={handleFocus}
-        // onBlur={handleBlur}
         mask={dataMask}
       />
       {errors && (
@@ -124,13 +137,13 @@ FormInput.propTypes = {
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.string),
   ]).isRequired,
-  setValues: PropTypes.func,
   setDuties: PropTypes.func,
   setPortfolio: PropTypes.func,
   setAbout: PropTypes.func,
   setQualifications: PropTypes.func,
   errors: PropTypes.objectOf(PropTypes.string),
   id: PropTypes.string,
+  setValues: PropTypes.func,
 }
 
 FormInput.defaultProps = {
@@ -144,11 +157,11 @@ FormInput.defaultProps = {
   setDuties: () => {},
   errors: {},
   id: '',
-  setValues: () => {},
   setQualifications: () => {},
   setPortfolio: () => {},
   setAbout: () => {},
   label: undefined,
+  setValues: () => {},
 }
 
 export default FormInput

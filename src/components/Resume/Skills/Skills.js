@@ -5,14 +5,15 @@ import { useLocation } from 'react-router-dom'
 import classNames from 'classnames'
 import skillsSelectedIcon from '../../../img/skills-confirm-icon.svg'
 import skillsRollIcon from '../../../img/skills-roll-icon.svg'
-// import { skillList } from '../../../constants/skills-list'
 import ResumeTitle from '../ResumeComponents/ResumeTitle/ResumeTitle'
+import { CurrentValuesContext } from '../../../contexts/ValuesContext'
 import { jobs } from '../../../constants/jobs'
 import ArrowDown from '../../../img/arrow-icon-black.svg'
 
-function Skills({ values, setValues }) {
+function Skills({ setValues }) {
   const location = useLocation()
   const path = location.pathname
+  const values = React.useContext(CurrentValuesContext)
   const [jobChoice, setJobChoice] = useState(false)
   const [chosenJob, setChosenJob] = useState(jobs[0].job)
   const [selectedSkills, setSelectedSkills] = useState(values.hardskills || [])
@@ -197,30 +198,10 @@ function Skills({ values, setValues }) {
 }
 
 Skills.propTypes = {
-  values: PropTypes.objectOf(
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-      PropTypes.bool,
-      PropTypes.arrayOf(
-        PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.objectOf(
-            PropTypes.oneOfType([
-              PropTypes.string,
-              PropTypes.number,
-              PropTypes.bool,
-            ])
-          ),
-        ])
-      ),
-    ])
-  ),
   setValues: PropTypes.func,
 }
 
 Skills.defaultProps = {
-  values: {},
   setValues: () => {},
 }
 

@@ -4,19 +4,23 @@ import PropTypes from 'prop-types'
 import { useNavigate, useLocation } from 'react-router'
 import { cleanLocalStorage } from '../../../Utils/Utils'
 import TrashLogo from '../../../../img/trash-icon-red.svg'
+import { CurrentValuesContext } from '../../../../contexts/ValuesContext'
+import { CurrentArrValuesContext } from '../../../../contexts/ArrValuesContext'
+import { CurrentResumeContext } from '../../../../contexts/CurrentResumeContext'
 
 function PopupResumeName({
-  values,
   setValues,
   setArrValues,
   onClose,
-  arrValues,
   setIsEditMod,
-  currentResume,
   setCurrentResume,
+  clearData,
 }) {
   const navigate = useNavigate()
   const location = useLocation()
+  const values = React.useContext(CurrentValuesContext)
+  const arrValues = React.useContext(CurrentArrValuesContext)
+  const currentResume = React.useContext(CurrentResumeContext)
 
   // добавление имени резюме
   function handleChange(evt) {
@@ -33,7 +37,7 @@ function PopupResumeName({
       const newValues = [...arrValues, values]
       setArrValues(newValues)
       localStorage.setItem('allData', JSON.stringify(newValues))
-      await setValues({})
+      await clearData()
       setIsEditMod(false)
       onClose()
       navigate('/my-profile')
@@ -50,7 +54,7 @@ function PopupResumeName({
       setArrValues(newValues)
       await localStorage.setItem('allData', JSON.stringify(newValues))
       onClose()
-      await setValues({})
+      await clearData()
     }
   }
 
@@ -107,76 +111,15 @@ function PopupResumeName({
 
 PopupResumeName.propTypes = {
   setIsEditMod: PropTypes.func,
-  values: PropTypes.objectOf(
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-      PropTypes.bool,
-      PropTypes.arrayOf(
-        PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.objectOf(
-            PropTypes.oneOfType([
-              PropTypes.string,
-              PropTypes.number,
-              PropTypes.bool,
-            ])
-          ),
-        ])
-      ),
-    ])
-  ),
   setValues: PropTypes.func.isRequired,
   setArrValues: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
-  arrValues: PropTypes.arrayOf(
-    PropTypes.objectOf(
-      PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-        PropTypes.bool,
-        PropTypes.arrayOf(
-          PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.objectOf(
-              PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.number,
-                PropTypes.bool,
-              ])
-            ),
-          ])
-        ),
-      ])
-    )
-  ),
-  currentResume: PropTypes.objectOf(
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-      PropTypes.bool,
-      PropTypes.arrayOf(
-        PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.objectOf(
-            PropTypes.oneOfType([
-              PropTypes.string,
-              PropTypes.number,
-              PropTypes.bool,
-            ])
-          ),
-        ])
-      ),
-    ])
-  ),
   setCurrentResume: PropTypes.func.isRequired,
+  clearData: PropTypes.func.isRequired,
 }
 
 PopupResumeName.defaultProps = {
-  values: {},
-  arrValues: [],
   setIsEditMod: () => {},
-  currentResume: {},
 }
 
 export default PopupResumeName

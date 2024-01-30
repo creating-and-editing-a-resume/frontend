@@ -1,6 +1,5 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react'
-import { v4 as uuidv4 } from 'uuid'
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
 import './Main.scss'
@@ -8,10 +7,8 @@ import classNames from 'classnames'
 import Header from '../Header/Header'
 import Footer from '../Footer/Footer'
 import TitleImage from '../../img/main_title.svg'
-// import Step1 from '../../img/main_step1.svg'
 import { onboardingTitle, imgMainArr } from '../../constants/constants'
 import { handleOpenPopup } from '../Utils/Utils'
-import { CurrentUserContext } from '../../contexts/CurrentUserContext'
 
 function Main({
   setIsLoggedIn,
@@ -19,18 +16,13 @@ function Main({
   onOpenPopup,
   isValid,
   inputsAreNotEmpty,
-  setValues,
-  setImage,
-  setHasExperience,
-  setHasQualification,
-  setAllTillPresent,
+  clearData,
 }) {
   const navigate = useNavigate()
   const nextPage = '/resume'
   const [img, setImg] = React.useState(imgMainArr[0])
   const [subtitleObject, setSubtitleObject] = React.useState(onboardingTitle)
   const [step, setStep] = React.useState(1)
-  const currentUser = React.useContext(CurrentUserContext)
 
   const handleClick = i => {
     const elementIndex = onboardingTitle.findIndex(
@@ -61,12 +53,9 @@ function Main({
         isLoggedIn={isLoggedIn}
         nextPage={nextPage}
         onOpenPopup={onOpenPopup}
-        setValues={setValues}
         isValid={isValid}
         inputsAreNotEmpty={inputsAreNotEmpty}
-        setHasExperience={setHasExperience}
-        setHasQualification={setHasQualification}
-        setAllTillPresent={setAllTillPresent}
+        clearData={clearData}
       />
       <main className="main">
         <div className="main__title-container">
@@ -84,30 +73,7 @@ function Main({
               className="main__create-button link"
               onClick={() => {
                 handleOpenPopup(navigate, isLoggedIn, onOpenPopup)
-                setValues({
-                  name: isLoggedIn ? currentUser.name : '',
-                  surname: isLoggedIn ? currentUser.surname : '',
-                  birthday: isLoggedIn ? currentUser.birthday : '',
-                  telegram: isLoggedIn ? currentUser.telegram : '',
-                  phone: isLoggedIn ? currentUser.phone : '',
-                  work_status: '',
-                  email: isLoggedIn ? currentUser.email : '',
-                  city: isLoggedIn ? currentUser.city : '',
-                  work_experience_checkbox: false,
-                  work_period_experience_checkbox: false,
-                  education_period_checkbox: false,
-                  qualification_checkbox: false,
-                  languages: [{ id: uuidv4() }],
-                  links: [{ id: uuidv4() }],
-                  jobs: [],
-                  qualifications: [],
-                  educations: [],
-                  portfolio: [],
-                })
-                setImage(isLoggedIn ? currentUser.imageProfile : '')
-                setHasExperience(true)
-                setHasQualification(true)
-                setAllTillPresent({})
+                clearData()
               }}
             >
               Создать резюме
@@ -179,13 +145,9 @@ Main.propTypes = {
   setIsLoggedIn: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   onOpenPopup: PropTypes.func.isRequired,
-  setValues: PropTypes.func.isRequired,
   isValid: PropTypes.bool.isRequired,
   inputsAreNotEmpty: PropTypes.bool.isRequired,
-  setImage: PropTypes.func.isRequired,
-  setHasExperience: PropTypes.func.isRequired,
-  setHasQualification: PropTypes.func.isRequired,
-  setAllTillPresent: PropTypes.func.isRequired,
+  clearData: PropTypes.func.isRequired,
 }
 
 export default Main

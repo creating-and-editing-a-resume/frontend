@@ -4,8 +4,10 @@ import './About.scss'
 import PropTypes from 'prop-types'
 import ResumeTitle from '../ResumeComponents/ResumeTitle/ResumeTitle'
 import FormInput from '../ResumeComponents/FormInput/FormInput'
+import { CurrentValuesContext } from '../../../contexts/ValuesContext'
 
-const About = ({ values, handleChangeWithValidation, setAbout }) => {
+const About = ({ handleChangeWithValidation, setAbout }) => {
+  const values = React.useContext(CurrentValuesContext)
   const handleBackToBasicRecommend = () => {
     setAbout(false)
   }
@@ -29,31 +31,11 @@ const About = ({ values, handleChangeWithValidation, setAbout }) => {
 }
 
 About.propTypes = {
-  values: PropTypes.objectOf(
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-      PropTypes.bool,
-      PropTypes.arrayOf(
-        PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.objectOf(
-            PropTypes.oneOfType([
-              PropTypes.string,
-              PropTypes.number,
-              PropTypes.bool,
-            ])
-          ),
-        ])
-      ),
-    ])
-  ),
   handleChangeWithValidation: PropTypes.func,
   setAbout: PropTypes.func,
 }
 
 About.defaultProps = {
-  values: {},
   handleChangeWithValidation: () => {},
   setAbout: () => {},
 }

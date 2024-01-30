@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable prettier/prettier */
 import React from 'react'
 import PropTypes from 'prop-types'
 import './Resume.scss'
@@ -10,10 +8,7 @@ import ProgressBar from './ResumeComponents/ProgressBar/ProgressBar'
 import { locationArr } from '../../constants/constants'
 
 function Resume({
-  arrValues,
   setArrValues,
-  values,
-  setValues,
   setIsEditMod,
   isEditMod,
   isLoggedIn,
@@ -27,7 +22,6 @@ function Resume({
   setCompletedStepsAbout,
   handleResumeNamePopupOpen,
   inputsAreNotEmpty,
-  // setCompletedLayouts,
   onClick,
   duties,
   qualifications,
@@ -35,11 +29,9 @@ function Resume({
   about,
   isValid,
   handleConfirmRegPopupOpen,
-  setHasExperience,
-  setHasQualification,
   onClickMyProfile,
-  setAllTillPresent,
   handleRegisterPopupOpen,
+  clearData,
 }) {
   const location = useLocation()
   // Находим индекс элемента в массиве с локациями
@@ -72,10 +64,7 @@ function Resume({
   return (
     <>
       <Header
-        arrValues={arrValues}
         setArrValues={setArrValues}
-        values={values}
-        setValues={setValues}
         setIsEditMod={setIsEditMod}
         isEditMod={isEditMod}
         isValid={isValid}
@@ -87,11 +76,9 @@ function Resume({
         handleResumeNamePopupOpen={handleResumeNamePopupOpen}
         inputsAreNotEmpty={inputsAreNotEmpty}
         handleConfirmRegPopupOpen={handleConfirmRegPopupOpen}
-        setHasExperience={setHasExperience}
-        setHasQualification={setHasQualification}
         onClickMyProfile={onClickMyProfile}
-        setAllTillPresent={setAllTillPresent}
         handleRegisterPopupOpen={handleRegisterPopupOpen}
+        clearData={clearData}
       />
       <main className="resume">
         {location.pathname === '/resume/result' ? (
@@ -111,48 +98,7 @@ function Resume({
 }
 
 Resume.propTypes = {
-  values: PropTypes.objectOf(
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-      PropTypes.bool,
-      PropTypes.arrayOf(
-        PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.objectOf(
-            PropTypes.oneOfType([
-              PropTypes.string,
-              PropTypes.number,
-              PropTypes.bool,
-            ])
-          ),
-        ])
-      ),
-    ])
-  ),
-  arrValues: PropTypes.arrayOf(
-    PropTypes.objectOf(
-      PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-        PropTypes.bool,
-        PropTypes.arrayOf(
-          PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.objectOf(
-              PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.number,
-                PropTypes.bool,
-              ])
-            ),
-          ])
-        ),
-      ])
-    )
-  ),
   setArrValues: PropTypes.func,
-  setValues: PropTypes.func,
   setIsEditMod: PropTypes.func,
   isEditMod: PropTypes.bool,
   isLoggedIn: PropTypes.bool.isRequired,
@@ -164,7 +110,6 @@ Resume.propTypes = {
   setCompletedStepsPortfolio: PropTypes.func.isRequired,
   setCompletedStepsSkills: PropTypes.func.isRequired,
   setCompletedStepsAbout: PropTypes.func.isRequired,
-  // setCompletedLayouts: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
   handleResumeNamePopupOpen: PropTypes.func,
   duties: PropTypes.bool,
@@ -173,17 +118,14 @@ Resume.propTypes = {
   about: PropTypes.bool,
   inputsAreNotEmpty: PropTypes.bool.isRequired,
   isValid: PropTypes.bool.isRequired,
-  setHasExperience: PropTypes.func.isRequired,
-  setHasQualification: PropTypes.func.isRequired,
-  setAllTillPresent: PropTypes.func.isRequired,
   handleRegisterPopupOpen: PropTypes.func.isRequired,
+  clearData: PropTypes.func.isRequired,
+  handleConfirmRegPopupOpen: PropTypes.func.isRequired,
+  onClickMyProfile: PropTypes.func.isRequired,
 }
 
 Resume.defaultProps = {
-  arrValues: [],
   setArrValues: () => {},
-  values: {},
-  setValues: () => {},
   isEditMod: false,
   duties: false,
   qualifications: false,

@@ -52,7 +52,7 @@ const MonthPicker = ({ disabled, setValues, values, name, id, allValues }) => {
         )}
         value={values[name] ? months.find(m => values[name] === m.id).long : ''}
         readOnly
-        disabled={disabled}
+        disabled={disabled === true}
       />
       {!disabled && (
         <div className="month__container-list">
@@ -85,20 +85,26 @@ const MonthPicker = ({ disabled, setValues, values, name, id, allValues }) => {
 MonthPicker.propTypes = {
   disabled: PropTypes.bool,
   setValues: PropTypes.func.isRequired,
-  values: PropTypes.shape({
-    value: PropTypes.oneOfType([
+  values: PropTypes.objectOf(
+    PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,
       PropTypes.bool,
       PropTypes.arrayOf(
         PropTypes.oneOfType([
           PropTypes.string,
-          PropTypes.number,
-          PropTypes.bool,
+          PropTypes.objectOf(
+            PropTypes.oneOfType([
+              PropTypes.string,
+              PropTypes.number,
+              PropTypes.bool,
+            ])
+          ),
         ])
       ),
-    ]),
-  }),
+      PropTypes.objectOf(PropTypes.bool),
+    ])
+  ),
   name: PropTypes.string,
   allValues: PropTypes.objectOf(
     PropTypes.oneOfType([
@@ -107,6 +113,7 @@ MonthPicker.propTypes = {
       PropTypes.bool,
       PropTypes.arrayOf(
         PropTypes.oneOfType([
+          PropTypes.string,
           PropTypes.objectOf(
             PropTypes.oneOfType([
               PropTypes.string,
@@ -114,9 +121,9 @@ MonthPicker.propTypes = {
               PropTypes.bool,
             ])
           ),
-          PropTypes.string,
         ])
       ),
+      PropTypes.objectOf(PropTypes.bool),
     ])
   ),
   id: PropTypes.string.isRequired,

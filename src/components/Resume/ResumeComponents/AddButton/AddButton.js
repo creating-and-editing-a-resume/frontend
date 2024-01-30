@@ -14,7 +14,13 @@ const AddButton = ({ disabled, handleClick }) => (
     disabled={disabled}
     onClick={handleClick}
   >
-    <img alt="плюс" src={PlusIcon} className="add-button__plus-icon" />
+    <img
+      alt="плюс"
+      src={PlusIcon}
+      className={classNames(
+        disabled ? 'add-button__plus-icon_disabled' : 'add-button__plus-icon'
+      )}
+    />
     Добавить
   </button>
 )

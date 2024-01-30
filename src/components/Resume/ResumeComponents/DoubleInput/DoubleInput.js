@@ -261,6 +261,7 @@ DoubleInput.propTypes = {
           ),
         ])
       ),
+      PropTypes.objectOf(PropTypes.bool),
     ])
   ),
   handleChange: PropTypes.func.isRequired,

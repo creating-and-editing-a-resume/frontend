@@ -1,23 +1,24 @@
+import React from 'react'
 import './ConfirmationDelete.scss'
 import PropTypes from 'prop-types'
-import { v4 as uuidv4 } from 'uuid'
 import { useNavigate, useLocation } from 'react-router-dom'
 import classNames from 'classnames'
 import TrashIcon from '../../../../img/popups/trash-icon-red.svg'
 import CloseIcon from '../../../../img/popups/close-icon-black.svg'
 import { cleanLocalStorage } from '../../../Utils/Utils'
+import { CurrentArrValuesContext } from '../../../../contexts/ArrValuesContext'
+import { CurrentResumeContext } from '../../../../contexts/CurrentResumeContext'
 
 function ConfirmationDelete({
   onClose,
-  arrValues,
   setArrValues,
-  currentResume,
   setCurrentResume,
-  setImage,
-  setValues,
+  clearData,
 }) {
   const navigate = useNavigate()
   const location = useLocation()
+  const arrValues = React.useContext(CurrentArrValuesContext)
+  const currentResume = React.useContext(CurrentResumeContext)
   const locationResult = location.pathname === '/resume/result'
   const currentResumeName = currentResume
     ? arrValues.find(item => item.id === currentResume.id)
@@ -62,25 +63,7 @@ function ConfirmationDelete({
             onClose()
             cleanLocalStorage()
             navigate('/')
-            setValues({
-              name: '',
-              surname: '',
-              birthday: '',
-              work_status: '',
-              email: '',
-              city: '',
-              work_experience_checkbox: false,
-              work_period_experience_checkbox: false,
-              education_period_checkbox: false,
-              qualification_checkbox: false,
-              languages: [{ id: uuidv4() }],
-              links: [{ id: uuidv4() }],
-              jobs: [],
-              qualifications: [],
-              educations: [],
-              portfolio: [],
-            })
-            setImage('')
+            clearData()
           }}
         >
           <img src={TrashIcon} alt="trash-icon" />
@@ -116,59 +99,16 @@ function ConfirmationDelete({
 }
 
 ConfirmationDelete.propTypes = {
-  arrValues: PropTypes.arrayOf(
-    PropTypes.objectOf(
-      PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-        PropTypes.bool,
-        PropTypes.arrayOf(
-          PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.objectOf(
-              PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.number,
-                PropTypes.bool,
-              ])
-            ),
-          ])
-        ),
-      ])
-    )
-  ),
   setArrValues: PropTypes.func,
-  currentResume: PropTypes.objectOf(
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-      PropTypes.bool,
-      PropTypes.arrayOf(
-        PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.objectOf(
-            PropTypes.oneOfType([
-              PropTypes.string,
-              PropTypes.number,
-              PropTypes.bool,
-            ])
-          ),
-        ])
-      ),
-    ])
-  ).isRequired,
   onClose: PropTypes.func.isRequired,
   setCurrentResume: PropTypes.func,
-  setValues: PropTypes.func,
-  setImage: PropTypes.func,
+  clearData: PropTypes.func,
 }
 
 ConfirmationDelete.defaultProps = {
-  arrValues: [],
   setArrValues: () => {},
   setCurrentResume: () => {},
-  setValues: () => {},
-  setImage: () => {},
+  clearData: () => {},
 }
 
 export default ConfirmationDelete

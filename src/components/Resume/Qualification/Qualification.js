@@ -9,12 +9,10 @@ import AddButton from '../ResumeComponents/AddButton/AddButton'
 import FormInput from '../ResumeComponents/FormInput/FormInput'
 import PeriodInput from '../ResumeComponents/PeriodInput/PeriodInput'
 import AddedQualification from './AddedQualification/AddedQualification'
+import { CurrentValuesContext } from '../../../contexts/ValuesContext'
 
 const Qualification = ({
   handleCheckboxChange,
-  setHasQualification,
-  hasQualification,
-  values,
   handleChangeWithValidation,
   setValues,
   handleAddQualificationChange,
@@ -22,10 +20,14 @@ const Qualification = ({
 }) => {
   // Если появилась добавленная квалификация, основная кнопка "Добавить" удаляется
   const [noAddedQualification, setNoAddedQualification] = useState(true)
+  const values = React.useContext(CurrentValuesContext)
 
   const handleTitleCheckboxClick = () => {
-    setHasQualification(!hasQualification)
-    setValues({ ...values, qualifications: [] })
+    setValues(prevValues => ({
+      ...prevValues,
+      qualifications: [],
+      qualification_checkbox: !prevValues.qualification_checkbox,
+    }))
     setNoAddedQualification(true)
   }
 
@@ -66,7 +68,7 @@ const Qualification = ({
         title="Повышение квалификации"
         checkbox
         checkboxText="Отсутствует"
-        checkboxId="title-checkbox"
+        checkboxId="title-qualification-checkbox"
         onClick={handleTitleCheckboxClick}
         handleCheckboxChange={handleCheckboxChange}
         name="qualification_checkbox"
@@ -84,7 +86,7 @@ const Qualification = ({
             name="organization"
             values={values}
             label="Проводившая организация"
-            disabled={!hasQualification}
+            disabled={values.qualification_checkbox}
             handleChange={handleChangeWithValidation}
             setValues={setValues}
           />
@@ -92,7 +94,7 @@ const Qualification = ({
             name="course_name"
             values={values}
             label="Название курса"
-            disabled={!hasQualification}
+            disabled={values.qualification_checkbox}
             handleChange={handleChangeWithValidation}
             setValues={setValues}
           />
@@ -100,7 +102,7 @@ const Qualification = ({
             name="work_specialization"
             values={values}
             label="Специальность"
-            disabled={!hasQualification}
+            disabled={values.qualification_checkbox}
             handleChange={handleChangeWithValidation}
             setValues={setValues}
           />
@@ -110,7 +112,7 @@ const Qualification = ({
             labelOne="Дата начала"
             labelTwo="Дата окончания"
             month
-            disabled={!hasQualification}
+            disabled={values.qualification_checkbox}
             i="0"
             values={values}
             setValues={setValues}
@@ -121,7 +123,7 @@ const Qualification = ({
             name="description_experience"
             values={values}
             extraInputClass="qualification-experience"
-            disabled={!hasQualification}
+            disabled={values.qualification_checkbox}
             handleChange={handleChangeWithValidation}
             setValues={setValues}
           />
@@ -131,10 +133,10 @@ const Qualification = ({
           name="skills"
           values={values}
           extraInputClass="qualification-skills"
-          disabled={!hasQualification}
+          disabled={values.qualification_checkbox}
           handleChange={handleChangeWithValidation}
-          setValues={setValues}
           setQualifications={setQualifications}
+          setValues={setValues}
         />
         <div
           className="qualification__basic-recommend qualification__basic-recommend_bottom"
@@ -146,7 +148,7 @@ const Qualification = ({
             name="diploma_link"
             values={values}
             label="Ссылка на дипломную работу"
-            disabled={!hasQualification}
+            disabled={values.qualification_checkbox}
             handleChange={handleChangeWithValidation}
             setValues={setValues}
           />
@@ -154,7 +156,7 @@ const Qualification = ({
         {values.qualifications.map(qualification => (
           <AddedQualification
             values={qualification}
-            hasQualification={hasQualification}
+            disabled={values.qualification_checkbox}
             handleChange={handleAddQualificationChange}
             deleteQualification={deleteQualification}
             addQualification={addQualification}
@@ -168,7 +170,7 @@ const Qualification = ({
         ))}
         {noAddedQualification && values.qualifications?.length === 0 && (
           <AddButton
-            disabled={!hasQualification}
+            disabled={values.qualification_checkbox}
             handleClick={addQualification}
           />
         )}
@@ -179,27 +181,6 @@ const Qualification = ({
 
 Qualification.propTypes = {
   handleCheckboxChange: PropTypes.func.isRequired,
-  setHasQualification: PropTypes.func.isRequired,
-  hasQualification: PropTypes.bool.isRequired,
-  values: PropTypes.objectOf(
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-      PropTypes.bool,
-      PropTypes.arrayOf(
-        PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.objectOf(
-            PropTypes.oneOfType([
-              PropTypes.string,
-              PropTypes.number,
-              PropTypes.bool,
-            ])
-          ),
-        ])
-      ),
-    ])
-  ),
   handleChangeWithValidation: PropTypes.func.isRequired,
   setValues: PropTypes.func.isRequired,
   handleAddQualificationChange: PropTypes.func.isRequired,
@@ -207,7 +188,6 @@ Qualification.propTypes = {
 }
 
 Qualification.defaultProps = {
-  values: {},
   setQualifications: () => {},
 }
 

@@ -13,9 +13,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
 
-.add-button_inactive {
-  opacity: 0.5;
-  cursor: not-allowed;
+  &_inactive {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &__plus-icon {
+    opacity: 1;
+
+    &_disabled {
+      opacity: .3;
+    }
+  }
 }

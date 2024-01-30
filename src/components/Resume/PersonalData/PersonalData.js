@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-vars */
 import './PersonalData.scss'
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import ResumeTitle from '../ResumeComponents/ResumeTitle/ResumeTitle'
 import DoubleInput from '../ResumeComponents/DoubleInput/DoubleInput'
@@ -21,9 +20,9 @@ import FormInput from '../ResumeComponents/FormInput/FormInput'
 import LanguageInput from '../ResumeComponents/LanguageInput/LanguageInput'
 import ImageUploadForm from './ImageUploadForm/ImageUploadForm'
 import LinkInput from '../ResumeComponents/LinkInput/LinkInput'
+import { CurrentValuesContext } from '../../../contexts/ValuesContext'
 
 const PersonalData = ({
-  values,
   setValues,
   addLanguage,
   addLink,
@@ -35,6 +34,7 @@ const PersonalData = ({
   setImage,
   image,
 }) => {
+  const values = React.useContext(CurrentValuesContext)
   const deleteLanguage = i => {
     const languageToBeRemoved = values.languages.find(item => item.id === i)
     const remainingLanguages = values.languages.filter(
@@ -43,9 +43,7 @@ const PersonalData = ({
     setLanguagesAfterDeleting(remainingLanguages)
     return remainingLanguages
   }
-  // useEffect(() => {
-  //   console.log(values)
-  // })
+
   const deleteLink = i => {
     const linkToBeRemoved = values.links.find(item => item.id === i)
     const remainingLinks = values.links.filter(
@@ -204,7 +202,7 @@ const PersonalData = ({
           ))}
         </div>
         <ResumeTitle title="Владение языками" />
-        {values.languages?.map(lang => (
+        {values.languages.map(lang => (
           <div className="personal-data__form-language" key={lang.id}>
             <LanguageInput
               values={lang}
@@ -227,25 +225,6 @@ const PersonalData = ({
 }
 
 PersonalData.propTypes = {
-  values: PropTypes.objectOf(
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-      PropTypes.bool,
-      PropTypes.arrayOf(
-        PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.objectOf(
-            PropTypes.oneOfType([
-              PropTypes.string,
-              PropTypes.number,
-              PropTypes.bool,
-            ])
-          ),
-        ])
-      ),
-    ])
-  ),
   setValues: PropTypes.func.isRequired,
   addLanguage: PropTypes.func.isRequired,
   addLink: PropTypes.func.isRequired,
@@ -259,7 +238,6 @@ PersonalData.propTypes = {
 }
 
 PersonalData.defaultProps = {
-  values: {},
   errors: {},
   image: undefined,
 }

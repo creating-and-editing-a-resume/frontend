@@ -215,3 +215,7 @@ export const validationPhone = (
     setIsValidUserContacts({ ...isValidUserContacts, phone: true })
   }
 }
+
+export function deleteNonLatin(text) {
+  return text.replace(/[^A-Za-z0-9:_//.]/gi, '')
+}
