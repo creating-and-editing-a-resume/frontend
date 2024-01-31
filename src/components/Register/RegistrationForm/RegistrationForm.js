@@ -1,18 +1,21 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import './RegistrationForm.scss'
 import RegistrationField from './RegistrationField/RegistrationField'
 import { EMAIL_REGEX } from '../../../constants/regex'
 import DataProcessing from './DataProcessing/DataProcessing'
 import { DATA_PROCESSING_TEXT } from '../../../constants/text-templates'
+import * as auth from '../../Utils/Auth'
 
-const RegistrationForm = ({ buttonText, onSubmit, popup }) => {
+const RegistrationForm = ({ buttonText, popup }) => {
   const [values, setValues] = useState({})
   const [errors, setErrors] = useState({})
   const [isValid, setIsValid] = useState(false)
   // const [isFromValid, setIsFormValid] = useState(false)
   // eslint-disable-next-line no-unused-vars
   const [responseMessage, setResponseMessage] = useState('')
+  const navigate = useNavigate()
 
   const handleChange = evt => {
     const { name, value } = evt.target
@@ -73,37 +76,65 @@ const RegistrationForm = ({ buttonText, onSubmit, popup }) => {
     }
   }
 
-  // TODO: раскомментировать, когда будет Api:
+  // // TODO: раскомментировать, когда будет Api:
   // const getErrorMessage = (status, defaultText) => {
-  // 	switch (status) {
-  // 		case 409:
-  // 			return 'Пользователь с таким email уже существует.'
-  // 		case 500:
-  // 			return 'На сервере произошла ошибка.'
-  // 		default:
-  // 			return defaultText
-  // 	}
+  //   switch (status) {
+  //     case 409:
+  //       return 'Пользователь с таким email уже существует.'
+  //     case 500:
+  //       return 'На сервере произошла ошибка.'
+  //     default:
+  //       return defaultText
+  //   }
   // }
 
-  const handleSubmit = e => {
+  function onSubmit() {
+    // e.preventDefault()
+    const { password, email } = values
+    auth
+      .register(email, password)
+      // eslint-disable-next-line consistent-return
+      .then(res => {
+        if (res) {
+          try {
+            if (res.status === 200) {
+              console.log(res.status)
+              return res.json()
+            }
+            // eslint-disable-next-line no-shadow
+          } catch (e) {
+            console.log(e)
+            return e
+          }
+          navigate('/signin', { replace: true }) // переход на другую страницу
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
+  function handleSubmit(e) {
     e.preventDefault()
     if (values.password !== values.passwordConfirmation) {
+      console.log('bad')
       setIsValid(false)
       setErrors({
         ...errors,
         passwordConfirmation: 'Пароли не совпадают',
       })
     } else {
-      onSubmit()
+      onSubmit() // ошибка здесь
     }
-    // TODO: раскомментировать, когда будет Api
+
+    // // TODO: раскомментировать, когда будет Api
     // onSubmit(values.name, values.email, values.password).catch(err => {
-    // 	const message = getErrorMessage(
-    // 		err.status,
-    // 		'Произошла ошибка при регистрации пользователя'
-    // 	)
-    // 	setResponseMessage(message)
-    // 	setIsValid(false)
+    //   const message = getErrorMessage(
+    //     err.status,
+    //     'Произошла ошибка при регистрации пользователя'
+    //   )
+    //   setResponseMessage(message)
+    //   setIsValid(false)
     // })
   }
 
@@ -169,7 +200,7 @@ const RegistrationForm = ({ buttonText, onSubmit, popup }) => {
 
 RegistrationForm.propTypes = {
   buttonText: PropTypes.string.isRequired,
-  onSubmit: PropTypes.func.isRequired,
+  // onSubmit: PropTypes.func.isRequired,
   popup: PropTypes.bool,
 }
 

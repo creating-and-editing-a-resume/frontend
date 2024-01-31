@@ -21,6 +21,7 @@
   },
   "plugins": ["react"],
   "rules": {
+    "no-underscore-dangle": "off",
     "react/jsx-filename-extension": [
       1,
       {

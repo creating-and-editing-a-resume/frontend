@@ -10,6 +10,7 @@ import {
   useNavigate,
   useLocation,
 } from 'react-router-dom'
+import * as auth from '../Utils/Auth'
 import { CurrentUserContext } from '../../contexts/CurrentUserContext'
 import { CurrentValuesContext } from '../../contexts/ValuesContext'
 import { CurrentArrValuesContext } from '../../contexts/ArrValuesContext'
@@ -47,14 +48,22 @@ import PopupLogin from '../Popups/PopupLogin/PopupLogin'
 import PopupConfirmationDelete from '../Popups/PopupConfirmationDelete/PopupConfirmationDelete'
 import PopupConfirmationRegister from '../Popups/PopupConfirmationRegister/PopupConfirmationRegister'
 import { exampleObject } from '../../constants/exampleResume'
+import * as api from '../Utils/Api'
 
 function App() {
-  // ----------------------------------------Переменные------------------------------------------------------
+  // const cors = require('cors')
+  // app.use(cors())
+
+  // -----------------Переменные--------------------
   const location = useLocation()
-  const [isLoggedIn, setIsLoggedIn] = React.useState(true) // Пользователь авторизован/неавторизован
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false)
   const [currentUser, setCurrentUser] = React.useState(
     JSON.parse(localStorage.getItem('user')) || {}
   ) // Сохраняем данные пользователя
+  const [userData, setUserData] = useState({
+    _id: '',
+    email: '',
+  })
   const [currentResume, setCurrentResume] = React.useState({})
   const [isEditMod, setIsEditMod] = React.useState(false)
   const [isRegisterPopupOpen, setIsRegisterPopupOpen] = React.useState(false)
@@ -120,7 +129,6 @@ function App() {
   const [qualifications, setQualifications] = useState(false)
   const [portfolio, setPortfolio] = useState(false)
   const [about, setAbout] = useState(false)
-
   const [errors, setErrors] = useState({})
   // Сохраняем ссылку изображения в переменную и вытягиваем из локального хранилища данные
   const [image, setImage] = React.useState(localStorage.getItem('image') || '')
@@ -823,7 +831,6 @@ function App() {
         localStorage.setItem('image', image)
         localStorage.setItem('formData', JSON.stringify(formData))
       }
-      // console.log(errors)
       setErrors(object)
     } else if (location.pathname === '/resume/my-profile') {
       setErrors({})
@@ -1069,18 +1076,69 @@ function App() {
     },
   ]
 
-  // TODO: добавить описание функции регистрации по готовности Api
-  // eslint-disable-next-line no-unused-vars
-  const handleRegister = (name, email, password) => {
-    navigate('/signin')
+  // // TODO: добавить описание функции регистрации по готовности Api
+  // // eslint-disable-next-line no-unused-vars
+  // const handleRegister = (name, email, password) => {
+  //   navigate('/signin')
+  // }
+
+  // // TODO: добавить описание функции авторизации по готовности Api
+  // // eslint-disable-next-line no-unused-vars
+  // const handleLogin = (email, password) => {
+  //   setIsLoggedIn(true)
+  //   navigate('/')
+  // }
+
+  /* -------------авторизация/регшистрация--------------*/
+
+  const handleLogin = () => {
+    setIsLoggedIn(true)
   }
 
-  // TODO: добавить описание функции авторизации по готовности Api
-  // eslint-disable-next-line no-unused-vars
-  const handleLogin = (email, password) => {
-    setIsLoggedIn(true)
-    navigate('/')
+  const handleUserData = email => {
+    setUserData({ email })
   }
+
+  const handleTokenCheck = () => {
+    const jwt = localStorage.getItem('token')
+    if (jwt) {
+      auth.checkToken(jwt).then(res => {
+        if (res) {
+          auth
+            .getContent(jwt)
+            .then(result => {
+              const { data } = result
+              const userInfo = {
+                _id: data._id,
+                email: data.email,
+              }
+              setUserData(userInfo)
+              handleLogin()
+              navigate('/', { replace: true })
+            })
+            .catch(err => {
+              console.log(`Ошибка проверки токена: ${err}`)
+            })
+        }
+      })
+    }
+  }
+
+  // проверка токена
+  useEffect(() => {
+    handleTokenCheck()
+    // eslint-disable-next-line
+  }, [])
+
+  /* взятие данных с сервера */
+  React.useEffect(() => {
+    Promise.all([api.getUserInfo(values.id), api.getInitialResumes()])
+      .then(([user, resumes]) => {
+        setCurrentUser(user)
+        setArrValues(resumes)
+      })
+      .catch(err => console.log(err))
+  }, [])
 
   return (
     <div className="app">
@@ -1095,10 +1153,7 @@ function App() {
                     isLoggedIn ? (
                       <Navigate to="/" replace />
                     ) : (
-                      <Register
-                        onRegister={handleRegister}
-                        isOpen={isRegisterPopupOpen}
-                      />
+                      <Register isOpen={isRegisterPopupOpen} />
                     )
                   }
                 />
@@ -1112,6 +1167,8 @@ function App() {
                         onLogin={handleLogin}
                         isOpen={isLoginPopupOpen}
                         isLoggedIn={isLoggedIn}
+                        handleUserData={handleUserData}
+                        handleLogin={handleLogin}
                       />
                     )
                   }
@@ -1250,7 +1307,7 @@ function App() {
               <PopupRegister
                 isOpen={isRegisterPopupOpen}
                 onClose={closeAllPopup}
-                onRegister={handleRegister}
+                // onRegister={handleRegister}
                 onLogin={handleLoginPopupOpen}
               />
               {/* Попап авторизации */}

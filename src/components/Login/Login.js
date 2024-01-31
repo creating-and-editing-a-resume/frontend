@@ -6,7 +6,7 @@ import FormRedirection from '../Register/FormRedirection/FormRedirection'
 import LoginForm from './LoginForm/LoginForm'
 import Header from '../Header/Header'
 
-const Login = ({ onLogin, isLoggedIn }) => (
+const Login = ({ onLogin, isLoggedIn, handleUserData, handleLogin }) => (
   <>
     <Header isLoggedIn={isLoggedIn} />
     <section className="register">
@@ -14,7 +14,12 @@ const Login = ({ onLogin, isLoggedIn }) => (
         <FormTitle page="login" greeting="Вход" />
 
         <div className="register__form-container">
-          <LoginForm buttonText="Войти" onSubmit={onLogin} />
+          <LoginForm
+            buttonText="Войти"
+            onSubmit={onLogin}
+            handleUserData={handleUserData}
+            handleLogin={handleLogin}
+          />
         </div>
         <a href="_blank" className="register__restore-password">
           Не помню пароль
@@ -33,6 +38,8 @@ const Login = ({ onLogin, isLoggedIn }) => (
 Login.propTypes = {
   onLogin: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool,
+  handleUserData: PropTypes.func.isRequired,
+  handleLogin: PropTypes.func.isRequired,
 }
 
 Login.defaultProps = {

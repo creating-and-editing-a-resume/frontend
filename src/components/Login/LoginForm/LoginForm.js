@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { useNavigate } from 'react-router-dom'
 import { EMAIL_REGEX } from '../../../constants/regex'
 import RegistrationField from '../../Register/RegistrationForm/RegistrationField/RegistrationField'
 import '../../Register/RegistrationForm/RegistrationForm.scss'
+import * as auth from '../../Utils/Auth'
 
-const LoginForm = ({ buttonText, onSubmit, popup }) => {
+const LoginForm = ({ buttonText, handleLogin, popup, handleUserData }) => {
   const [values, setValues] = useState({})
   const [errors, setErrors] = useState({})
   const [isValid, setIsValid] = useState(false)
   // eslint-disable-next-line no-unused-vars
   const [responseMessage, setResponseMessage] = useState('')
+  const navigate = useNavigate()
 
   const handleChange = evt => {
     const { name, value } = evt.target
@@ -53,7 +56,27 @@ const LoginForm = ({ buttonText, onSubmit, popup }) => {
   // 	}
   // }
 
-  const handleSubmit = e => {
+  function onSubmit() {
+    // e.preventDefault()
+    const { password, email } = values
+
+    if (!email || !password) {
+      return
+    }
+    auth
+      .authorize(email, password)
+      .then(data => {
+        if (data.auth_token) {
+          handleUserData(email)
+          setValues({ email: '', password: '' })
+          handleLogin()
+          navigate('/', { replace: true })
+        }
+      })
+      .catch(err => console.log(err))
+  }
+
+  function handleSubmit(e) {
     e.preventDefault()
     onSubmit()
   }
@@ -107,7 +130,8 @@ const LoginForm = ({ buttonText, onSubmit, popup }) => {
 
 LoginForm.propTypes = {
   buttonText: PropTypes.string.isRequired,
-  onSubmit: PropTypes.func.isRequired,
+  handleLogin: PropTypes.func.isRequired,
+  handleUserData: PropTypes.func.isRequired,
   popup: PropTypes.bool,
 }
 
