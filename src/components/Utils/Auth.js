@@ -37,7 +37,6 @@ export const authorize = (email, password) =>
   })
     .then(res => checkResponse(res))
     .then(data => {
-      console.log(data)
       if (data.auth_token) {
         localStorage.setItem('token', data.auth_token)
         return data
@@ -45,8 +44,8 @@ export const authorize = (email, password) =>
       return data
     })
 
-export const checkToken = token =>
-  fetch(`${BASE_URL}/users/me`, {
+export const checkToken = (token, id) =>
+  fetch(`${BASE_URL}/my-profile/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

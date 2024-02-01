@@ -130,13 +130,15 @@ const LoginForm = ({ buttonText, handleLogin, popup, handleUserData }) => {
 
 LoginForm.propTypes = {
   buttonText: PropTypes.string.isRequired,
-  handleLogin: PropTypes.func.isRequired,
-  handleUserData: PropTypes.func.isRequired,
+  handleLogin: PropTypes.func,
+  handleUserData: PropTypes.func,
   popup: PropTypes.bool,
 }
 
 LoginForm.defaultProps = {
   popup: false,
+  handleLogin: () => {},
+  handleUserData: () => {},
 }
 
 export default LoginForm

@@ -1,12 +1,12 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import './Register.scss'
 import FormTitle from './FormTitle/FormTitle'
 import RegistrationForm from './RegistrationForm/RegistrationForm'
 import FormRedirection from './FormRedirection/FormRedirection'
 import Header from '../Header/Header'
 
-const Register = () => (
+const Register = ({ setCurrentUser }) => (
   <>
     <Header />
     <section className="register">
@@ -14,6 +14,7 @@ const Register = () => (
         <FormTitle page="register" greeting="Регистрация" />
         <div className="register__form-container">
           <RegistrationForm
+            setCurrentUser={setCurrentUser}
             buttonText="Зарегистрироваться"
             // onSubmit={onRegister}
           />
@@ -32,8 +33,8 @@ const Register = () => (
   </>
 )
 
-// Register.propTypes = {
-//   onRegister: PropTypes.func.isRequired,
-// }
+Register.propTypes = {
+  setCurrentUser: PropTypes.func.isRequired,
+}
 
 export default Register

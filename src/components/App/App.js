@@ -51,9 +51,6 @@ import { exampleObject } from '../../constants/exampleResume'
 import * as api from '../Utils/Api'
 
 function App() {
-  // const cors = require('cors')
-  // app.use(cors())
-
   // -----------------Переменные--------------------
   const location = useLocation()
   const [isLoggedIn, setIsLoggedIn] = React.useState(false)
@@ -1124,21 +1121,21 @@ function App() {
     }
   }
 
-  // проверка токена
-  useEffect(() => {
-    handleTokenCheck()
-    // eslint-disable-next-line
-  }, [])
+  // // проверка токена
+  // useEffect(() => {
+  //   handleTokenCheck()
+  //   // eslint-disable-next-line
+  // }, [])
 
-  /* взятие данных с сервера */
-  React.useEffect(() => {
-    Promise.all([api.getUserInfo(values.id), api.getInitialResumes()])
-      .then(([user, resumes]) => {
-        setCurrentUser(user)
-        setArrValues(resumes)
-      })
-      .catch(err => console.log(err))
-  }, [])
+  // /* взятие данных с сервера */
+  // React.useEffect(() => {
+  //   Promise.all([api.getUserInfo(values.id), api.getInitialResumes()])
+  //     .then(([user, resumes]) => {
+  //       setCurrentUser(user)
+  //       setArrValues(resumes)
+  //     })
+  //     .catch(err => console.log(err))
+  // }, [])
 
   return (
     <div className="app">
@@ -1153,7 +1150,10 @@ function App() {
                     isLoggedIn ? (
                       <Navigate to="/" replace />
                     ) : (
-                      <Register isOpen={isRegisterPopupOpen} />
+                      <Register
+                        isOpen={isRegisterPopupOpen}
+                        setCurrentUser={setCurrentUser}
+                      />
                     )
                   }
                 />

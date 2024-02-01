@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import './RegistrationForm.scss'
@@ -7,8 +7,10 @@ import { EMAIL_REGEX } from '../../../constants/regex'
 import DataProcessing from './DataProcessing/DataProcessing'
 import { DATA_PROCESSING_TEXT } from '../../../constants/text-templates'
 import * as auth from '../../Utils/Auth'
+import { CurrentUserContext } from '../../../contexts/CurrentUserContext'
 
-const RegistrationForm = ({ buttonText, popup }) => {
+const RegistrationForm = ({ buttonText, popup /* setCurrentUser */ }) => {
+  const currentUser = useContext(CurrentUserContext)
   const [values, setValues] = useState({})
   const [errors, setErrors] = useState({})
   const [isValid, setIsValid] = useState(false)
@@ -17,6 +19,7 @@ const RegistrationForm = ({ buttonText, popup }) => {
   const [responseMessage, setResponseMessage] = useState('')
   const navigate = useNavigate()
 
+  /* отслеживание изменений в поле */
   const handleChange = evt => {
     const { name, value } = evt.target
     setValues({ ...values, [name]: value })
@@ -24,6 +27,7 @@ const RegistrationForm = ({ buttonText, popup }) => {
     setIsValid(evt.target.closest('form').checkValidity())
   }
 
+  /* отслеживание изменений в поле email */
   const handleEmailChange = evt => {
     handleChange(evt)
     const { name, value } = evt.target
@@ -36,6 +40,7 @@ const RegistrationForm = ({ buttonText, popup }) => {
     }
   }
 
+  /* отслеживание изменений в поле пароль */
   const handlePasswordChange = evt => {
     handleChange(evt)
     const { name } = evt.target
@@ -48,6 +53,7 @@ const RegistrationForm = ({ buttonText, popup }) => {
     }
   }
 
+  /* отслеживание изменений в поле дубль-пароль */
   const handlePasswordConfirmationChange = evt => {
     handleChange(evt)
     const { name, value } = evt.target
@@ -62,6 +68,7 @@ const RegistrationForm = ({ buttonText, popup }) => {
     }
   }
 
+  /* отслеживание изменений в чекбоксе */
   const handleCheckboxChange = evt => {
     handleChange(evt)
     const { name, checked } = evt.target
@@ -88,8 +95,8 @@ const RegistrationForm = ({ buttonText, popup }) => {
   //   }
   // }
 
+  /* отправка данных на сервер */
   function onSubmit() {
-    // e.preventDefault()
     const { password, email } = values
     auth
       .register(email, password)
@@ -97,15 +104,18 @@ const RegistrationForm = ({ buttonText, popup }) => {
       .then(res => {
         if (res) {
           try {
-            if (res.status === 200) {
-              console.log(res.status)
+            if (res.status === 200 || res.status === 201) {
               return res.json()
             }
-            // eslint-disable-next-line no-shadow
           } catch (e) {
-            console.log(e)
             return e
           }
+          // setCurrentUser({
+          //   ...currentUser,
+          //   [id]: res.id,
+          // })
+          console.log(res.id)
+          console.log(currentUser)
           navigate('/signin', { replace: true }) // переход на другую страницу
         }
       })
@@ -114,6 +124,7 @@ const RegistrationForm = ({ buttonText, popup }) => {
       })
   }
 
+  /* при нажатии отправить данные проверка совпадения паролей */
   function handleSubmit(e) {
     e.preventDefault()
     if (values.password !== values.passwordConfirmation) {
@@ -124,7 +135,7 @@ const RegistrationForm = ({ buttonText, popup }) => {
         passwordConfirmation: 'Пароли не совпадают',
       })
     } else {
-      onSubmit() // ошибка здесь
+      onSubmit()
     }
 
     // // TODO: раскомментировать, когда будет Api
@@ -200,7 +211,7 @@ const RegistrationForm = ({ buttonText, popup }) => {
 
 RegistrationForm.propTypes = {
   buttonText: PropTypes.string.isRequired,
-  // onSubmit: PropTypes.func.isRequired,
+  // setCurrentUser: PropTypes.func.isRequired,
   popup: PropTypes.bool,
 }
 
