@@ -17,6 +17,7 @@ import {
   validationEmail,
   validationPhone,
   deleteNonLatin,
+  validationTelegram,
 } from '../../constants/validation'
 import { CurrentArrValuesContext } from '../../contexts/ArrValuesContext'
 
@@ -246,11 +247,15 @@ function Profile({
     }
 
     if (name === 'telegram') {
-      const cyrillicPattern = /[а-яА-ЯЁё]/
+      validationTelegram(
+        value,
+        setIsValidUserContacts,
+        isValidUserContacts,
+        setErrorsUserContacts,
+        errorsUserContacts
+      )
       checkTgInput(name, value)
-      if (cyrillicPattern.test(value)) {
-        setIsValidUserContacts({ ...isValidUserContacts, telegram: false })
-      } else setIsValidUserContacts({ ...isValidUserContacts, telegram: true })
+      setIsValidUserContacts({ ...isValidUserContacts, telegram: true })
     }
   }
 
