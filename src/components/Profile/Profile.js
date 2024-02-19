@@ -246,8 +246,11 @@ function Profile({
     }
 
     if (name === 'telegram') {
+      const cyrillicPattern = /[а-яА-ЯЁё]/
       checkTgInput(name, value)
-      setIsValidUserContacts({ ...isValidUserContacts, telegram: true })
+      if (cyrillicPattern.test(value)) {
+        setIsValidUserContacts({ ...isValidUserContacts, telegram: false })
+      } else setIsValidUserContacts({ ...isValidUserContacts, telegram: true })
     }
   }
 
