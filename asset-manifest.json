@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/frontend/static/css/main.5bf70619.css",
-    "main.js": "/frontend/static/js/main.7b3881a8.js",
+    "main.js": "/frontend/static/js/main.3e7b212f.js",
     "static/js/496.95c26a62.chunk.js": "/frontend/static/js/496.95c26a62.chunk.js",
     "static/media/mask.svg": "/frontend/static/media/mask.be3948980c5f02b96ea0ede2d2569e0f.svg",
     "static/media/Inter-Medium.woff": "/frontend/static/media/Inter-Medium.44e343ff76a98508d309.woff",
@@ -63,11 +63,11 @@
     "static/media/plus-logo.svg": "/frontend/static/media/plus-logo.809ea585efcbc0e67df0d7806ac48a73.svg",
     "static/media/skills-roll-icon.svg": "/frontend/static/media/skills-roll-icon.a3f60fa15f3f0769f97fac9d23cd2a43.svg",
     "main.5bf70619.css.map": "/frontend/static/css/main.5bf70619.css.map",
-    "main.7b3881a8.js.map": "/frontend/static/js/main.7b3881a8.js.map",
+    "main.3e7b212f.js.map": "/frontend/static/js/main.3e7b212f.js.map",
     "496.95c26a62.chunk.js.map": "/frontend/static/js/496.95c26a62.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.5bf70619.css",
-    "static/js/main.7b3881a8.js"
+    "static/js/main.3e7b212f.js"
   ]
 }
