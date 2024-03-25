@@ -17,6 +17,7 @@ import {
   validationEmail,
   validationPhone,
   deleteNonLatin,
+  validationTelegram,
 } from '../../constants/validation'
 import { CurrentArrValuesContext } from '../../contexts/ArrValuesContext'
 
@@ -246,6 +247,13 @@ function Profile({
     }
 
     if (name === 'telegram') {
+      validationTelegram(
+        value,
+        setIsValidUserContacts,
+        isValidUserContacts,
+        setErrorsUserContacts,
+        errorsUserContacts
+      )
       checkTgInput(name, value)
       setIsValidUserContacts({ ...isValidUserContacts, telegram: true })
     }

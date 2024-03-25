@@ -216,6 +216,29 @@ export const validationPhone = (
   }
 }
 
+export const validationTelegram = (
+  value,
+  setIsValidUserContacts,
+  isValidUserContacts,
+  setErrorsUserContacts,
+  errorsUserContacts
+) => {
+  const cyrillicPattern = /[а-яА-ЯЁё]/
+  if (cyrillicPattern.test(value)) {
+    setErrorsUserContacts({
+      ...errorsUserContacts,
+      telegram: 'Допустимы только латинские буквы',
+    })
+    setIsValidUserContacts({ ...isValidUserContacts, telegram: false })
+  } else {
+    setErrorsUserContacts({
+      ...errorsUserContacts,
+      telegram: '',
+    })
+    setIsValidUserContacts({ ...isValidUserContacts, telegram: true })
+  }
+}
+
 export function deleteNonLatin(text) {
   return text.replace(/[^A-Za-z0-9:_//.]/gi, '')
 }
